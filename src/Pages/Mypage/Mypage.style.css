@@ -1,0 +1,66 @@
+.flex-container {
+  display: flex;
+}
+.backIcon-container {
+  margin-top: 100px;
+}
+input {
+  border: none;
+  border-bottom: 1px solid #666;
+}
+.input-container {
+  width: 600px;
+  height: auto;
+}
+.login-button {
+  width: 300px;
+  background-color: #eaeaea;
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  font-weight: 550;
+  border-radius: 5px;
+  color: rgb(71, 71, 71);
+}
+.logo-img img {
+  width: 150px;
+}
+.logo-img1 {
+  padding: 0;
+}
+.logo-img2 {
+  padding: 0;
+  padding-left: 5px;
+}
+form::placeholder {
+  font-size: 1.2rem; /* 원하는 크기로 설정 */
+  color: #666; /* 원하는 색으로 설정 */
+}
+@media (max-width: 500px) {
+  .backIcon-container {
+    margin-top: 200px;
+  }
+  .text-size {
+    font-size: 1.2rem;
+  }
+  .input-container {
+    width: 183px;
+    height: auto;
+  }
+  input::placeholder {
+    font-size: 0.8rem; /* 원하는 크기로 설정 */
+    color: #999; /* 원하는 색으로 설정 */
+  }
+  .password-container {
+    margin-top: 0;
+  }
+  .input-container {
+    margin: 0;
+  }
+  .logo-img img {
+    width: 90px;
+  }
+  .logo-img2 {
+    padding: 0;
+  }
+}

@@ -1,0 +1,74 @@
+.logo {
+  display: flex; /* flexbox 레이아웃 적용 */
+  justify-content: center; /* 오른쪽 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  flex-grow: 1; /* 부모의 남은 공간을 채움 */
+  padding-top: 100px;
+}
+
+.logo img {
+  width: 150px; /* 원하는 크기로 조정 */
+}
+
+.input-container {
+  position: relative; /* 아이콘을 input 내부에 배치하기 위한 상대 위치 설정 */
+  display: inline-block;
+  padding: 0;
+  margin: 0; /* input과 아이콘을 함께 배치 */
+  padding-top: 100px; /* 상단 여백 설정 */
+  width: 100%; /* 전체 너비 사용 */
+}
+
+.input {
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+  width: 100%; /* 너비를 100%로 설정 */
+  height: 50px; /* 기본 높이 */
+  border: none;
+  margin: 0;
+
+  border-radius: 5px;
+}
+
+.input-container img {
+  width: 30px; /* 아이콘 크기 */
+  position: absolute;
+  top: 85%; /* 중앙 정렬 */
+  left: 10px; /* input 왼쪽에서의 거리 설정 */
+  transform: translateY(-50%); /* 수직 중앙 맞추기 */
+  z-index: 1;
+}
+
+.bar-container {
+  margin-bottom: 200px;
+  border-bottom: 1px solid #dcdcdc;
+  height: 200px;
+  padding: 0;
+}
+
+@media (max-width: 600px) {
+  .logo img {
+    width: 75px;
+    margin: 5px;
+  }
+  .bar-container,
+  .input-container,
+  .input {
+    width: 100%; /* 모든 관련 요소에 너비 100% 적용 */
+  }
+  .input-container {
+    padding-top: 20px; /* 상단 여백 */
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0; /* 여백 제거 */
+    position: absolute;
+  }
+  .input {
+    height: 40px;
+    position: relative;
+    top: 10px;
+    left: 20px;
+    width: 390px;
+    box-sizing: border-box; /* 여백을 너비에 포함시킴 */
+  }
+}

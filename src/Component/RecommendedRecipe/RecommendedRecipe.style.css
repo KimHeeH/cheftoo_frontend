@@ -1,0 +1,15 @@
+.popular-recipe {
+  position: relative;
+  top: -50px;
+  margin-left: 100px;
+}
+.popular-recipe-container {
+  position: absolute;
+  display: flex;
+}
+@media (max-width: 500px) {
+  .popular-recipe {
+    margin-left: 50px;
+    top: -170px;
+  }
+}
