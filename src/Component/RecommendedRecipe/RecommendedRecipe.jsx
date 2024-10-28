@@ -2,8 +2,8 @@ import React from "react";
 import "./RecommendedRecipe.style.css";
 const RecommendedRecipe = () => {
   return (
-    <div className="popular-recipe-container">
-      <div className="popular-recipe">추천 레시피</div>
+    <div className="recommended-recipe-container">
+      <div className="recommended-recipe">추천 레시피</div>
     </div>
   );
 };
