@@ -132,18 +132,7 @@ const Mypage = () => {
       >
         <img src={buttonImg} alt="카카오버튼" />
       </div>
-      <div
-        style={{
-          color: "#757575",
-          fontSize: "13px",
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "15px",
-          cursor: "pointer",
-        }}
-      >
-        회원가입
-      </div>
+
       <div>
         <Navbar />
       </div>

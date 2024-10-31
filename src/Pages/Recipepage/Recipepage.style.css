@@ -1,20 +1,45 @@
 /* 인기 레시피 */
-.recipe-page-container {
+.recipe-page-all-container {
   position: relative;
+}
+.recipe-page-container {
   padding-top: 10px; /* SearchContainer와 거리 */
 }
-
+.add-recipe-btn-container {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%); /* 요소 자체 너비의 절반만큼 왼쪽으로 이동 */
+  margin-bottom: 120px; /* Navbar의 높이만큼 공간 확보 */
+}
+.add-recipe-plus-icon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-300%); /* 요소 자체 너비의 절반만큼 왼쪽으로 이동 */
+}
+.add-recipe-btn {
+  width: 320px;
+  height: 90px;
+  bottom: 120px;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #b4b4b4;
+}
 .popular-recipe-container {
   margin-top: 10px; /* SearchContainer와 거리 */
   margin-left: 50px;
 }
-@media (max-width<500px) {
-  .recipe-page-container {
-    position: relative;
+@media (max-width: 500px) {
+  .add-recipe-btn-container {
+    width: 100%;
   }
-  .popular-recipe-container {
-    position: absolute;
-    top: 50%;
-    left: 50px;
+  .add-recipe-plus-icon {
+    width: 25px;
+  }
+  .add-recipe-btn {
+    width: 60%;
   }
 }

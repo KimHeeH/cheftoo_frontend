@@ -1,0 +1,181 @@
+.writeRecipe-container {
+  display: flex;
+  flex-direction: column;
+  gap: 60px; /* 요소 간의 간격 설정 */
+}
+.writeRecipe-titleContainer,
+.writeRecipe-descriptionContainer,
+.writeRecipe-pictureContainer {
+  display: flex;
+  flex-direction: row;
+}
+.writeRecipe-ingredientContainer,
+.writeRecipe-seasoningContainer {
+  display: flex;
+  flex-direction: column;
+}
+.writeRecipe-ingrendientInputContainer input,
+.writeRecipe-seasoningInputContainer input {
+  margin: 10px; /* 아래쪽에 10px 간격 추가 */
+  width: 45%; /* 입력 필드의 너비를 100%로 설정 (선택 사항) */
+  padding: 8px; /* 입력 필드 안쪽 여백 */
+  border-bottom: 1px solid #8d8d8d; /* 테두리 스타일 */
+}
+
+.writeRecipe-title,
+.writeRecipe-description,
+.writeRecipe-picture,
+.writeRecipe-ingrendient,
+.writeRecipe-seasoning {
+  margin-right: 30px;
+  font-size: 20px;
+  width: 150px; /* 레이블 너비를 동일하게 고정 */
+}
+.writeRecipe-titleInputContainer,
+.writeRecipe-descriptionInputContainer,
+.writeRecipe-pictureInputContainer {
+  width: 400px;
+}
+.writeRecipe-pictureInputContainer {
+  margin-top: 10px;
+}
+.writeRecipe-titleInputContainer input,
+.writeRecipe-descriptionInputContainer input,
+.writeRecipe-pictureInputContainer input {
+  width: 392px;
+}
+.writeRecipe-descriptionInputContainer input {
+  height: 132px;
+  border: 1px solid #8d8d8d;
+}
+.writeRecipe-pictureBox {
+  width: 392px;
+  height: 311px;
+  background-color: #f8f8f8;
+  margin-bottom: 15px;
+}
+
+.writeRecipe-pictureIconContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.writeRecipe-descriptionInputContainer input::placeholder {
+  position: absolute; /* 절대 위치 설정 */
+  top: 10px; /* 상단 위치 */
+  left: 5px; /* 왼쪽 위치 */
+  /* 위쪽으로 이동 */
+}
+.writeRecipe-pictureIcon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+}
+.writeRecipe-pictureBox.dragging {
+  background-color: #e6e6e6; /* 드래그 중일 때 배경색 변경 */
+}
+.writeRecipe-pictureInputContainer input {
+  border: none;
+}
+.writeRecipe-addIngredientButtonContainer,
+.writeRecipe-addSeasoningButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+.writeRecipe-addIngredientButton,
+.writeRecipe-addSeasoninngButton {
+  width: 248px;
+  height: 60px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #b4b4b4;
+  font-size: 19px;
+}
+.writeRecipe-pictureBoxFont {
+  text-align: "center";
+  padding-top: 15px;
+  line-height: 1.2;
+  color: #a3a3a3;
+  font-weight: 500;
+  text-align: center;
+}
+@media (max-width: 500px) {
+  .writeRecipe-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .writeRecipe-titleContainer,
+  .writeRecipe-descriptionContainer,
+  .writeRecipe-pictureContainer,
+  .writeRecipe-ingredientContainer,
+  .writeRecipe-seasoningContainer {
+    display: flex;
+    flex-direction: column;
+    padding-left: 80px;
+    padding-top: 40px;
+  }
+  .writeRecipe-ingredientContainer,
+  .writeRecipe-seasoningContainer {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    padding-top: 40px;
+    padding-right: 40px;
+  }
+  .writeRecipe-title,
+  .writeRecipe-description,
+  .writeRecipe-picture,
+  .writeRecipe-ingrendient,
+  .writeRecipe-seasoning {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .writeRecipe-pictureBox {
+    width: 80%;
+    height: 240px;
+  }
+  .writeRecipe-pictureInputContainer {
+    margin-top: 20px;
+  }
+  .writeRecipe-titleInputContainer input,
+  .writeRecipe-pictureInputContainer input {
+    width: 80%;
+  }
+  .writeRecipe-titleInputContainer input {
+    height: 40px;
+  }
+  .writeRecipe-descriptionInputContainer input {
+    width: 80%;
+    height: 132px;
+    border: 1px solid #8d8d8d;
+    padding-top: 0;
+    padding-left: 0;
+    border-radius: 10px;
+  }
+  .writeRecipe-pictureBoxFont {
+    font-size: 13px;
+    text-align: center;
+  }
+  .writeRecipe-descriptionInputContainer input::placeholder {
+    position: absolute; /* 절대 위치 설정 */
+    top: 10px; /* 상단 위치 */
+    left: 10px; /* 왼쪽 위치 */
+    color: #a3a3a3;
+    /* 위쪽으로 이동 */
+    font-size: 14px; /* 폰트 크기 설정 */
+  }
+  .writeRecipe-addIngredientButtonContainer,
+  .writeRecipe-addSeasoningButtonContainer {
+    margin-top: -40px;
+  }
+  .writeRecipe-addIngredientButton,
+  .writeRecipe-addSeasoninngButton {
+    width: 120px;
+    height: 50px;
+  }
+}
