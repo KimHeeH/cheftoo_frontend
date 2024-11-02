@@ -10,6 +10,7 @@ const RecipeAddpage = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [ingredients, setIngredients] = useState([{ name: "", quantity: "" }]);
   const [seasonings, setSeasonings] = useState([{ name: "", quantity: "" }]);
+  const [orders, setOrders] = useState([{ description: "", picture: "" }]);
   const navigate = useNavigate();
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -58,6 +59,16 @@ const RecipeAddpage = () => {
   const handlePictureUpload = () => {};
   const handlePage = () => {
     navigate("/recipe");
+  };
+  const handleAddOrder = () => {
+    setOrders([...orders, { description: "", picture: "" }]);
+  };
+  const handleOrderChange = (index, field, value) => {
+    console.log(index, field, value);
+    const newOrders = [...orders];
+    newOrders[index][field] = value;
+    console.log(newOrders[index][field]);
+    setOrders(newOrders);
   };
   const handleFileChange = () => {};
   return (
@@ -166,6 +177,47 @@ const RecipeAddpage = () => {
             onClick={handleAddSeasoning}
           >
             양념 추가
+          </button>
+        </div>
+        <div className="writeRecipe-orderContainer">
+          <div className="writeRecipe-orderTitle">요리 순서</div>
+          {orders.map((order, index) => (
+            <div className="writeRecipe-order" key={index}>
+              <div>{index + 1}</div>
+              <input
+                className="writeRecipe-orderDescription"
+                placeholder="예) 토마토를 작게 잘라주세요."
+                value={order.description}
+                onChange={(e) =>
+                  handleOrderChange(index, "description", e.target.value)
+                }
+              />
+              <div
+                className={`writeRecipe-orderPictureBox ${
+                  isDragging ? "dragging" : ""
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={handlePictureUpload}
+              >
+                <div className="writeRecipe-orderPictureIconContainer">
+                  <PictureIcon className="writeRecipe-orderPictureIcon" />
+                  <div className="writeRecipe-orderPictureBoxFont">
+                    사진 업로드
+                  </div>
+                </div>
+                <p>{file ? `파일: ${file.name}` : ""}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="wrtieRecipe-addRrderButtonContainer">
+          <button
+            className="writeRecipe-addOrderButton"
+            onClick={handleAddOrder}
+          >
+            추가
           </button>
         </div>
       </div>

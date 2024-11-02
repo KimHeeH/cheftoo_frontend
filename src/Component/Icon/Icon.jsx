@@ -106,6 +106,7 @@ export const addIcon = () => {
 export const PictureIcon = () => {
   return (
     <svg
+      className="writeRecipe-orderPictureIcon"
       width="40"
       height="40"
       viewBox="0 0 40 40"
