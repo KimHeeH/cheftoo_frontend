@@ -83,7 +83,7 @@ const Mypage = () => {
           alignItems: "center",
         }}
       >
-        <div style={{ marginTop: "50px", fontWeight: "500", fontSize: "20px" }}>
+        <div style={{ marginTop: "40px", fontWeight: "400", fontSize: "18px" }}>
           로그인/회원가입
         </div>
 
@@ -92,7 +92,7 @@ const Mypage = () => {
             as={Row}
             className="mb-3"
             controlId="formPlaintextEmail"
-            style={{ marginTop: "60px" }}
+            style={{ marginTop: "30px" }}
           >
             <Form.Label column sm="4">
               아이디
@@ -120,6 +120,7 @@ const Mypage = () => {
         style={{
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
           marginTop: "10px",
         }}
       >

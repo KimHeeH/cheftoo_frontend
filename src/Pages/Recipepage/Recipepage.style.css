@@ -1,6 +1,8 @@
 /* 인기 레시피 */
 .recipe-page-all-container {
   position: relative;
+  min-height: 100vh; /* 부모 요소가 전체 화면을 차지하도록 설정 */
+  padding-bottom: 150px; /* 버튼 컨테이너가 네비게이션과 겹치지 않도록 여백 추가 */
 }
 .recipe-page-container {
   padding-top: 10px; /* SearchContainer와 거리 */
@@ -16,20 +18,23 @@
   margin-bottom: 120px; /* Navbar의 높이만큼 공간 확보 */
 }
 .add-recipe-plus-icon {
+  cursor: pointer;
   position: absolute;
-  left: 50%;
+  left: 46%;
   transform: translateX(-300%); /* 요소 자체 너비의 절반만큼 왼쪽으로 이동 */
 }
 .add-recipe-btn {
+  cursor: pointer;
   width: 320px;
-  height: 90px;
+  height: 60px;
   bottom: 120px;
   background-color: white;
   border-radius: 10px;
   border: 1px solid #b4b4b4;
+  color: black;
 }
 .popular-recipe-container {
-  margin-top: 10px; /* SearchContainer와 거리 */
+  margin-top: 20px; /* SearchContainer와 거리 */
   margin-left: 50px;
 }
 @media (max-width: 500px) {

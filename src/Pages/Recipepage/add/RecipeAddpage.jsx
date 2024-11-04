@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import { BackIcon } from "../../../Component/Icon/Icon";
 import { PictureIcon } from "../../../Component/Icon/Icon";
@@ -70,7 +70,17 @@ const RecipeAddpage = () => {
     console.log(newOrders[index][field]);
     setOrders(newOrders);
   };
-  const handleFileChange = () => {};
+  const fileInputRef = useRef(null);
+
+  const handleFileUpload = () => {
+    fileInputRef.current.click(); // 파일 선택창 열기
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    // 여기서 파일을 처리하는 로직 추가
+    console.log(file);
+  };
   return (
     <Container className="d-flex flex-column align-items-center  mt-5">
       <Row className="w-100">
@@ -94,7 +104,15 @@ const RecipeAddpage = () => {
         <div className="writeRecipe-descriptionContainer">
           <div className="writeRecipe-description">요리 설명</div>
           <div className="writeRecipe-descriptionInputContainer">
-            <input placeholder="예) 집에서 해먹기 좋은 토마토 파스타입니다." />
+            <textarea
+              placeholder="토마토를 작게 잘라주세요"
+              rows="3"
+              className="description-input"
+              onInput={(e) => {
+                e.target.style.height = "auto"; // 높이 초기화
+                e.target.style.height = `${e.target.scrollHeight}px`; // 내용에 맞춰 높이 조정
+              }}
+            />
           </div>
         </div>
 
@@ -117,7 +135,14 @@ const RecipeAddpage = () => {
             <p>{file ? `파일: ${file.name}` : ""}</p>
 
             <div className="writeRecipe-pictureInputContainer">
-              <input type="file" onChange={() => handleFileChange()} />
+              <button onClick={handleFileUpload}>사진 등록 또는 찍기</button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*"
+                style={{ display: "none" }} // input은 보이지 않도록 설정
+              />
             </div>
           </div>
         </div>
@@ -184,14 +209,18 @@ const RecipeAddpage = () => {
           {orders.map((order, index) => (
             <div className="writeRecipe-order" key={index}>
               <div>{index + 1}</div>
-              <input
-                className="writeRecipe-orderDescription"
-                placeholder="예) 토마토를 작게 잘라주세요."
+              <textarea
+                placeholder="예) 토마토를 잘라주세요."
                 value={order.description}
                 onChange={(e) =>
                   handleOrderChange(index, "description", e.target.value)
                 }
-              />
+                onInput={(e) => {
+                  e.target.style.height = "auto";
+                  e.target.style.height = "${e.target.scrollHeight}px";
+                }}
+              ></textarea>
+
               <div
                 className={`writeRecipe-orderPictureBox ${
                   isDragging ? "dragging" : ""

@@ -12,22 +12,20 @@ const Recipepage = () => {
     navigate("/add");
   };
   return (
-    <div className="recipe-page-container">
-      <div className="recipe-page-container">
-        <SearchContainer />
-        <div className="popular-recipe-container">인기 레시피</div>
-        <div
-          className="add-recipe-btn-container"
-          onClick={() => goAddRecipePage()}
-        >
-          <img className="add-recipe-plus-icon" src={addIcon} alt="plus" />
-          <button className="add-recipe-btn">
-            나의 레시피 <br />
-            등록하기
-          </button>
-        </div>
-        <Navbar />
+    <div className="recipe-page-all-container">
+      <SearchContainer />
+      <div className="popular-recipe-container">인기 레시피</div>
+      <div
+        className="add-recipe-btn-container"
+        onClick={() => goAddRecipePage()}
+      >
+        <img className="add-recipe-plus-icon" src={addIcon} alt="plus" />
+        <button className="add-recipe-btn">
+          나의 레시피 <br />
+          등록하기
+        </button>
       </div>
+      <Navbar />
     </div>
   );
 };

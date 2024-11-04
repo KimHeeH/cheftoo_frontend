@@ -52,12 +52,12 @@
   margin-top: 10px;
 }
 .writeRecipe-titleInputContainer input,
-.writeRecipe-descriptionInputContainer input,
+.writeRecipe-descriptionInputContainer textarea,
 .writeRecipe-pictureInputContainer input {
   width: 392px;
 }
-.writeRecipe-descriptionInputContainer input {
-  height: 132px;
+.writeRecipe-descriptionInputContainer textarea {
+  height: auto;
   border: 1px solid #8d8d8d;
 }
 .writeRecipe-pictureBox {
@@ -80,7 +80,7 @@
   justify-content: center;
   align-items: center;
 }
-.writeRecipe-descriptionInputContainer input::placeholder {
+.writeRecipe-descriptionInputContainer textarea::placeholder {
   position: absolute; /* 절대 위치 설정 */
   top: 10px; /* 상단 위치 */
   left: 5px; /* 왼쪽 위치 */
@@ -207,7 +207,7 @@
   .writeRecipe-titleInputContainer input {
     height: 40px;
   }
-  .writeRecipe-descriptionInputContainer input {
+  .writeRecipe-descriptionInputContainer textarea {
     width: 80%;
     height: 132px;
     border: 1px solid #8d8d8d;
@@ -219,13 +219,18 @@
     font-size: 13px;
     text-align: center;
   }
-  .writeRecipe-descriptionInputContainer input::placeholder {
+  .writeRecipe-descriptionInputContainer textarea::placeholder {
     position: absolute; /* 절대 위치 설정 */
     top: 10px; /* 상단 위치 */
     left: 10px; /* 왼쪽 위치 */
     color: #a3a3a3;
     /* 위쪽으로 이동 */
-    font-size: 14px; /* 폰트 크기 설정 */
+    font-size: 12px; /* 폰트 크기 설정 */
+  }
+  .writeRecipe-order textarea::placeholder {
+    color: #a3a3a3;
+    /* 위쪽으로 이동 */
+    font-size: 12px; /* 폰트 크기 설정 */
   }
   .writeRecipe-addIngredientButtonContainer,
   .writeRecipe-addSeasoningButtonContainer,
@@ -238,6 +243,7 @@
     width: 100px;
     height: 40px;
     font-size: 13px;
+    color: black;
   }
   .writeRecipe-ingredientContainer,
   .writeRecipe-seasoningContainer {
