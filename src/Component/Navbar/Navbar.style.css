@@ -5,6 +5,7 @@
   align-items: center; /* 수평 중앙 정렬 */
   text-align: center; /* 텍스트 가운데 정렬 */
   height: 100px; /* 적절한 높이 설정 */
+  margin: 0 10px; /* 좌우 여백 추가 */
 }
 .Icon-container {
   background-color: white; /* Navbar 배경색 */

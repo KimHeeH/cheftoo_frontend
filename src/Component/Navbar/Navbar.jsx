@@ -46,6 +46,7 @@ const Navbar = () => {
             onClick={() => goPage("/", "home")}
             onMouseEnter={() => handleMouseEnter("home")}
             onMouseLeave={handleMouseLeave}
+            style={{ cursor: "pointer" }}
           >
             <div style={{ cursor: "pointer" }}>
               <HomeIcon
@@ -75,6 +76,7 @@ const Navbar = () => {
             onClick={() => goPage("/recipe", "recipe")}
             onMouseEnter={() => handleMouseEnter("recipe")}
             onMouseLeave={handleMouseLeave}
+            style={{ cursor: "pointer" }}
           >
             <div style={{ cursor: "pointer" }}>
               <RecipeIcon
@@ -104,6 +106,7 @@ const Navbar = () => {
             onClick={() => goPage("/star", "star")}
             onMouseEnter={() => handleMouseEnter("star")}
             onMouseLeave={handleMouseLeave}
+            style={{ cursor: "pointer" }}
           >
             <div style={{ cursor: "pointer" }}>
               <StarIcon
@@ -133,6 +136,7 @@ const Navbar = () => {
             onClick={() => goPage("/mypage", "my")}
             onMouseEnter={() => handleMouseEnter("my")}
             onMouseLeave={handleMouseLeave}
+            style={{ cursor: "pointer" }}
           >
             <div style={{ cursor: "pointer" }}>
               <MyIcon isHovered={isHovered("my")} isClicked={isActive("my")} />{" "}

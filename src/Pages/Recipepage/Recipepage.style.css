@@ -35,7 +35,8 @@
 }
 .popular-recipe-container {
   margin-top: 20px; /* SearchContainer와 거리 */
-  margin-left: 50px;
+  margin-left: 20%;
+  font-size: 20px;
 }
 @media (max-width: 500px) {
   .add-recipe-btn-container {
@@ -46,5 +47,9 @@
   }
   .add-recipe-btn {
     width: 60%;
+  }
+  .popular-recipe-container {
+    margin-left: 50px;
+    font-size: 17px;
   }
 }

@@ -151,6 +151,7 @@ const RecipeAddpage = () => {
           {ingredients.map((ingredient, index) => (
             <div className="writeRecipe-ingrendientInputContainer" key={index}>
               <input
+                style={{ borderRadius: "0" }}
                 placeholder="예) 토마토"
                 value={ingredient.name}
                 onChange={(e) =>
@@ -158,6 +159,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
+                style={{ borderRadius: "0" }}
                 placeholder="예) 1개"
                 value={ingredient.quantity}
                 onChange={(e) =>
@@ -180,6 +182,7 @@ const RecipeAddpage = () => {
           {seasonings.map((seasoning, index) => (
             <div className="writeRecipe-seasoningInputContainer" key={index}>
               <input
+                style={{ borderRadius: "0" }}
                 placeholder="예) 간장"
                 value={seasoning.name}
                 onChange={(e) =>
@@ -187,6 +190,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
+                style={{ borderRadius: "0" }}
                 placeholder="예) 1스푼"
                 value={seasoning.quantity}
                 onChange={(e) =>

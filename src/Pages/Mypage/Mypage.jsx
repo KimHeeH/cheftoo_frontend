@@ -51,8 +51,8 @@ const Mypage = () => {
 
   return (
     <div>
-      <Container className="d-flex flex-column align-items-center  mt-5">
-        <Row className="w-100">
+      <Container className="d-flex flex-column align-items-center">
+        <Row className="w-100 MyPage-container">
           <Col
             className="justify-content-flex-start"
             xs="auto"
@@ -62,15 +62,14 @@ const Mypage = () => {
             <BackIcon className="backIcon" />
           </Col>
         </Row>
-
-        <Row className="justify-content-center">
-          <Col xs="auto" className="logo-img logo-img1">
+        <div className="MyPage-logo-container">
+          <div>
             <img src={todayIcon} alt="Today" />
-          </Col>
-          <Col xs="auto" className="logo-img logo-img2">
+          </div>
+          <div>
             <img src={recipeIcon} alt="Recipe" />
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Container>
 
       {/* 로그인 입력 필드 */}
@@ -83,38 +82,20 @@ const Mypage = () => {
           alignItems: "center",
         }}
       >
-        <div style={{ marginTop: "40px", fontWeight: "400", fontSize: "18px" }}>
+        <div
+          className="login-signUp-font"
+          style={{
+            fontWeight: "400",
+            fontSize: "18px",
+            color: "#808080",
+          }}
+        >
           로그인/회원가입
         </div>
-
-        <Form>
-          <Form.Group
-            as={Row}
-            className="mb-3"
-            controlId="formPlaintextEmail"
-            style={{ marginTop: "30px" }}
-          >
-            <Form.Label column sm="4">
-              아이디
-            </Form.Label>
-            <Col sm="12">
-              <Form.Control placeholder="아이디" />
-            </Col>
-          </Form.Group>
-
-          <Form.Group
-            as={Row}
-            className="mb-3"
-            controlId="formPlaintextPassword"
-          >
-            <Form.Label column sm="4">
-              비밀번호
-            </Form.Label>
-            <Col sm="12">
-              <Form.Control type="password" placeholder="비밀번호" />
-            </Col>
-          </Form.Group>
-        </Form>
+        <div className="login-font">
+          간편하게 로그인하고 <br />
+          다양한 서비스를 이용해보세요.
+        </div>
       </div>
       <div
         style={{
@@ -123,13 +104,16 @@ const Mypage = () => {
           alignItems: "center",
           marginTop: "10px",
         }}
-      >
-        <div className="login-button"> 로그인</div>
-      </div>
+      ></div>
       {/* 카카오 버튼 */}
       <div
         className="kakao-button-container"
-        style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "10px",
+          cursor: "pointer",
+        }}
       >
         <img src={buttonImg} alt="카카오버튼" />
       </div>

@@ -3,14 +3,19 @@
   justify-content: flex-end; /* 오른쪽 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
   flex-grow: 1; /* 부모의 남은 공간을 채움 */
-  padding-top: 100px;
+  padding-top: 80px;
+  margin-right: 50px;
 }
 .logo-container {
   display: flex;
   justify-content: center; /* .logo-container의 콘텐츠를 중앙에 배치 */
 }
 .logo img {
-  width: 150px; /* 원하는 크기로 조정 */
+  width: 140px; /* 원하는 크기로 조정 */
+  margin-left: 15px;
+}
+.logo-img-2 {
+  margin-right: 100px;
 }
 .containers {
   width: 100%;
@@ -22,43 +27,69 @@
   display: inline-block;
   padding: 0;
   margin: 0; /* input과 아이콘을 함께 배치 */
-  padding-top: 100px; /* 상단 여백 설정 */
+  padding-top: 80px; /* 상단 여백 설정 */
 }
 
 .input {
   box-sizing: border-box;
   background-color: #f4f4f4;
-  width: 70%; /* 너비를 100%로 설정 */
+  width: 95%; /* 너비를 100%로 설정 */
   padding-left: 3%;
   height: 50px; /* 기본 높이 */
   border: none;
   margin: 0;
-
-  border-radius: 5px;
+  border-radius: 10px;
 }
-
+.searchContainer-login-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.searchContainer-login-button {
+  cursor: pointer;
+  margin-right: 15px;
+  color: #b1b1b1;
+  font-weight: 500;
+}
+.searchContainer-signUp-button {
+  color: #b1b1b1;
+  cursor: pointer;
+  font-weight: 500;
+}
+.searchContainer-login-button:hover {
+  color: #636363;
+}
+.searchContainer-signUp-button:hover {
+  color: #636363;
+}
 .bar-container {
   margin-bottom: 200px;
-  border-bottom: 1px solid #dcdcdc;
+
   height: 200px;
   padding: 0;
 }
-
+.containers {
+  border-bottom: 1px solid #dcdcdc;
+}
 @media (max-width: 500px) {
-  /* .logo-container {
+  .logo-container {
     display: flex;
     justify-content: center; /* 모바일에서 중앙 정렬 유지 */
-  /* align-items: center; */
-  /* } */
+    align-items: center;
+  }
   .logo {
     display: flex;
     justify-content: center; /* 이미지 중앙 정렬 */
     align-items: center;
     padding-top: 20px; /* 상단 여백 축소 */
+    width: 100%;
+    margin-right: 0;
   }
-
+  .containers {
+    padding-bottom: 0;
+    height: 180px;
+  }
   .logo img {
-    width: 75px;
+    width: 80px;
     margin: 5px;
   }
   .bar-container {
@@ -78,5 +109,8 @@
     padding: 5%;
     width: 100%;
     height: 40px;
+  }
+  .searchContainer-signUp-button {
+    margin-right: 15px;
   }
 }
