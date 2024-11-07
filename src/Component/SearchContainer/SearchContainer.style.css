@@ -28,6 +28,7 @@
   padding: 0;
   margin: 0; /* input과 아이콘을 함께 배치 */
   padding-top: 80px; /* 상단 여백 설정 */
+  margin-left: -80px;
 }
 
 .input {
@@ -103,6 +104,7 @@
     padding-left: 10%;
     padding-right: 10%; /* 양쪽 여백 */
     width: 100%;
+    margin-left: 0;
   }
 
   .input {

@@ -13,43 +13,52 @@
   justify-content: center;
   align-items: center;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%); /* 요소 자체 너비의 절반만큼 왼쪽으로 이동 */
-  margin-bottom: 120px; /* Navbar의 높이만큼 공간 확보 */
+  right: 280px;
+  margin-bottom: 180px; /* Navbar의 높이만큼 공간 확보 */
 }
 .add-recipe-plus-icon {
-  cursor: pointer;
-  position: absolute;
-  left: 46%;
-  transform: translateX(-300%); /* 요소 자체 너비의 절반만큼 왼쪽으로 이동 */
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
 }
-.add-recipe-btn {
+.add-recipe-font {
   cursor: pointer;
-  width: 320px;
-  height: 60px;
-  bottom: 120px;
-  background-color: white;
-  border-radius: 10px;
+  margin-right: 15px;
+  margin-bottom: 20px;
   border: 1px solid #b4b4b4;
-  color: black;
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 15px;
+}
+.add-recipe-plus-icon.rotated {
+  transform: rotate(45deg);
 }
 .popular-recipe-container {
   margin-top: 20px; /* SearchContainer와 거리 */
   margin-left: 20%;
   font-size: 20px;
 }
+.add-recipe-font:hover {
+  color: #fa590f;
+  border: 2px solid #fa590f;
+}
 @media (max-width: 500px) {
-  .add-recipe-btn-container {
-    width: 100%;
-  }
   .add-recipe-plus-icon {
-    width: 25px;
+    width: 40px;
+    position: relative;
   }
-  .add-recipe-btn {
-    width: 60%;
+  .add-recipe-btn-container {
+    right: 40px;
+    bottom: -60px;
   }
   .popular-recipe-container {
     margin-left: 50px;
     font-size: 17px;
+  }
+  .add-recipe-font {
+    bottom: 100px;
+    position: absolute;
+    width: 190px;
+    right: -10px;
+    bottom: 60px;
   }
 }

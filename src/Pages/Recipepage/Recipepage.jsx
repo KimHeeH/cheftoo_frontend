@@ -5,11 +5,21 @@ import "./Recipepage.style.css";
 import addIcon from "./img/add-recipe-btn.svg";
 import RecipeAddpage from "./add/RecipeAddpage";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const Recipepage = () => {
   const navigate = useNavigate();
-
+  const [isHovered, setIsHovered] = useState(false);
   const goAddRecipePage = () => {
     navigate("/add");
+  };
+  const onMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const onMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const onToggleClick = () => {
+    setIsHovered(!isHovered);
   };
   return (
     <div className="recipe-page-all-container">
@@ -17,13 +27,22 @@ const Recipepage = () => {
       <div className="popular-recipe-container">인기 레시피</div>
       <div
         className="add-recipe-btn-container"
-        onClick={() => goAddRecipePage()}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
-        <img className="add-recipe-plus-icon" src={addIcon} alt="plus" />
-        <button className="add-recipe-btn">
-          나의 레시피 <br />
-          등록하기
-        </button>
+        {isHovered ? (
+          <div className="add-recipe-font" onClick={() => goAddRecipePage()}>
+            나의 레시피 추가
+          </div>
+        ) : (
+          ""
+        )}
+        <img
+          className={`add-recipe-plus-icon ${isHovered ? "rotated" : ""}`}
+          onClick={onToggleClick}
+          src={addIcon}
+          alt="plus"
+        />
       </div>
       <Navbar />
     </div>
