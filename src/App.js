@@ -7,6 +7,7 @@ import Searchpage from "./Pages/Searchpage/Searchpage";
 import Mypage from "./Pages/Mypage/Mypage";
 import Recipepage from "./Pages/Recipepage/Recipepage";
 import RecipeAddpage from "./Pages/Recipepage/add/RecipeAddpage";
+import KakaoRedirect from "./Pages/Mypage/KakaoRedirect";
 function App() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ function App() {
       <Route path="/mypage" element={<Mypage />} />
       <Route path="/star" element={<Scrappage />} />
       <Route path="/add" element={<RecipeAddpage />} />
+      <Route path="/oauth/kakao/callback" element={<KakaoRedirect />} />
     </Routes>
   );
 }

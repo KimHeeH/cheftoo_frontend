@@ -18,6 +18,11 @@ const Mypage = () => {
   const [isHovered, setIsHovered] = useState("");
   //#fa590f(주황색)
   //afafaf(회색)
+  const CLIENT_ID = `${process.env.REACT_APP_REST_API_KEY}`;
+
+  const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URI_LOCAL}`;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
   console.log("MY Page", { item });
   const itemCheck = (item) => {
     if (item == "my") {
@@ -30,6 +35,10 @@ const Mypage = () => {
     navigate("/");
   };
   // 화면 크기에 따라 이미지 변경
+  const kakaoLoginHandler = () => {
+    window.location.href = kakaoURL;
+  };
+
   useEffect(() => {
     const updateButtonImg = () => {
       if (window.matchMedia("(max-width: 768px)").matches) {
@@ -114,6 +123,7 @@ const Mypage = () => {
           marginTop: "10px",
           cursor: "pointer",
         }}
+        onClick={kakaoLoginHandler}
       >
         <img src={buttonImg} alt="카카오버튼" />
       </div>

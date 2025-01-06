@@ -33,6 +33,9 @@
   margin: 30px;
   font-size: 23px;
 }
+.login-signUp-font {
+  margin-top: 30px;
+}
 form::placeholder {
   font-size: 1.2rem; /* 원하는 크기로 설정 */
   color: #666; /* 원하는 색으로 설정 */
