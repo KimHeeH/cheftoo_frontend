@@ -25,40 +25,41 @@
 .search-input-container {
   position: relative; /* 아이콘을 input 내부에 배치하기 위한 상대 위치 설정 */
   display: inline-block;
+  display: flex;
   padding: 0;
   margin: 0; /* input과 아이콘을 함께 배치 */
   padding-top: 80px; /* 상단 여백 설정 */
   margin-left: -80px;
+  position: relative;
 }
-
+.searchIcon {
+  position: absolute;
+  top: 70%;
+  right: 10%;
+  width: 25px;
+}
 .input {
   box-sizing: border-box;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   width: 95%; /* 너비를 100%로 설정 */
   padding-left: 3%;
   height: 50px; /* 기본 높이 */
   border: none;
   margin: 0;
-  border-radius: 10px;
+  border-radius: 30px;
+  border: 1px solid #dcdcdc;
 }
 .searchContainer-login-container {
   display: flex;
   justify-content: flex-end;
 }
-.searchContainer-login-button {
-  cursor: pointer;
-  margin-right: 15px;
-  color: #b1b1b1;
-  font-weight: 500;
-}
+
 .searchContainer-signUp-button {
   color: #b1b1b1;
   cursor: pointer;
   font-weight: 500;
 }
-.searchContainer-login-button:hover {
-  color: #636363;
-}
+
 .searchContainer-signUp-button:hover {
   color: #636363;
 }
@@ -79,9 +80,10 @@
   }
   .logo {
     display: flex;
-    justify-content: center; /* 이미지 중앙 정렬 */
+    justify-content: flex-start; /* 이미지 중앙 정렬 */
     align-items: center;
     padding-top: 20px; /* 상단 여백 축소 */
+    padding-left: 20px;
     width: 100%;
     margin-right: 0;
   }
@@ -101,12 +103,21 @@
   }
   .search-input-container {
     padding-top: 20px;
-    padding-left: 10%;
-    padding-right: 10%; /* 양쪽 여백 */
+    padding-left: 5%;
+    padding-right: 5%; /* 양쪽 여백 */
     width: 100%;
     margin-left: 0;
+    display: flex;
+    position: relative;
   }
-
+  .searchIcon {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+  }
+  .searchContainer-signUp-button {
+    font-size: 0.8rem;
+  }
   .input {
     padding: 5%;
     width: 100%;
