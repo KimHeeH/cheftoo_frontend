@@ -15,7 +15,7 @@ function App() {
       <Route path="/recipe" element={<Recipepage />} />
       <Route path="/search" element={<Searchpage />} />
       <Route path="/mypage" element={<Mypage />} />
-      <Route path="/star" element={<Scrappage />} />
+      <Route path="/scrap" element={<Scrappage />} />
       <Route path="/add" element={<RecipeAddpage />} />
       <Route path="/oauth/kakao/callback" element={<KakaoRedirect />} />
     </Routes>

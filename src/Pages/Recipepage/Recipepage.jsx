@@ -1,6 +1,7 @@
 import React from "react";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Navbar from "../../Component/Navbar/Navbar";
+import Menubar from "../../Component/Menubar/Menubar";
 import "./Recipepage.style.css";
 import addIcon from "./img/add-recipe-btn.svg";
 import RecipeAddpage from "./add/RecipeAddpage";
@@ -24,6 +25,7 @@ const Recipepage = () => {
   return (
     <div className="recipe-page-all-container">
       <SearchContainer />
+      <Menubar />
       <div className="popular-recipe-container">인기 레시피</div>
       <div
         className="add-recipe-btn-container"
@@ -44,7 +46,6 @@ const Recipepage = () => {
           alt="plus"
         />
       </div>
-      <Navbar />
     </div>
   );
 };

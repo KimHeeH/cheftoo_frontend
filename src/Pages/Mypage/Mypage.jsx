@@ -10,6 +10,8 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom"; // useNavigate import
 import Navbar from "../../Component/Navbar/Navbar";
 import { useLocation } from "react-router-dom";
+import SearchContainer from "../../Component/SearchContainer/SearchContainer";
+import Menubar from "../../Component/Menubar/Menubar";
 
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
@@ -60,17 +62,9 @@ const Mypage = () => {
 
   return (
     <div>
+      <SearchContainer />
+      <Menubar />
       <Container className="d-flex flex-column align-items-center">
-        <Row className="w-100 MyPage-container">
-          <Col
-            className="justify-content-flex-start"
-            xs="auto"
-            style={{ cursor: "pointer" }}
-            onClick={handlePage}
-          >
-            <BackIcon className="backIcon" />
-          </Col>
-        </Row>
         <div className="MyPage-logo-container">
           <div>
             <img src={todayIcon} alt="Today" />
@@ -126,10 +120,6 @@ const Mypage = () => {
         onClick={kakaoLoginHandler}
       >
         <img src={buttonImg} alt="카카오버튼" />
-      </div>
-
-      <div>
-        <Navbar />
       </div>
     </div>
   );
