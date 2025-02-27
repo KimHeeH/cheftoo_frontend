@@ -6,28 +6,28 @@ const Menubar = () => {
     navigate(path);
   };
   return (
-    <div className="flex container cursor-pointer text-[#3B3A36] gap-8 mt-4 border-b border-[#DCDCDC] h-9">
+    <div className="fixed bottom-0 left-0 lg:static flex w-full container cursor-pointer text-[#3B3A36] gap-8 mt-4 lg:mt-8 border-b border-[#DCDCDC] h-9">
       <div
         onClick={() => goPage("/")}
-        className=" hover:border-b border-[#3B3A36]"
+        className=" text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
         추천
       </div>
       <div
         onClick={() => goPage("/recipe")}
-        className=" hover:border-b border-[#3B3A36]"
+        className="  text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
         인기레시피
       </div>
       <div
         onClick={() => goPage("/scrap")}
-        className=" hover:border-b border-[#3B3A36]"
+        className="  text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
         스크랩
       </div>
       <div
         onClick={() => goPage("/mypage")}
-        className=" hover:border-b border-[#3B3A36]"
+        className="  text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
         나의 정보
       </div>

@@ -8,7 +8,7 @@ const Scrappage = () => {
     <div>
       <SearchContainer />
       <Menubar />
-      <div className="scrap-recipe-container">저장 레시피</div>
+      <div className="mt-8 container">저장 레시피</div>
     </div>
   );
 };
