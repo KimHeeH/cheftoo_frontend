@@ -18,7 +18,7 @@ const SearchContainer = () => {
   return (
     <div className="container">
       <div
-        className="flex text-[#808080] mt-4 mb-4 sm:mb-4 lg:mb-0 cursor-pointer justify-end items-start h- w-100 sm:w-32 lg:w-64 "
+        className="flex text-[#808080] mt-4 mb-8 sm:mb-4 lg:mb-0 cursor-pointer justify-end items-start h- w-100 sm:w-32 lg:w-64 "
         onClick={handleLoginPage}
       >
         <div className=" flex items-center gap-2 hover:text-[#3B3A36]">
@@ -28,7 +28,7 @@ const SearchContainer = () => {
             src={userIcon}
             alt="userIcon"
           />
-          <div className="text-sm sm:text-base">로그인 / 회원가입</div>
+          <div className="text-xs sm:text-base">로그인 / 회원가입</div>
         </div>
       </div>
       <div>
