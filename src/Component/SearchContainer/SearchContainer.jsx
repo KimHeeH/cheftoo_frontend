@@ -52,10 +52,10 @@ const SearchContainer = () => {
                   />
                 </div>
 
-                <div className="flex w-2/3 relative h-[50px] items-center pr-0">
+                <div className="flex w-6/7 relative h-[50px] items-center pr-0">
                   <input
                     className=" border border-[#808080] rounded-full w-full s:w-3/4 lg:w-3/4 h-full pl-4 mr-4"
-                    placeholder="궁금한 레시피를 찾아보세요"
+                    placeholder="오늘의 레시피 검색"
                   />
 
                   <img

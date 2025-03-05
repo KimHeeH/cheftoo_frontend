@@ -1,31 +1,38 @@
 import React from "react";
 import "./RecommendedRecipe.style.css";
 import firstImg from "./img/firstImg.png";
-import secondImg from "./img/secondImg.png";
-import thirdImg from "./img/thirdImg.png";
-import forthImg from "./img/Forth.png";
+import secondImg from "./img/image.png";
+import thirdImg from "./img/image-1.png";
+import forthImg from "./img/image-2.png";
 const RecommendedRecipe = () => {
   return (
-    <div className="mt-8 lg:mt-16 lg:mb-24 overflow-x-hidden overflow-y-auto">
-      <div className=" text-lg sm:text-base lg:text-xl font-bold text-[#3B3A36] container mt-8 text-center flex justify-center ">
+    <div className="mt-8 overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
+      <div className=" container flex justify-center  mt-8 text-center text-lg font-bold text-[#3B3A36] sm:text-base lg:text-2xl   ">
         당신에게 딱 맞는 <br></br>추천 레시피 둘러보세요
       </div>
-      <div className="flex  h-[400px] container gap-4  mt-8 lg:gap-4 lg:h-[600px]">
+      <div className="container flex gap-2 h-[300px] mt-16 lg:gap-4 lg:h-[600px]">
         <div className="w-1/2 flex justify-end lg:h-full">
           <img src={firstImg} alt="firstImg" />
         </div>
-        <div className="w-1/2 lg:h-full">
-          <div className="flex w-full gap-4 mb-4 h-[45%]">
-            <img className=" object-cover " src={secondImg} alt="secondImg" />
-          </div>
-          <div className="w-full h-[45%]">
-            {" "}
+        <div className="flex flex-col gap-2 w-1/2 min-h-0 h-[300px] lg:gap-4 lg:h-full lg:h-auto">
+          <div className="flex w-full gap-2 min-w-0">
             <img
-              className=" lg:h-auto object-cover"
+              className="flex-1 object-cover min-w-0"
+              src={secondImg}
+              alt="secondImg"
+            />
+            <img
+              className="flex-1 object-cover min-w-0"
               src={thirdImg}
-              alt="thirdImg"
+              alt="forthImg"
             />
           </div>
+
+          <img
+            className="flex-1 object-cover min-h-0"
+            src={forthImg}
+            alt="thirdImg"
+          />
         </div>
       </div>
     </div>

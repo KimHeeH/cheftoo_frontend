@@ -14,11 +14,11 @@ const Menubar = () => {
         className="  flex justify-center items-center h-[80px] lg:h-[50px] text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
         <div className="flex justify-center items-center flex-column">
-          <div className=" flex-col justify-center items-center">
-            <div className=" lg:hidden">
+          <div className=" flex-col justify-center items-center w-full h-[100%]">
+            <div className="pt-2 lg:hidden">
               <Icon.HomeIcon />
             </div>
-            <div className="  text-[#C5C5C5] text-center lg:text-[#3B3A36]">
+            <div className=" mt-2 text-[#C5C5C5] text-center lg:text-[#3B3A36]">
               홈
             </div>
           </div>
@@ -29,23 +29,33 @@ const Menubar = () => {
         className="  flex justify-center items-center h-[80px] lg:h-[50px]  text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
         <div className="flex flex-column">
-          <div className=" flex justify-center items-center lg:hidden">
+          <div className=" flex justify-center items-center pt-2 lg:hidden">
             <Icon.PopularIcon />
           </div>
-          <div>인기 레시피</div>
+          <div className="mt-2 text-[#C5C5C5]">인기레시피</div>
         </div>
       </div>
       <div
         onClick={() => goPage("/scrap")}
         className="   flex justify-center items-center h-[80px] lg:h-[50px] text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
-        스크랩
+        <div className="flex flex-column">
+          <div className="flex justify-center items-center pt-2 lg:hidden">
+            <Icon.BookmakrIcon />
+          </div>
+          <div className="mt-2 text-[#C5C5C5]">스크랩</div>
+        </div>
       </div>
       <div
         onClick={() => goPage("/mypage")}
         className=" flex justify-center items-center h-[80px] lg:h-[50px] text-s lg:text-lg hover:border-b border-[#3B3A36]"
       >
-        나의 정보
+        <div className="flex flex-column">
+          <div className="flex justify-center items-center pt-2 lg:hidden">
+            <Icon.userIcon />
+          </div>
+          <div className="mt-2 text-[#C5C5C5]">나의 정보</div>
+        </div>
       </div>
     </div>
   );

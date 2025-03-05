@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./Mypage.style.css";
 import { BackIcon } from "../../Component/Icon/Icon";
 import todayIcon from "./img/Today.svg";
 import recipeIcon from "./img/Recipe.svg";
@@ -64,62 +63,35 @@ const Mypage = () => {
     <div>
       <SearchContainer />
       <Menubar />
-      <Container className="d-flex flex-column align-items-center">
-        <div className="MyPage-logo-container">
-          <div>
-            <img src={todayIcon} alt="Today" />
+      <div className="container flex flex-col items-center mt-44 lg:mt-16">
+        <div className="flex gap-2">
+          <div className="w-[100px] lg:w-[150px]">
+            <img className="w-full" src={todayIcon} alt="Today" />
           </div>
-          <div>
-            <img src={recipeIcon} alt="Recipe" />
+          <div className="w-[100px] lg:w-[150px]">
+            <img className="w-full" src={recipeIcon} alt="Recipe" />
           </div>
         </div>
-      </Container>
+      </div>
 
       {/* 로그인 입력 필드 */}
-      <div
-        className="login-container"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          className="login-signUp-font"
-          style={{
-            fontWeight: "400",
-            fontSize: "18px",
-            color: "#808080",
-          }}
-        >
+      <div className="flex flex-col justify-center items-center container">
+        <div className="mt-4 text-lg text-[#696868] lg:text-2xl lg:mt-8">
           로그인/회원가입
         </div>
-        <div className="login-font">
+        <div className="mt-8 text-center text-[#3B3A36] text-xl lg:text-3xl ">
           간편하게 로그인하고 <br />
           다양한 서비스를 이용해보세요.
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "10px",
-        }}
-      ></div>
-      {/* 카카오 버튼 */}
-      <div
-        className="kakao-button-container"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "10px",
-          cursor: "pointer",
-        }}
-        onClick={kakaoLoginHandler}
-      >
-        <img src={buttonImg} alt="카카오버튼" />
+      <div className="flex container mt-8 w-full lg:mt-16">
+        {/* 카카오 버튼 */}
+        <div
+          className=" flex  justify-center items-center  w-full cursor-pointer"
+          onClick={kakaoLoginHandler}
+        >
+          <img className="w-2/3 lg:w-1/5" src={buttonImg} alt="카카오버튼" />
+        </div>
       </div>
     </div>
   );
