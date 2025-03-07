@@ -1,0 +1,93 @@
+.flex-container {
+  display: flex;
+}
+.backIcon-container {
+  margin-top: 100px;
+}
+.MyPage-container {
+  margin-top: 7%;
+}
+.MyPage-logo-container {
+  display: flex;
+  margin-top: 3%;
+}
+.MyPage-logo-container div {
+  margin-right: 15px;
+}
+.MyPage-logo-container img {
+  display: flex;
+  width: 150px;
+}
+.logo-img img {
+  width: 150px;
+}
+.logo-img1 {
+  padding: 0;
+}
+.logo-img2 {
+  padding: 0;
+  padding-left: 5px;
+}
+.login-font {
+  text-align: center;
+  margin: 30px;
+  font-size: 23px;
+}
+.login-signUp-font {
+  margin-top: 30px;
+}
+form::placeholder {
+  font-size: 1.2rem; /* 원하는 크기로 설정 */
+  color: #666; /* 원하는 색으로 설정 */
+}
+@media (max-width: 500px) {
+  .MyPage-logo-row {
+    margin-top: 10%;
+  }
+  .MyPage-container {
+    margin-top: 20%;
+  }
+  .backIcon-container {
+    margin-top: 200px;
+  }
+  .text-size {
+    font-size: 1.2rem;
+  }
+  .input-container {
+    width: 183px;
+    height: auto;
+  }
+  input::placeholder {
+    font-size: 0.8rem; /* 원하는 크기로 설정 */
+    color: #999; /* 원하는 색으로 설정 */
+  }
+  .password-container {
+    margin-top: 0;
+  }
+  .input-container {
+    margin: 0;
+  }
+  .logo-img img {
+    width: 90px;
+  }
+  .logo-img2 {
+    padding: 0;
+  }
+  .login-font {
+    color: #363636;
+    margin-top: 15%;
+    font-size: 20px;
+  }
+  /* .login-container {
+    margin-top: 15%;
+  } */
+  .login-signUp-font {
+    margin-top: 15px;
+  }
+  .MyPage-logo-container {
+    margin-top: 100px;
+  }
+  .MyPage-logo-container img {
+    width: 100px;
+  }
+}

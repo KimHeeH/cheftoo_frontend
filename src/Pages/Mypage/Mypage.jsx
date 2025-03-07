@@ -7,7 +7,6 @@ import buttonImgLarge from "./img/kakao_login_medium_wide.png";
 import buttonImgSmall from "./img/kakao_login_medium_wide.png"; // 작은 화면용 이미지
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom"; // useNavigate import
-import Navbar from "../../Component/Navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../Component/Menubar/Menubar";
