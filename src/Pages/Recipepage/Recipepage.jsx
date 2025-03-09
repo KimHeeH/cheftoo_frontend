@@ -25,14 +25,6 @@ const Recipepage = () => {
     <div className="recipe-page-all-container">
       <SearchContainer />
       <Menubar />
-      <div className="flex container justify-end mt-4 cursor-pointer ">
-        <div
-          onClick={() => goAddRecipePage()}
-          className=" hover:text-[#3B3A36] bg-[#FAFAFA] text-[#808080] w-28 h-10 flex justify-center items-center"
-        >
-          레시피 등록
-        </div>
-      </div>
     </div>
   );
 };
