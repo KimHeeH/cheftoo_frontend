@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
+import SearchContainer from "../../../Component/SearchContainer/SearchContainer";
 import { useState } from "react";
 import { BackIcon } from "../../../Component/Icon/Icon";
 import { PictureIcon } from "../../../Component/Icon/Icon";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom"; // useNavigate import
-import "./RecipeAddpage.style.css";
+import Menubar from "../../../Component/Menubar/Menubar";
 const RecipeAddpage = () => {
   const [file, setFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -82,32 +83,32 @@ const RecipeAddpage = () => {
     console.log(file);
   };
   return (
-    <Container className="d-flex flex-column align-items-center  mt-5">
-      <Row className="w-100">
-        <Col
-          className="justify-content-flex-start"
-          xs="auto"
-          style={{ cursor: "pointer" }}
-          onClick={handlePage}
-        >
-          <BackIcon className="backIcon" />
-        </Col>
-      </Row>
-      <div className="writeRecipe-container">
-        <div className="writeRecipe-titleContainer">
-          <div className="writeRecipe-title">레시피 제목</div>
-          <div className="writeRecipe-titleInputContainer">
-            <input placeholder="예) 토마토 파스타 레시피" />
+    <div>
+      <SearchContainer />
+      <Menubar />
+      <div className="container mt-8 text-base lg:text-xl  ">레시피 등록</div>
+      <div className="container">
+        <div className="flex flex-row mt-8 gap-4">
+          <div className="text-base lg:text-xl font-semibold text-gray-700">
+            레시피 제목
+          </div>
+          <div className="text-base lg:text-xl w-[900px] border-b border-[#D0D0D0]">
+            <input
+              className="w-full p-2 rounded-lg  focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="예) 토마토 파스타 레시피"
+            />
           </div>
         </div>
 
-        <div className="writeRecipe-descriptionContainer">
-          <div className="writeRecipe-description">요리 설명</div>
-          <div className="writeRecipe-descriptionInputContainer">
+        <div className="flex flex-row mt-8 gap-11">
+          <div className="text-base lg:text-xl font-semibold text-gray-700">
+            요리 설명
+          </div>
+          <div className="text-base lg:text-xl w-[900px]">
             <textarea
               placeholder="토마토를 작게 잘라주세요"
               rows="3"
-              className="description-input"
+              className="w-full p-3 border border-gray-300 rounded-lg resize-none overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500"
               onInput={(e) => {
                 e.target.style.height = "auto"; // 높이 초기화
                 e.target.style.height = `${e.target.scrollHeight}px`; // 내용에 맞춰 높이 조정
@@ -116,42 +117,48 @@ const RecipeAddpage = () => {
           </div>
         </div>
 
-        <div className="writeRecipe-pictureContainer">
-          <div className="writeRecipe-picture">요리 사진</div>
+        <div className="flex flex-row mt-8 gap-11 ">
+          <div className="text-base lg:text-xl font-semibold text-gray-700">
+            요리 사진
+          </div>
           <div
-            className={`writeRecipe-pictureBox ${isDragging ? "dragging" : ""}`}
+            className="w-[900px]  h-[300px] border-2 border-dashed border-gray-300 rounded-lg shadow-md flex flex-col justify-center items-center transition-all duration-300 ease-in-out hover:border-blue-400"
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={handlePictureUpload}
           >
-            <div className="writeRecipe-pictureIconContainer">
-              <PictureIcon className="writeRecipe-pictureIcon" />
-              <div className="writeRecipe-pictureBoxFont">
-                파일을 끌어서
-                <br /> 이곳에 놓아주세요!
-              </div>
+            <PictureIcon />
+            <div className="text-gray-500 text-center font-medium mt-2">
+              파일을 끌어서
+              <br /> 이곳에 놓아주세요!
             </div>
-            <p>{file ? `파일: ${file.name}` : ""}</p>
 
             <div className="writeRecipe-pictureInputContainer">
-              <button onClick={handleFileUpload}>사진 등록 또는 찍기</button>
+              <button
+                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all duration-300"
+                onClick={handleFileUpload}
+              >
+                사진 등록 또는 찍기
+              </button>
               <input
                 type="file"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 accept="image/*"
-                style={{ display: "none" }} // input은 보이지 않도록 설정
+                className="hidden" // input은 보이지 않도록 설정
               />
             </div>
           </div>
         </div>
-        <div className="writeRecipe-ingredientContainer">
-          <div className="writeRecipe-ingrendient">재료</div>
+        <div className="shadow-sm rounded-lg p-6 w-full max-w-5xl mt-8">
+          <div className="text-base lg:text-lg font-semibold text-gray-700 mb-4">
+            재료
+          </div>
           {ingredients.map((ingredient, index) => (
-            <div className="writeRecipe-ingrendientInputContainer" key={index}>
+            <div className="flex flex-row gap-8 mt-8" key={index}>
               <input
-                style={{ borderRadius: "0" }}
+                className="w-80 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 토마토"
                 value={ingredient.name}
                 onChange={(e) =>
@@ -159,7 +166,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                style={{ borderRadius: "0" }}
+                className="w-64 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1개"
                 value={ingredient.quantity}
                 onChange={(e) =>
@@ -171,18 +178,20 @@ const RecipeAddpage = () => {
         </div>
         <div className="writeRecipe-addIngredientButtonContainer">
           <button
-            className="writeRecipe-addIngredientButton"
+            className=" w-32 mt-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-all duration-300"
             onClick={handleAddIngredient}
           >
             재료 추가
           </button>
         </div>
-        <div className="writeRecipe-seasoningContainer">
-          <div className="writeRecipe-seasoning">양념</div>
+        <div className="shadow-sm rounded-lg p-6 w-full max-w-5xl mt-8">
+          <div className="text-base lg:text-lg font-semibold text-gray-700 mb-4">
+            양념
+          </div>
           {seasonings.map((seasoning, index) => (
-            <div className="writeRecipe-seasoningInputContainer" key={index}>
+            <div className="flex flex-row gap-8 mt-8" key={index}>
               <input
-                style={{ borderRadius: "0" }}
+                className="w-80 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 간장"
                 value={seasoning.name}
                 onChange={(e) =>
@@ -190,7 +199,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                style={{ borderRadius: "0" }}
+                className="w-64 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1스푼"
                 value={seasoning.quantity}
                 onChange={(e) =>
@@ -202,7 +211,7 @@ const RecipeAddpage = () => {
         </div>
         <div className="writeRecipe-addSeasoningButtonContainer">
           <button
-            className="writeRecipe-addSeasoninngButton"
+            className=" w-32 mt-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-all duration-300"
             onClick={handleAddSeasoning}
           >
             양념 추가
@@ -254,7 +263,7 @@ const RecipeAddpage = () => {
           </button>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
