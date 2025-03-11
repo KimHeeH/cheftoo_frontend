@@ -3,6 +3,7 @@ import SearchContainer from "../../../Component/SearchContainer/SearchContainer"
 import { useState } from "react";
 import { BackIcon } from "../../../Component/Icon/Icon";
 import { PictureIcon } from "../../../Component/Icon/Icon";
+import { MiniPictureIcon } from "../../../Component/Icon/Icon";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom"; // useNavigate import
 import Menubar from "../../../Component/Menubar/Menubar";
@@ -21,13 +22,18 @@ const RecipeAddpage = () => {
     event.preventDefault();
     setIsDragging(false);
   };
-  const handleDrop = (event) => {
+  const handleDrop = (event, index) => {
     event.preventDefault(); // 기본 동작 방지
     setIsDragging(false); // 드래그 상태 해제
     const droppedFile = event.dataTransfer.files[0];
     if (droppedFile) {
-      setFile(droppedFile); // 파일 상태 설정
-      console.log(droppedFile); // 파일 정보 출력
+      if (index === null) {
+        setFile(droppedFile);
+      } else {
+        const newOrders = [...orders];
+        newOrders[index].picture = droppedFile;
+        setOrders(newOrders);
+      }
     }
   };
 
@@ -176,7 +182,7 @@ const RecipeAddpage = () => {
             </div>
           ))}
         </div>
-        <div className="writeRecipe-addIngredientButtonContainer">
+        <div className="">
           <button
             className=" w-32 mt-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-all duration-300"
             onClick={handleAddIngredient}
@@ -217,12 +223,17 @@ const RecipeAddpage = () => {
             양념 추가
           </button>
         </div>
-        <div className="writeRecipe-orderContainer">
-          <div className="writeRecipe-orderTitle">요리 순서</div>
+        <div className="flex flex-col gap-8 mt-8">
+          <div className="flex text-base lg:text-xl font-semibold text-gray-700">
+            요리 순서
+          </div>
           {orders.map((order, index) => (
-            <div className="writeRecipe-order" key={index}>
-              <div>{index + 1}</div>
+            <div className="flex  gap-8" key={index}>
+              <div className="text-base lg:text-xl font-semibold text-gray-500">
+                {index + 1}
+              </div>
               <textarea
+                className="resize-none lg:w-[600px] lg:h-[100px] p-2 border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 토마토를 잘라주세요."
                 value={order.description}
                 onChange={(e) =>
@@ -240,14 +251,14 @@ const RecipeAddpage = () => {
                 }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
+                onDrop={(event) => {
+                  handleDrop(event, index);
+                }}
                 onClick={handlePictureUpload}
               >
-                <div className="writeRecipe-orderPictureIconContainer">
-                  <PictureIcon className="writeRecipe-orderPictureIcon" />
-                  <div className="writeRecipe-orderPictureBoxFont">
-                    사진 업로드
-                  </div>
+                <div className="flex flex-col justify-center items-center lg:w-[100px] lg:h-[100px] border-2 border-dashed border-gray-300 transition-all duration-300 ease-in-out hover:border-2 hover:border-blue-300">
+                  <MiniPictureIcon />
+                  <div className="mt-2 text-xs">사진 업로드</div>
                 </div>
                 <p>{file ? `파일: ${file.name}` : ""}</p>
               </div>
@@ -256,7 +267,7 @@ const RecipeAddpage = () => {
         </div>
         <div className="wrtieRecipe-addRrderButtonContainer">
           <button
-            className="writeRecipe-addOrderButton"
+            className=" w-32 mt-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-all duration-300"
             onClick={handleAddOrder}
           >
             추가
