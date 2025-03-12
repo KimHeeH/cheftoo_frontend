@@ -11,7 +11,7 @@ const RecommendedRecipe = () => {
     navigate("/add");
   };
   return (
-    <div className="mt-8 relative overflow-x-hidden overflow-y-auto min-h-screen lg:mt-16 lg:mb-24 ">
+    <div className="mt-8 relative overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
       <div className=" container flex justify-center  mt-8 text-center text-lg font-bold text-[#3B3A36] sm:text-base lg:text-2xl   ">
         맛있는 음식 <br></br>당신만의 특별한 레시피를 공유해보세요!
       </div>
