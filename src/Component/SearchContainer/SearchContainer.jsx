@@ -37,7 +37,7 @@ const SearchContainer = () => {
             <div className="align-items-center">
               <div className="flex gap-24 sm:gap-9 lg:gap-9">
                 <div
-                  className="flex w-1/5   lg:w-[300px] cursor-pointer"
+                  className="flex w-1/4   lg:w-[300px] cursor-pointer"
                   onClick={goHomePage}
                 >
                   <img
@@ -52,14 +52,14 @@ const SearchContainer = () => {
                   />
                 </div>
 
-                <div className="flex w-6/7 lg:w-2/3 relative h-[50px] items-center pr-0">
+                <div className="flex w-7/8 lg:w-2/3 relative h-[50px] items-center pr-0">
                   <input
-                    className=" border border-[#808080] rounded-full w-full s:w-3/4 lg:w-3/4 h-full pl-4 mr-4"
+                    className=" border border-[#808080] rounded-full w-full s:w-3/4 lg:w-3/4 h-full pl-4 "
                     placeholder="오늘의 레시피 검색"
                   />
 
                   <img
-                    className="absolute transform-translate-y-1/2 right-[-10px] sm:right-30 lg:right-60  "
+                    className="absolute transform-translate-y-1/2 right-[-10px] sm:right-30 lg:right-60 hidden lg:block "
                     width="20"
                     src={searchIcon}
                     alt="searchIcon"

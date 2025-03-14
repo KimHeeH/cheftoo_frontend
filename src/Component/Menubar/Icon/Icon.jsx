@@ -21,8 +21,8 @@ export const HomeIcon = ({ fill = "#BFBFBF" }) => {
 export const PopularIcon = ({ fill = "#BFBFBF" }) => {
   return (
     <svg
-      width="35"
-      height="33"
+      width="30"
+      height="30"
       viewBox="0 0 44 44"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

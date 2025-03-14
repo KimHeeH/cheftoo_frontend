@@ -13,12 +13,12 @@ const RecommendedRecipe = () => {
   return (
     <div className="mt-8 relative overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
       <div className=" container flex justify-center  mt-8 text-center text-lg font-bold text-[#3B3A36] sm:text-base lg:text-2xl   ">
-        맛있는 음식 <br></br>당신만의 특별한 레시피를 공유해보세요!
+        나만의 레시피를 쉽고 빠르게 공유하세요!
       </div>
       <div className="flex container  justify-center mt-4 cursor-pointer ">
         <div
           onClick={() => goAddRecipePage()}
-          className="flex fixed-bottom-16 lg:static  justify-center items-center cursor-pointer w-1/2 h-[40px] bg-[#FAFAFA] text-[#3B3A36] border-2 border-[#DADADA] rounded-[10px] hover:text-[#3B3A36] lg:w-64 lg:h-12 lg:text-xl"
+          className="flex items-center bg-orange-500 h-[45px] lg:h-14 text-white text-lg font-semibold px-6 py-3 rounded-md shadow-md hover:bg-orange-600 transition-all"
         >
           레시피 등록
         </div>

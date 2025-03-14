@@ -91,11 +91,14 @@ const RecipeAddpage = () => {
     setOrders([...orders, { description: "", picture: null }]);
   };
 
+  const goHomePage = () => {
+    navigate("/");
+  };
   return (
-    <div className="h-screen overflow-y-auto">
+    <div className="min-h-screen h-auto">
       <SearchContainer />
       <Menubar />
-      <div className="container flex items-center mt-8 gap-4 lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
+      <div className="container flex items-center mt-3 pt-3 gap-4 lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
         <div className=" mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[200px] lg:h-[40px] lg:text-xl font-bold text-gray-800 flex items-center gap-2">
           <svg
             class="w-6 h-6 text-orange-500"
@@ -144,12 +147,12 @@ const RecipeAddpage = () => {
             요리 사진
           </label>
           <div
-            className=" lg:w-[900px] lg:h-[300px] lg:border-2 border-dashed border-gray-300 rounded-lg flex lg:flex-col justify-center items-center hover:border-blue-400"
+            className=" flex items-center lg:w-[900px] lg:h-[300px] lg:border-2 border-dashed border-gray-300 rounded-lg flex lg:flex-col justify-center items-center hover:border-blue-400"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleMainImageDrop}
             onClick={handleMainImageUpload}
           >
-            <div className="className= hidden lg:block">
+            <div className=" hidden lg:block">
               {" "}
               <PictureIcon />
             </div>
@@ -157,7 +160,7 @@ const RecipeAddpage = () => {
               파일을 끌어서 이곳에 놓아주세요!
             </div>
             <button
-              className="w-[160px] h-[35px] lg:h-auto lg:w-[200px] text-xs lg:text-base lg:mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+              className="cursor-pointer w-[160px] h-[35px] lg:h-auto lg:w-[200px] text-xs lg:text-base lg:mt-2 px-4 py-2 bg-gray-100 text-black rounded-lg"
               onClick={handleMainImageUpload}
             >
               사진 등록 또는 찍기
@@ -204,7 +207,7 @@ const RecipeAddpage = () => {
         </div>
         <div className="flex justify-center lg:justify-start">
           <button
-            className=" w-1/4 text-xs lg:text-base lg:w-32 mt-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-all duration-300"
+            className=" w-1/4 text-xs lg:text-base lg:w-32 mt-4 py-2 bg-[#F8F8F8] hover:bg-[#E5E5E5] border-1 border-[#E5E5E5]   text-black font-medium rounded-md hover:bg-gray-300 transition-all duration-300"
             onClick={handleAddIngredient}
           >
             재료 추가
@@ -237,7 +240,7 @@ const RecipeAddpage = () => {
         </div>
         <div className="flex justify-center lg:justify-start">
           <button
-            className="  w-1/4 text-xs lg:text-base lg:w-32 mt-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-all duration-300"
+            className="  w-1/4 text-xs lg:text-base lg:w-32 mt-4 py-2 text-black font-medium rounded-md bg-[#F8F8F8] hover:bg-[#E5E5E5] border-1 border-[#E5E5E5]  transition-all duration-300"
             onClick={handleAddSeasoning}
           >
             양념 추가
@@ -290,17 +293,30 @@ const RecipeAddpage = () => {
               </div>
             </div>
           ))}
-          <button
-            className="w-32 mt-4 py-2 bg-blue-500 text-white rounded-md"
-            onClick={handleAddOrder}
-          >
-            추가
-          </button>
+          <div className="flex justify-center items-center lg:justify-start h-[16px] lg:mt-4 ">
+            {" "}
+            <button
+              className="mb-10 text-xs lg:text-base w-1/4 lg:w-32 mt-4 py-2 bg-[#F8F8F8] hover:bg-[#E5E5E5] border-1 border-[#E5E5E5]  rounded-md"
+              onClick={handleAddOrder}
+            >
+              추가
+            </button>
+          </div>
         </div>
 
         {/* 순서 추가 버튼 */}
       </div>
-      <div className="flex container justify-end">완료</div>
+      <div className="flex container justify-center items-center gap-8 lg:gap-24 pb-20 pt-16 lg:mt-8 ">
+        <div
+          onClick={goHomePage}
+          className="cursor-pointer flex justify-center items-center rounded-sm lg:w-[250px] bg-gray-100 text-black h-[58px]"
+        >
+          취소
+        </div>
+        <div className="cursor-pointer flex justify-center items-center rounded-sm lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white h-[58px]">
+          완료
+        </div>
+      </div>
     </div>
   );
 };
