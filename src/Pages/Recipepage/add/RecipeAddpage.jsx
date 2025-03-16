@@ -306,14 +306,14 @@ const RecipeAddpage = () => {
 
         {/* 순서 추가 버튼 */}
       </div>
-      <div className="flex container justify-center items-center gap-8 lg:gap-24 pb-20 pt-16 lg:mt-8 ">
+      <div className="flex container justify-center items-center gap-14 lg:gap-24 pb-20 pt-16 lg:mt-8 ">
         <div
           onClick={goHomePage}
-          className="cursor-pointer flex justify-center items-center rounded-sm lg:w-[250px] bg-gray-100 text-black h-[58px]"
+          className="w-1/3 h-[33px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-gray-100 text-black h-[58px]"
         >
           취소
         </div>
-        <div className="cursor-pointer flex justify-center items-center rounded-sm lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white h-[58px]">
+        <div className="w-1/3 h-[33px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white h-[58px]">
           완료
         </div>
       </div>
