@@ -10,18 +10,12 @@ import { useNavigate } from "react-router-dom"; // useNavigate import
 import { useLocation } from "react-router-dom";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../Component/Menubar/Menubar";
-
+import useKakaoLogin from "../../hooks/useKakaoLogin";
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const location = useLocation();
-  const { item } = location.state || {}; // item 데이터 받기
+  const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
-  //#fa590f(주황색)
-  //afafaf(회색)
-  const CLIENT_ID = `${process.env.REACT_APP_REST_API_KEY}`;
-
-  const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URI_LOCAL}`;
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   console.log("MY Page", { item });
   const itemCheck = (item) => {
@@ -33,10 +27,6 @@ const Mypage = () => {
   const navigate = useNavigate();
   const handlePage = () => {
     navigate("/");
-  };
-  // 화면 크기에 따라 이미지 변경
-  const kakaoLoginHandler = () => {
-    window.location.href = kakaoURL;
   };
 
   useEffect(() => {
@@ -87,7 +77,7 @@ const Mypage = () => {
         {/* 카카오 버튼 */}
         <div
           className=" flex  justify-center items-center  w-full cursor-pointer"
-          onClick={kakaoLoginHandler}
+          onClick={useKakaoLogin("/mypage", "")}
         >
           <img className="w-2/3 lg:w-1/5" src={buttonImg} alt="카카오버튼" />
         </div>

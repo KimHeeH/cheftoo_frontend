@@ -15,14 +15,7 @@ const RecommendedRecipe = () => {
       <div className=" container flex justify-center  mt-8 text-center text-lg font-bold text-[#3B3A36] sm:text-base lg:text-2xl   ">
         나만의 레시피를 쉽고 빠르게 공유하세요!
       </div>
-      <div className="flex container  justify-center mt-4 cursor-pointer ">
-        <div
-          onClick={() => goAddRecipePage()}
-          className="flex items-center bg-orange-500 h-[45px] lg:h-14 text-white text-lg font-semibold px-6 py-3 rounded-md shadow-md hover:bg-orange-600 transition-all"
-        >
-          레시피 등록
-        </div>
-      </div>
+      <div className="flex container  justify-center mt-4 cursor-pointer "></div>
       <div className="container flex gap-2 h-[300px] mt-16 lg:gap-4 lg:h-[600px]">
         <div className="w-1/2 flex justify-end lg:h-full">
           <img className="w-full" src={firstImg} alt="firstImg" />
