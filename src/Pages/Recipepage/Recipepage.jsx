@@ -31,15 +31,19 @@ const Recipepage = () => {
   };
   return (
     <div className="recipe-page-all-container">
-      <SearchContainer />
+      <div className="py-3 border-b border-gray-200 lg:border-0">
+        <SearchContainer />
+      </div>
       <Menubar />
-      <div className="flex justify-end w-full container">
+      <div className="flex justify-end w-[140px] container">
         {" "}
-        <div
-          onClick={() => handleClick()}
-          className="cursor-pointer border-1 flex justify-center items-center w-[160px] h-[50px] mt-3 text-center bg-gray-100 text-black text-lg font-semibold px-6 py-3 rounded-md shadow-md hover:bg-gray-200 transition-all"
-        >
-          레시피 등록
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={handleClick}
+            className="w-[110px] h-[40px] text-xs lg:text-base lg:w-[130px] lg:px-3 lg:py-2 border border-gray-300 text-gray-700 bg-white rounded-lg shadow-md hover:bg-gray-100 active:bg-gray-200 transition-all duration-200"
+          >
+            레시피 등록
+          </button>
         </div>
       </div>
     </div>

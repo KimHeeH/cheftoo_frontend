@@ -30,11 +30,11 @@ const Menubar = () => {
       >
         <div className="flex flex-column ">
           <div className="pt-2 lg:hidden">
-            <Icon.HomeIcon fill={menu === "home" ? "#3B3A36" : "#BFBFBF"} />
+            {menu === "home" ? <Icon.SelectedHomeIcon /> : <Icon.HomeIcon />}
           </div>
           <span
-            className={`mt-2 text-center ${
-              menu === "home" ? "text-[#3B3A36]" : "text-[#BFBFBF]"
+            className={`font-bold mt-2 text-center ${
+              menu === "home" ? "text-[#FA590F]" : "text-[#BFBFBF]"
             }`}
           >
             홈
@@ -47,13 +47,15 @@ const Menubar = () => {
       >
         <div className="flex flex-column ">
           <div className=" flex justify-center items-center pt-2 lg:hidden">
-            <Icon.PopularIcon
-              fill={menu === "recipe" ? "#3B3A36" : "#BFBFBF"}
-            />
+            {menu === "recipe" ? (
+              <Icon.SelectedRecipeIcon />
+            ) : (
+              <Icon.PopularIcon />
+            )}
           </div>
           <span
-            className={`mt-2 text-center ${
-              menu === "recipe" ? " text-[#3B3A36] " : "text-[#BFBFBF] "
+            className={`font-bold mt-2 text-center ${
+              menu === "recipe" ? " text-[#FA590F] " : "text-[#BFBFBF] "
             }`}
           >
             인기
@@ -66,11 +68,19 @@ const Menubar = () => {
       >
         <div className="flex flex-column">
           <div className="flex justify-center items-center pt-2 lg:hidden">
-            <Icon.BookmakrIcon
-              fill={menu === "scrap" ? "#3B3A36" : "#BFBFBF"}
-            />
+            {menu === "scrap" ? (
+              <Icon.SelectedBookmarkIcon />
+            ) : (
+              <Icon.BookmarkIcon />
+            )}
           </div>
-          <div className="mt-2 text-[#C5C5C5]">스크랩</div>
+          <span
+            className={`font-bold mt-2 text-center ${
+              menu === "scrap" ? " text-[#FA590F] " : "text-[#BFBFBF] "
+            }`}
+          >
+            스크랩
+          </span>{" "}
         </div>
       </div>
       <div
@@ -79,9 +89,15 @@ const Menubar = () => {
       >
         <div className="flex flex-column">
           <div className="flex justify-center items-center pt-2 lg:hidden">
-            <Icon.userIcon fill={menu === "mypage" ? "#3B3A36" : "#BFBFBF"} />
+            {menu === "mypage" ? <Icon.SelectedUserIcon /> : <Icon.UserIcon />}
           </div>
-          <div className="mt-2 text-[#C5C5C5]">나의 정보</div>
+          <span
+            className={`font-bold mt-2 text-center ${
+              menu === "mypage" ? " text-[#FA590F] " : "text-[#BFBFBF] "
+            }`}
+          >
+            MY
+          </span>{" "}
         </div>
       </div>
     </div>

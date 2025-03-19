@@ -50,7 +50,9 @@ const Mypage = () => {
 
   return (
     <div>
-      <SearchContainer />
+      <div className="py-3 border-b border-gray-200 lg:border-0">
+        <SearchContainer />
+      </div>
       <Menubar />
       <div className="container flex flex-col items-center mt-44 lg:mt-16">
         <div className="flex gap-2">
