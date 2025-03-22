@@ -5,7 +5,7 @@ import RecommendedRecipe from "../../Component/RecommendedRecipe/RecommendedReci
 import MenuBar from "../../Component/Menubar/Menubar";
 const Homepage = () => {
   return (
-    <div>
+    <div className="h-screen overflow-hidden">
       <SearchContainer />
       <MenuBar />
       <RecommendedRecipe />

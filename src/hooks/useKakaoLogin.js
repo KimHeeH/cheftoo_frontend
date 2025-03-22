@@ -7,8 +7,11 @@ const useKakaoLogin = (prevPage, nextPage = null) => {
   useEffect(() => {
     const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
     const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI_LOCAL;
+    const state = encodeURIComponent(
+      JSON.stringify({ prevPage: prevPage, nextPage: nextPage })
+    );
     if (CLIENT_ID && REDIRECT_URI) {
-      const url = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&prevPage=${prevPage}&nextPage=${nextPage}`;
+      const url = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${state}`;
       setKakaoURL(url);
     }
   }, [prevPage, nextPage]);

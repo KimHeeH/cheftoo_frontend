@@ -30,10 +30,8 @@ const Recipepage = () => {
     setIsHovered(!isHovered);
   };
   return (
-    <div className="recipe-page-all-container">
-      <div className="py-3 border-b border-gray-200 lg:border-0">
-        <SearchContainer />
-      </div>
+    <div className=" border-b border-gray-200 lg:border-0">
+      <SearchContainer />
       <Menubar />
       <div className="flex justify-end w-[140px] container">
         {" "}
