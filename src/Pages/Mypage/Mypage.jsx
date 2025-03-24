@@ -11,7 +11,9 @@ import { useLocation } from "react-router-dom";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../Component/Menubar/Menubar";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
+import useAuthGuard from "../../hooks/useAuthGuard";
 const Mypage = () => {
+  useAuthGuard();
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const location = useLocation();
   const { item } = location.state || {};

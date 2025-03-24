@@ -7,8 +7,10 @@ import {
 } from "../../../Component/Icon/Icon";
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../../Component/Menubar/Menubar";
-
+import useAuthGuard from "../../../hooks/useAuthGuard";
 const RecipeAddpage = () => {
+  useAuthGuard();
+
   const [mainImages, setMainImages] = useState([]); // 여러 개의 메인 요리 사진
   const [isDragging, setIsDragging] = useState(false);
   const [ingredients, setIngredients] = useState([{ name: "", quantity: "" }]);
