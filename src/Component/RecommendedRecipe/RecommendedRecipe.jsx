@@ -13,11 +13,13 @@ const RecommendedRecipe = () => {
   };
   return (
     <div className="mt-4 relative overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
-      <div className="relative font-gowun line container leading-relaxed flex justify-center  mt-8  text-lg font-bold text-[#3B3A36] sm:text-base lg:text-2xl   ">
-        소중한 나의 레시피 <br />
-        함께 나누면 더 맛있어요!
-        <div className="absolute right-0 top-5">
-          <img width="30" src={cookbook} alt="cookbook" />
+      <div className="lg:w-[400px] relative font-gowun line container leading-relaxed flex justify-center  lg:text-2xl lg:mt-8     ">
+        <span className="mr-2 lg:mr-4">소중한 나의 레시피</span>
+        <img src={cookbook} alt="cookbook" className="w-6 lg:w-10" />
+      </div>
+      <div className="lg:w-[400px] relative font-gowun line container leading-relaxed flex justify-center lg:text-2xl     ">
+        <div className="text-center text-lg text-[#3B3A36] lg:text-2xl mt-1">
+          함께 나누면 더 맛있어요!
         </div>
       </div>
 

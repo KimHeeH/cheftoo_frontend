@@ -30,7 +30,7 @@ const Recipepage = () => {
     setIsHovered(!isHovered);
   };
   return (
-    <div className=" border-b border-gray-200 lg:border-0">
+    <div className=" ">
       <SearchContainer />
       <Menubar />
       <div className="flex justify-end w-[140px] container">
