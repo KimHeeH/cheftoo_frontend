@@ -72,7 +72,7 @@ const Mypage = () => {
         <div className="mt-4 text-lg text-[#696868] lg:text-2xl lg:mt-8">
           로그인/회원가입
         </div>
-        <div className="mt-8 text-center text-[#3B3A36] text-xl lg:text-3xl ">
+        <div className="mt-8 text-center text-[#3B3A36] text-lg lg:text-xl ">
           간편하게 로그인하고 <br />
           다양한 서비스를 이용해보세요.
         </div>

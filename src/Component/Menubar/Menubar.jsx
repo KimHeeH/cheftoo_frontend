@@ -29,7 +29,8 @@ const Menubar = () => {
     >
       <div
         onClick={() => goPage("/", "home")}
-        className="  flex justify-center items-center   w-1/4 h-[80px] lg:w-[10%] lg:h-[50px] text-xs lg:text-lg lg:hover:border-b border-[#3B3A36]"
+        className="  flex justify-center items-center   w-1/4 h-[80px] lg:w-[10%] lg:h-[50px] text-xs lg:text-lg 
+        "
       >
         <div className="flex flex-col ">
           <div className="pt-2 lg:hidden">
@@ -46,7 +47,8 @@ const Menubar = () => {
       </div>
       <div
         onClick={() => goPage("/recipe", "recipe")}
-        className="  flex justify-center items-center  w-1/4  h-[80px] lg:h-[50px] lg:w-[10%] text-xs lg:w-60px lg:text-lg lg:hover:border-b border-[#3B3A36]"
+        className="  flex justify-center items-center  w-1/4  h-[80px] lg:h-[50px] lg:w-[10%] text-xs lg:w-60px lg:text-lg 
+        "
       >
         <div className="flex flex-column ">
           <div className=" flex justify-center items-center pt-2 lg:hidden">
@@ -67,7 +69,8 @@ const Menubar = () => {
       </div>
       <div
         onClick={() => goPage("/scrap", "scrap")}
-        className="   flex justify-center items-center  w-1/4 h-[80px] lg:h-[50px] text-xs lg:w-[10%] lg:text-lg lg:hover:border-b border-[#3B3A36]"
+        className="   flex justify-center items-center  w-1/4 h-[80px] lg:h-[50px] text-xs lg:w-[10%] lg:text-lg
+        "
       >
         <div className="flex flex-column">
           <div className="flex justify-center items-center pt-2 lg:hidden">
@@ -88,7 +91,8 @@ const Menubar = () => {
       </div>
       <div
         onClick={() => goPage("/mypage", "mypage")}
-        className=" flex justify-center items-center  w-1/4 h-[80px] lg:h-[50px] text-xs lg:w-[10%] lg:text-lg lg:hover:border-b border-[#3B3A36]"
+        className=" flex justify-center items-center  w-1/4 h-[80px] lg:h-[50px] text-xs lg:w-[10%] lg:text-lg
+        "
       >
         <div className="flex flex-column">
           <div className="flex justify-center items-center pt-2 lg:hidden">

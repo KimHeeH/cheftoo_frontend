@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import SearchContainer from "../../../Component/SearchContainer/SearchContainer";
+import axios from "axios";
 import {
   BackIcon,
   PictureIcon,
@@ -15,7 +16,9 @@ const RecipeAddpage = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [ingredients, setIngredients] = useState([{ name: "", quantity: "" }]);
   const [seasonings, setSeasonings] = useState([{ name: "", quantity: "" }]);
-  const [orders, setOrders] = useState([{ description: "", picture: null }]); // 순서별 사진 개별 관리
+  const [orders, setOrders] = useState([{ content: "", image: null }]); // 순서별 사진 개별 관리
+  const [recipeTitleInputValue, setRecipeTitleInputValue] = useState("");
+  const [recipeContentValue, setRecipeContentValue] = useState("");
   const navigate = useNavigate();
   const mainFileInputRef = useRef(null);
   const stepFileInputRefs = useRef([]); // 각 단계별 파일 input 참조 저장
@@ -44,7 +47,7 @@ const RecipeAddpage = () => {
     const droppedFile = event.dataTransfer.files[0];
     setOrders((prevOrders) =>
       prevOrders.map((order, i) =>
-        i === index ? { ...order, picture: droppedFile } : order
+        i === index ? { ...order, image: droppedFile } : order
       )
     );
   };
@@ -57,45 +60,90 @@ const RecipeAddpage = () => {
     const uploadedFile = event.target.files[0];
     setOrders((prevOrders) =>
       prevOrders.map((order, i) =>
-        i === index ? { ...order, picture: uploadedFile } : order
+        i === index ? { ...order, image: uploadedFile } : order
       )
     );
   };
   /** 재료,양념 추가 관련 함수 */
   const handleAddIngredient = () => {
     console.log(ingredients);
-    // 새로운 재료 객체 추가
+
     setIngredients([...ingredients, { name: "", quantity: "" }]);
   };
   const handleIngredientChange = (index, field, value) => {
     console.log(index, field, value);
 
     const newIngredients = [...ingredients];
-    newIngredients[index][field] = value; // 특정 인덱스의 필드 업데이트
+    newIngredients[index][field] = value;
     console.log(newIngredients[index][field]);
     setIngredients(newIngredients);
   };
   const handleAddSeasoning = () => {
     console.log(ingredients);
-    // 새로운 재료 객체 추가
+
     setSeasonings([...seasonings, { name: "", quantity: "" }]);
   };
   const handleSeasoningChange = (index, field, value) => {
     console.log(index, field, value);
 
     const newSeasonings = [...seasonings];
-    newSeasonings[index][field] = value; // 특정 인덱스의 필드 업데이트
+    newSeasonings[index][field] = value;
     console.log(newSeasonings[index][field]);
     setSeasonings(newSeasonings);
   };
-  /** ✅ 요리 순서 추가 */
+  /**  요리 순서 추가 */
   const handleAddOrder = () => {
-    setOrders([...orders, { description: "", picture: null }]);
+    setOrders([...orders, { content: "", image: null }]);
+    console.log(orders);
   };
 
   const goHomePage = () => {
     navigate("/");
   };
+
+  /** 레시피 등록버튼 눌렀을때 함수  */
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    const recipeData = {
+      recipeTitle: recipeTitleInputValue,
+      recipeContent: recipeContentValue,
+      ingredients,
+      seasonings,
+      orders: orders.map((order) => ({
+        content: order.content,
+        image: null,
+      })),
+    };
+    const jsonBlob = new Blob([JSON.stringify(recipeData)], {
+      type: "application/json",
+    });
+    formData.append("data", jsonBlob);
+    if (mainImages.length > 0) {
+      formData.append("image", mainImages[0]);
+    }
+    orders.forEach((order) => {
+      if (order.image) {
+        formData.append("cookingStepImages", order.image);
+      }
+    });
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/recipes",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log("등록 성공:", response.data);
+    } catch (err) {
+      console.error("등록 실패", err);
+    }
+  };
+
   return (
     <div className="min-h-screen h-auto">
       <SearchContainer />
@@ -129,6 +177,8 @@ const RecipeAddpage = () => {
           <input
             className="text-sm lg:text-base w-[900px] p-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="예) 토마토 파스타 레시피"
+            value={recipeTitleInputValue}
+            onChange={(e) => setRecipeTitleInputValue(e.target.value)} // ✅ 이거 추가
           />
         </div>
 
@@ -140,6 +190,8 @@ const RecipeAddpage = () => {
           <textarea
             placeholder="토마토를 작게 잘라주세요"
             rows="3"
+            value={recipeContentValue}
+            onChange={(e) => setRecipeContentValue(e.target.value)} // ✅ 이거 추가
             className="text-sm lg:text-base w-[900px] resize-none p-2 lg:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -219,20 +271,20 @@ const RecipeAddpage = () => {
           <div className="text-base lg:text-lg font-semibold text-gray-700 mb-4">
             양념
           </div>
-          {seasonings.map((seasoning, index) => (
+          {seasonings.map((seasonings, index) => (
             <div className="flex flex-row gap-8 mt-8" key={index}>
               <input
                 className="w-80 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 간장"
-                value={seasoning.name}
+                value={seasonings.name}
                 onChange={(e) =>
-                  handleIngredientChange(index, "name", e.target.value)
+                  handleSeasoningChange(index, "name", e.target.value)
                 }
               />
               <input
                 className="w-64 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1스푼"
-                value={seasoning.quantity}
+                value={seasonings.quantity}
                 onChange={(e) =>
                   handleSeasoningChange(index, "quantity", e.target.value)
                 }
@@ -262,11 +314,11 @@ const RecipeAddpage = () => {
               <textarea
                 className="resize-none text-xs h-[60px] lg:text-base w-2/3 lg:w-[600px] lg:h-[100px] p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="예) 토마토를 잘라주세요."
-                value={order.description}
+                value={order.content}
                 onChange={(e) =>
                   setOrders((prevOrders) =>
                     prevOrders.map((o, i) =>
-                      i === index ? { ...o, description: e.target.value } : o
+                      i === index ? { ...o, content: e.target.value } : o
                     )
                   )
                 }
@@ -291,7 +343,7 @@ const RecipeAddpage = () => {
                   accept="image/*"
                   className="hidden"
                 />
-                <p>{order.picture ? `파일: ${order.picture.name}` : ""}</p>
+                <p>{order.image ? `파일: ${order.image.name}` : ""}</p>
               </div>
             </div>
           ))}
@@ -315,8 +367,11 @@ const RecipeAddpage = () => {
         >
           취소
         </div>
-        <div className="w-1/3 h-[33px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white h-[58px]">
-          완료
+        <div
+          onClick={() => handleSubmit()}
+          className="w-1/3 h-[33px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white h-[58px]"
+        >
+          등록
         </div>
       </div>
     </div>
