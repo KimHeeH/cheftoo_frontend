@@ -115,9 +115,12 @@ const RecipeAddpage = () => {
         image: null,
       })),
     };
+
     const jsonBlob = new Blob([JSON.stringify(recipeData)], {
       type: "application/json",
     });
+    console.log("formData는", recipeData);
+    console.log("formData jsonBlob는", jsonBlob);
     formData.append("data", jsonBlob);
     if (mainImages.length > 0) {
       formData.append("image", mainImages[0]);

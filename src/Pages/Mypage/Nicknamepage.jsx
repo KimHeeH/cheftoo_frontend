@@ -6,7 +6,7 @@ import Menubar from "../../Component/Menubar/Menubar";
 const NicknamePage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const isNewUser = searchParams.get("isNewUser") === "false";
+  const isNewUser = searchParams.get("isNewUser") === "true";
 
   console.log("닉네임 페이지 isNewUser:", isNewUser); // 👈 이거로 확인해봐!
   const insertNickname = () => {};
