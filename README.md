@@ -1,7 +1,7 @@
 # 🍽️ Today's Recipe - 나만의 레시피를 공유하는 플랫폼
 
 카카오 로그인 기반으로 **개인 레시피를 등록/공유/스크랩**할 수 있는 웹 애플리케이션입니다.  
-React(CRA) + Tailwind + Spring Boot로 프론트/백을 구성하였습니다.
+React(CRA) + Tailwind + Spring Boot MySQL로 프론트/백을 구성하였습니다.
 
 ---
 
