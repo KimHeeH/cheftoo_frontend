@@ -5,19 +5,25 @@ import Menubar from "../../Component/Menubar/Menubar";
 import addIcon from "./img/add-recipe-btn.svg";
 import RecipeAddpage from "./add/RecipeAddpage";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
+import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 const Recipepage = () => {
   const navigate = useNavigate();
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
-
   const [isHovered, setIsHovered] = useState(false);
-  const goAddRecipePage = () => {
-    navigate("/add");
-  };
-  const handleClick = () => {
-    kakaoLoginHandler(); // ✅ 카카오 로그인 실행
-    goAddRecipePage(); // ✅ 추가 페이지로 이동
+  // const goAddRecipePage = () => {
+  //   navigate("/add");
+  // };
+  const handleClick = async () => {
+    const status = await checkAuthGuard();
+    if (status === 200) {
+      navigate("/add");
+    } else {
+      alert("로그인이 필요합니다.");
+      kakaoLoginHandler(); // ✅ 카카오 로그인 실행
+    }
+    // goAddRecipePage(); // ✅ 추가 페이지로 이동
   };
 
   const onMouseEnter = () => {

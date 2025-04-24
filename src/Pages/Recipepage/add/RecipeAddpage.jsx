@@ -8,7 +8,7 @@ import {
 } from "../../../Component/Icon/Icon";
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../../Component/Menubar/Menubar";
-import useAuthGuard from "../../../hooks/useAuthGuard";
+import useAuthGuard from "../../../hooks/checkAuthGuard";
 const RecipeAddpage = () => {
   useAuthGuard();
 
@@ -154,15 +154,15 @@ const RecipeAddpage = () => {
       <div className="container flex items-center mt-3 pt-3 gap-4 lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
         <div className=" mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[200px] lg:h-[40px] lg:text-xl font-bold text-gray-800 flex items-center gap-2">
           <svg
-            class="w-6 h-6 text-orange-500"
+            className="w-6 h-6 text-orange-500"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            strokeWidth="2"
             viewBox="0 0 24 24"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M12 4v16m8-8H4"
             ></path>
           </svg>
