@@ -16,14 +16,19 @@ const Recipepage = () => {
   //   navigate("/add");
   // };
   const handleClick = async () => {
-    const status = await checkAuthGuard();
-    if (status === 200) {
-      navigate("/add");
-    } else {
+    try {
+      const status = await checkAuthGuard();
+      if (status === 200) {
+        navigate("/add");
+      } else {
+        alert("로그인이 필요합니다.");
+        kakaoLoginHandler();
+      }
+    } catch (error) {
+      console.error("인증 오류:", error);
       alert("로그인이 필요합니다.");
-      kakaoLoginHandler(); // ✅ 카카오 로그인 실행
+      kakaoLoginHandler();
     }
-    // goAddRecipePage(); // ✅ 추가 페이지로 이동
   };
 
   const onMouseEnter = () => {

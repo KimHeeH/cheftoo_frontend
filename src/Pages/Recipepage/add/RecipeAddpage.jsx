@@ -207,7 +207,6 @@ const RecipeAddpage = () => {
             className=" flex items-center lg:w-[900px] lg:h-[300px] lg:border-2 border-dashed border-gray-300 rounded-lg flex lg:flex-col justify-center items-center hover:border-blue-400"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleMainImageDrop}
-            onClick={handleMainImageUpload}
           >
             <div className=" hidden lg:block">
               {" "}

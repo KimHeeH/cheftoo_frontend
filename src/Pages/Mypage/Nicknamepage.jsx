@@ -17,6 +17,7 @@ const NicknamePage = () => {
         params: { nickname },
         withCredentials: true,
       });
+      alert("닉네임이 등록되었습니다.");
       console.log("닉네임 등록 성공");
     } catch (err) {
       console.error("닉네임 변경 실패");
@@ -60,7 +61,7 @@ const NicknamePage = () => {
         {" "}
         <div
           onClick={() => insertNickname(nickname)}
-          className="w-1/3 h-[33px] font-bold text-lg lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[160px] lg:mt-8 bg-orange-500  hover:bg-orange-600 text-white h-[58px]"
+          className="w-1/3 h-[32px] lg:h-[33px] font-bold text-lg lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[160px] lg:mt-8 bg-orange-500  hover:bg-orange-600 text-white h-[58px]"
         >
           완료
         </div>

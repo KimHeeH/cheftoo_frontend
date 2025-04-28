@@ -13,7 +13,7 @@ const RecommendedRecipe = () => {
   };
   return (
     <div className="mt-4 relative overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
-      <div className="lg:w-[400px] relative font-gowun line container leading-relaxed flex justify-center  lg:text-2xl lg:mt-8     ">
+      <div className="lg:w-[400px] relative font-gowun line container leading-relaxed flex justify-center  mt-12 lg:text-2xl lg:mt-8     ">
         <span className="mr-2 lg:mr-4">소중한 나의 레시피</span>
         <img src={cookbook} alt="cookbook" className="w-6 lg:w-10" />
       </div>

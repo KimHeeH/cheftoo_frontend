@@ -25,7 +25,7 @@ const Menubar = () => {
   return (
     <div
       className="fixed bottom-0 left-0 w-full flex lg:bg-gray-00 justify-around items-center  lg:justify-start lg:border-t-0 
-     h-[80px] lg:h-[50px] lg:justify-start lg:items-start lg:static flex w-full container cursor-pointer text-[#3B3A36] gap-8 mt-4 lg:mt-8 border-b border-[#DCDCDC] h-9"
+     h-[80px] lg:h-[50px] lg:justify-start lg:items-start lg:static flex w-full container cursor-pointer bg-[#FFFFFF] text-[#3B3A36] gap-8 mt-4 lg:mt-8 border-b border-[#DCDCDC] h-9"
     >
       <div
         onClick={() => goPage("/", "home")}

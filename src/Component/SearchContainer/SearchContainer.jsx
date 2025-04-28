@@ -7,6 +7,7 @@ import "./SearchContainer.style.css";
 import { useNavigate } from "react-router-dom";
 import searchIcon from "./icon/searchIcon.svg";
 import userIcon from "./icon/user.svg";
+import { LoginBtnIcon } from "../Icon/Icon";
 const SearchContainer = () => {
   const navigate = useNavigate();
   const handleLoginPage = () => {
@@ -22,12 +23,7 @@ const SearchContainer = () => {
         onClick={handleLoginPage}
       >
         <div className=" flex items-center gap-2 hover:text-[#3B3A36]">
-          <img
-            className="hidden sm:block md:block"
-            width="30"
-            src={userIcon}
-            alt="userIcon"
-          />
+          <LoginBtnIcon className="hidden sm:block md:block" alt="userIcon" />
           <div className="text-xs sm:text-base">로그인 / 회원가입</div>
         </div>
       </div>
