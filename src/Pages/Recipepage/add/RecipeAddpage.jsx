@@ -8,14 +8,18 @@ import {
 } from "../../../Component/Icon/Icon";
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../../Component/Menubar/Menubar";
-import useAuthGuard from "../../../hooks/checkAuthGuard";
+import useAuthGuard from "../../../hooks/useAuthGuard";
 const RecipeAddpage = () => {
   useAuthGuard();
 
   const [mainImages, setMainImages] = useState([]); // 여러 개의 메인 요리 사진
   const [isDragging, setIsDragging] = useState(false);
-  const [ingredients, setIngredients] = useState([{ name: "", quantity: "" }]);
-  const [seasonings, setSeasonings] = useState([{ name: "", quantity: "" }]);
+  const [ingredients, setIngredients] = useState([
+    { ingredientsName: "", ingredientsNum: "" },
+  ]);
+  const [seasonings, setSeasonings] = useState([
+    { ingredientsName: "", ingredientsNum: "" },
+  ]);
   const [orders, setOrders] = useState([{ content: "", image: null }]); // 순서별 사진 개별 관리
   const [recipeTitleInputValue, setRecipeTitleInputValue] = useState("");
   const [recipeContentValue, setRecipeContentValue] = useState("");
@@ -68,7 +72,10 @@ const RecipeAddpage = () => {
   const handleAddIngredient = () => {
     console.log(ingredients);
 
-    setIngredients([...ingredients, { name: "", quantity: "" }]);
+    setIngredients([
+      ...ingredients,
+      { ingredientsName: "", ingredientsNum: "" },
+    ]);
   };
   const handleIngredientChange = (index, field, value) => {
     console.log(index, field, value);
@@ -81,7 +88,7 @@ const RecipeAddpage = () => {
   const handleAddSeasoning = () => {
     console.log(ingredients);
 
-    setSeasonings([...seasonings, { name: "", quantity: "" }]);
+    setSeasonings([...seasonings, { ingredientsName: "", ingredientsNum: "" }]);
   };
   const handleSeasoningChange = (index, field, value) => {
     console.log(index, field, value);
@@ -109,19 +116,20 @@ const RecipeAddpage = () => {
       recipeTitle: recipeTitleInputValue,
       recipeContent: recipeContentValue,
       ingredients,
-      seasonings,
-      orders: orders.map((order) => ({
+      // seasonings,
+      cookingOrders: orders.map((order) => ({
         content: order.content,
         image: null,
       })),
     };
 
-    const jsonBlob = new Blob([JSON.stringify(recipeData)], {
+    const jsonFile = new File([JSON.stringify(recipeData)], "data.json", {
       type: "application/json",
     });
+
     console.log("formData는", recipeData);
-    console.log("formData jsonBlob는", jsonBlob);
-    formData.append("data", jsonBlob);
+    // console.log("formData jsonBlob는", jsonBlob);
+    formData.append("data", jsonFile);
     if (mainImages.length > 0) {
       formData.append("image", mainImages[0]);
     }
@@ -154,15 +162,15 @@ const RecipeAddpage = () => {
       <div className="container flex items-center mt-3 pt-3 gap-4 lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
         <div className=" mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[200px] lg:h-[40px] lg:text-xl font-bold text-gray-800 flex items-center gap-2">
           <svg
-            className="w-6 h-6 text-orange-500"
+            class="w-6 h-6 text-orange-500"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            stroke-width="2"
             viewBox="0 0 24 24"
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               d="M12 4v16m8-8H4"
             ></path>
           </svg>
@@ -207,6 +215,7 @@ const RecipeAddpage = () => {
             className=" flex items-center lg:w-[900px] lg:h-[300px] lg:border-2 border-dashed border-gray-300 rounded-lg flex lg:flex-col justify-center items-center hover:border-blue-400"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleMainImageDrop}
+            onClick={handleMainImageUpload}
           >
             <div className=" hidden lg:block">
               {" "}
@@ -245,17 +254,25 @@ const RecipeAddpage = () => {
               <input
                 className="w-80 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 토마토"
-                value={ingredient.name}
+                value={ingredient.ingredientsName}
                 onChange={(e) =>
-                  handleIngredientChange(index, "name", e.target.value)
+                  handleIngredientChange(
+                    index,
+                    "ingredientsName",
+                    e.target.value
+                  )
                 }
               />
               <input
                 className="w-64 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1개"
-                value={ingredient.quantity}
+                value={ingredient.ingredientsNum}
                 onChange={(e) =>
-                  handleIngredientChange(index, "quantity", e.target.value)
+                  handleIngredientChange(
+                    index,
+                    "ingredientsNum",
+                    e.target.value
+                  )
                 }
               />
             </div>
@@ -278,17 +295,21 @@ const RecipeAddpage = () => {
               <input
                 className="w-80 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 간장"
-                value={seasonings.name}
+                value={seasonings.ingredientsName}
                 onChange={(e) =>
-                  handleSeasoningChange(index, "name", e.target.value)
+                  handleSeasoningChange(
+                    index,
+                    "ingredientsName",
+                    e.target.value
+                  )
                 }
               />
               <input
                 className="w-64 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1스푼"
-                value={seasonings.quantity}
+                value={seasonings.ingredientsNum}
                 onChange={(e) =>
-                  handleSeasoningChange(index, "quantity", e.target.value)
+                  handleSeasoningChange(index, "ingredientsNum", e.target.value)
                 }
               />
             </div>
