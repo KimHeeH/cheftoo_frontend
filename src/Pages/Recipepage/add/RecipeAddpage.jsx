@@ -23,7 +23,7 @@ const RecipeAddpage = () => {
   const mainFileInputRef = useRef(null);
   const stepFileInputRefs = useRef([]); // 각 단계별 파일 input 참조 저장
 
-  /** ✅ 메인 요리 사진 추가 (여러 개) */
+  /** 메인 요리 사진 추가 (여러 개) */
   const handleMainImageDrop = (event) => {
     event.preventDefault();
     setIsDragging(false);
@@ -40,7 +40,7 @@ const RecipeAddpage = () => {
     setMainImages((prev) => [...prev, ...selectedFiles]);
   };
 
-  /** ✅ 요리 순서별 사진 추가 */
+  /** 요리 순서별 사진 추가 */
   const handleStepImageDrop = (event, index) => {
     event.preventDefault();
     setIsDragging(false);
