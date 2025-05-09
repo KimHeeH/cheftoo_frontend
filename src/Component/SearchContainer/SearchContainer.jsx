@@ -1,5 +1,4 @@
 import React from "react";
-import { Row, Col, Container } from "react-bootstrap";
 import todaysIcon from "../img/Today’s.svg";
 import recipeIcon from "../img/Recipe.svg";
 import "bootstrap/dist/css/bootstrap.min.css";

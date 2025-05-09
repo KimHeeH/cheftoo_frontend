@@ -8,9 +8,9 @@ import {
 } from "../../../Component/Icon/Icon";
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../../Component/Menubar/Menubar";
-import useAuthGuard from "../../../hooks/useAuthGuard";
+import checkAuthGuard from "../../../hooks/checkAuthGuard";
 const RecipeAddpage = () => {
-  useAuthGuard();
+  checkAuthGuard();
 
   const [mainImages, setMainImages] = useState([]); // 여러 개의 메인 요리 사진
   const [isDragging, setIsDragging] = useState(false);
@@ -27,7 +27,7 @@ const RecipeAddpage = () => {
   const mainFileInputRef = useRef(null);
   const stepFileInputRefs = useRef([]); // 각 단계별 파일 input 참조 저장
 
-  /** ✅ 메인 요리 사진 추가 (여러 개) */
+  /**  메인 요리 사진 추가 (여러 개) */
   const handleMainImageDrop = (event) => {
     event.preventDefault();
     setIsDragging(false);
@@ -44,7 +44,7 @@ const RecipeAddpage = () => {
     setMainImages((prev) => [...prev, ...selectedFiles]);
   };
 
-  /** ✅ 요리 순서별 사진 추가 */
+  /**  요리 순서별 사진 추가 */
   const handleStepImageDrop = (event, index) => {
     event.preventDefault();
     setIsDragging(false);
@@ -150,6 +150,7 @@ const RecipeAddpage = () => {
         }
       );
       console.log("등록 성공:", response.data);
+      alert("레시피가 등록되었습니다.");
     } catch (err) {
       console.error("등록 실패", err);
     }
