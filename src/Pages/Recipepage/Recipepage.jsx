@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Navbar from "../../Component/Navbar/Navbar";
 import Menubar from "../../Component/Menubar/Menubar";
@@ -12,6 +13,7 @@ const Recipepage = () => {
   const navigate = useNavigate();
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
   const [isHovered, setIsHovered] = useState(false);
+  const [recipeData, setRecipeData] = useState("");
   // const goAddRecipePage = () => {
   //   navigate("/add");
   // };
@@ -30,7 +32,19 @@ const Recipepage = () => {
       kakaoLoginHandler();
     }
   };
-
+  const getReipceData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/recipes/", {
+        withCredentials: true,
+      });
+      console.log(response.status);
+    } catch (error) {
+      console.error("레시피 조회 오류");
+    }
+  };
+  useEffect(() => {
+    getReipceData();
+  }, []);
   const onMouseEnter = () => {
     setIsHovered(true);
   };

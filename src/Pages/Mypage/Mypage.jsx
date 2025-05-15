@@ -11,12 +11,17 @@ import Menubar from "../../Component/Menubar/Menubar";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { NickNameProfileIcon } from "../../Component/Icon/Icon";
+import { MoonLoader } from "react-spinners";
+
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const location = useLocation();
   const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#A2A2A2");
+
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
   console.log("MY Page", { item });
@@ -54,7 +59,7 @@ const Mypage = () => {
     const checkAuthentication = async () => {
       try {
         const status = await checkAuthGuard();
-        setIsAuthenticated(status == 200);
+        setIsAuthenticated(status === 200);
       } catch (err) {
         console.error("Authentication Check Error:", err);
         setIsAuthenticated(false);
@@ -63,7 +68,18 @@ const Mypage = () => {
     checkAuthentication();
   }, []);
   if (isAuthenticated === null) {
-    return <div>로딩 중..</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        {" "}
+        <MoonLoader
+          color={color}
+          loading={loading}
+          size={80}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    );
   }
   if (!isAuthenticated) {
     return (

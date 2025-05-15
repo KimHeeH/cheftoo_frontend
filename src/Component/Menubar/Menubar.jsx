@@ -63,7 +63,7 @@ const Menubar = () => {
               menu === "recipe" ? " text-[#111111] " : "text-[#BFBFBF] "
             }`}
           >
-            인기
+            레시피
           </span>
         </div>
       </div>

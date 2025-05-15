@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import todaysIcon from "../img/Today’s.svg";
 import recipeIcon from "../img/Recipe.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,24 +7,49 @@ import { useNavigate } from "react-router-dom";
 import searchIcon from "./icon/searchIcon.svg";
 import userIcon from "./icon/user.svg";
 import { LoginBtnIcon } from "../Icon/Icon";
+import checkAuthGuard from "../../hooks/checkAuthGuard";
+import { useState } from "react";
 const SearchContainer = () => {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
   const handleLoginPage = () => {
     navigate("/mypage");
   };
   const goHomePage = () => {
     navigate("/");
   };
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        const status = await checkAuthGuard();
+        setIsAuthenticated(status === 200);
+      } catch (err) {
+        console.error("Authentication Check Error:", err);
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuthentication();
+  }, []);
+  if (isAuthenticated === null) {
+    return <div>로딩 중..</div>;
+  }
   return (
     <div className="container">
       <div
         className="flex text-[#808080] mt-4 mb-8 sm:mb-4 lg:mb-0 cursor-pointer justify-end items-start h- w-100 sm:w-32 lg:w-64 "
         onClick={handleLoginPage}
       >
-        <div className=" flex items-center gap-2 hover:text-[#3B3A36]">
-          <LoginBtnIcon className="hidden sm:block md:block" alt="userIcon" />
-          <div className="text-xs sm:text-base">로그인 / 회원가입</div>
-        </div>
+        {isAuthenticated ? (
+          <div className=" hover:text-[#3B3A36] lg:text-lg text-base">
+            나의 정보{" "}
+          </div>
+        ) : (
+          <div className=" flex items-center gap-2 hover:text-[#3B3A36]">
+            <LoginBtnIcon className="hidden sm:block md:block" alt="userIcon" />
+            <div className="text-xs sm:text-base">로그인 / 회원가입</div>
+          </div>
+        )}
       </div>
       <div>
         <div className="container  sm:mt-4 lg:mt-8">
@@ -54,7 +79,7 @@ const SearchContainer = () => {
                   />
 
                   <img
-                    className="absolute transform-translate-y-1/2 right-[-10px] sm:right-30 lg:right-60 hidden lg:block "
+                    className="cursor-pointer absolute transform-translate-y-1/2 right-[-10px] sm:right-30 lg:right-60 hidden lg:block "
                     width="20"
                     src={searchIcon}
                     alt="searchIcon"
