@@ -11,7 +11,7 @@ import Menubar from "../../Component/Menubar/Menubar";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { NickNameProfileIcon } from "../../Component/Icon/Icon";
-import { MoonLoader } from "react-spinners";
+import Loader from "../../Component/Loader";
 
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
@@ -19,8 +19,6 @@ const Mypage = () => {
   const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#A2A2A2");
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
@@ -68,18 +66,7 @@ const Mypage = () => {
     checkAuthentication();
   }, []);
   if (isAuthenticated === null) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        {" "}
-        <MoonLoader
-          color={color}
-          loading={loading}
-          size={80}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
-    );
+    return <Loader />;
   }
   if (!isAuthenticated) {
     return (

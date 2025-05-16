@@ -9,6 +9,7 @@ import userIcon from "./icon/user.svg";
 import { LoginBtnIcon } from "../Icon/Icon";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useState } from "react";
+
 const SearchContainer = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -31,9 +32,7 @@ const SearchContainer = () => {
     };
     checkAuthentication();
   }, []);
-  if (isAuthenticated === null) {
-    return <div>로딩 중..</div>;
-  }
+
   return (
     <div className="container">
       <div

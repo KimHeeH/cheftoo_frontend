@@ -13,7 +13,7 @@ const Recipepage = () => {
   const navigate = useNavigate();
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
   const [isHovered, setIsHovered] = useState(false);
-  const [recipeData, setRecipeData] = useState("");
+  const [recipeData, setRecipeData] = useState([]);
   // const goAddRecipePage = () => {
   //   navigate("/add");
   // };
@@ -34,10 +34,12 @@ const Recipepage = () => {
   };
   const getReipceData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/recipes/", {
+      const response = await axios.get("http://localhost:8080/recipes", {
         withCredentials: true,
       });
-      console.log(response.status);
+      console.log(response.data);
+      setRecipeData(response.data);
+      console.log("recipeData는", recipeData);
     } catch (error) {
       console.error("레시피 조회 오류");
     }
@@ -55,9 +57,10 @@ const Recipepage = () => {
     setIsHovered(!isHovered);
   };
   return (
-    <div className=" ">
+    <div className=" w-screen">
       <SearchContainer />
       <Menubar />
+      <div></div>
       <div className="flex justify-end w-[140px] container">
         {" "}
         <div className="flex justify-center mt-10">
@@ -68,6 +71,22 @@ const Recipepage = () => {
             레시피 등록
           </button>
         </div>
+      </div>
+
+      <div className="container w-full flex gap-16 mt-8">
+        {recipeData.map((recipe) => (
+          <div className="w-1/2  ">
+            <div className="border-4 w-full h-[300px] flex justify-center items-center">
+              img
+            </div>
+            <div className="w-full text-center mt-2 font-gowun text-lg">
+              찹쌀떡님의{" "}
+            </div>
+            <div className="w-full text-center  text-lg font-gowun ">
+              {recipe?.recipe_title}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

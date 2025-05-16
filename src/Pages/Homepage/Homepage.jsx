@@ -6,12 +6,11 @@ import MenuBar from "../../Component/Menubar/Menubar";
 import { useEffect } from "react";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useState } from "react";
-import { MoonLoader } from "react-spinners";
+import Loader from "../../Component/Loader";
 
 const Homepage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#A2A2A2");
+
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
@@ -25,18 +24,7 @@ const Homepage = () => {
     checkAuthentication();
   }, []);
   if (isAuthenticated === null) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        {" "}
-        <MoonLoader
-          color={color}
-          loading={loading}
-          size={80}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
-    );
+    return <Loader />;
   }
   return (
     <div className="h-screen overflow-hidden">
