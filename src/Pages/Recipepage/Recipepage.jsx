@@ -9,6 +9,7 @@ import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import RecipeCard from "../../Component/RecipeCard/RecipeCard";
 const Recipepage = () => {
   const navigate = useNavigate();
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
@@ -56,6 +57,7 @@ const Recipepage = () => {
   const onToggleClick = () => {
     setIsHovered(!isHovered);
   };
+
   return (
     <div className=" w-screen">
       <SearchContainer />
@@ -73,18 +75,10 @@ const Recipepage = () => {
         </div>
       </div>
 
-      <div className="container w-full flex gap-16 mt-8">
+      <div className="container w-full flex justify-center items-center flex-wrap gap-16 mt-8">
         {recipeData.map((recipe) => (
-          <div className="w-1/2  ">
-            <div className="border-4 w-full h-[300px] flex justify-center items-center">
-              img
-            </div>
-            <div className="w-full text-center mt-2 font-gowun text-lg">
-              찹쌀떡님의{" "}
-            </div>
-            <div className="w-full text-center  text-lg font-gowun ">
-              {recipe?.recipe_title}
-            </div>
+          <div key={recipe.recipe_id} className="w-[240px]">
+            <RecipeCard recipe={recipe} />
           </div>
         ))}
       </div>

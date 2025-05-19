@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../../Component/Menubar/Menubar";
 import checkAuthGuard from "../../../hooks/checkAuthGuard";
+import { SquareIconComponent } from "../../../Component/Icon/Icon";
 const RecipeAddpage = () => {
   checkAuthGuard();
 
@@ -107,7 +108,21 @@ const RecipeAddpage = () => {
   const goHomePage = () => {
     navigate("/");
   };
-
+  const handleRemoveIngredient = (index) => {
+    const newIngredients = [...ingredients];
+    newIngredients.splice(index, 1);
+    setIngredients(newIngredients);
+  };
+  const handleRemoveSeasoing = (index) => {
+    const newSeasonings = [...seasonings];
+    newSeasonings.splice(index, 1);
+    setSeasonings(newSeasonings);
+  };
+  const handleRemoveOrder = (index) => {
+    const newOrders = [...orders];
+    newOrders.splice(index, 1);
+    setOrders(newOrders);
+  };
   /** 레시피 등록버튼 눌렀을때 함수  */
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -276,6 +291,12 @@ const RecipeAddpage = () => {
                   )
                 }
               />
+              <div
+                className="flex justify-center items-center cursor-pointer"
+                onClick={() => handleRemoveIngredient(index)}
+              >
+                <SquareIconComponent />
+              </div>
             </div>
           ))}
         </div>
@@ -313,6 +334,12 @@ const RecipeAddpage = () => {
                   handleSeasoningChange(index, "ingredientsNum", e.target.value)
                 }
               />
+              <div
+                className="flex justify-center items-center cursor-pointer"
+                onClick={() => handleRemoveSeasoing(index)}
+              >
+                <SquareIconComponent />
+              </div>
             </div>
           ))}
         </div>
@@ -368,6 +395,14 @@ const RecipeAddpage = () => {
                   className="hidden"
                 />
                 <p>{order.image ? `파일: ${order.image.name}` : ""}</p>
+              </div>
+              <div
+                className="flex justify-center items-center cursor-pointer"
+                onClick={() => {
+                  handleRemoveOrder(index);
+                }}
+              >
+                <SquareIconComponent />
               </div>
             </div>
           ))}

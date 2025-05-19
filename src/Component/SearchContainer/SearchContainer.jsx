@@ -39,7 +39,7 @@ const SearchContainer = () => {
         className="flex text-[#808080] mt-4 mb-8 sm:mb-4 lg:mb-0 cursor-pointer justify-end items-start h- w-100 sm:w-32 lg:w-64 "
         onClick={handleLoginPage}
       >
-        {isAuthenticated ? (
+        {isAuthenticated === null ? null : isAuthenticated ? (
           <div className=" hover:text-[#3B3A36] lg:text-lg text-base">
             나의 정보{" "}
           </div>
