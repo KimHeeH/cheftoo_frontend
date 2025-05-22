@@ -60,8 +60,7 @@ export const MyIcon = ({ isHovered, isClicked }) => {
 export const BackIcon = () => {
   return (
     <svg
-      width="30"
-      height="30"
+      className="w-6 h-6  lg:w-10 lg:h-10"
       viewBox="0 0 44 47"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -226,8 +225,7 @@ export const NickNameProfileIcon = () => {
 export const SquareIconComponent = () => {
   return (
     <svg
-      width="24"
-      height="25"
+      className="w-4 h-4  lg:w-6 lg:h-6"
       viewBox="0 0 24 25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

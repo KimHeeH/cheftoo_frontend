@@ -59,10 +59,10 @@ const Recipepage = () => {
   };
 
   return (
-    <div className=" w-screen">
+    <div className=" w-screen ">
       <SearchContainer />
       <Menubar />
-      <div></div>
+
       <div className="flex justify-end w-[140px] container">
         {" "}
         <div className="flex justify-center mt-10">
@@ -75,9 +75,9 @@ const Recipepage = () => {
         </div>
       </div>
 
-      <div className="container w-full flex justify-center items-center flex-wrap gap-16 mt-8">
+      <div className=" h-[800px] container w-full flex justify-center flex-wrap overflow-y-auto	 lg:gap-16 mt-8">
         {recipeData.map((recipe) => (
-          <div key={recipe.recipe_id} className="w-[240px]">
+          <div key={recipe.recipe_id} className="w-1/2 lg:w-[240px] p-2">
             <RecipeCard recipe={recipe} />
           </div>
         ))}

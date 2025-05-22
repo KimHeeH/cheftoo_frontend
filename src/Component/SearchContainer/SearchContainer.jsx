@@ -26,7 +26,6 @@ const SearchContainer = () => {
         const status = await checkAuthGuard();
         setIsAuthenticated(status === 200);
       } catch (err) {
-        console.error("Authentication Check Error:", err);
         setIsAuthenticated(false);
       }
     };
@@ -40,13 +39,15 @@ const SearchContainer = () => {
         onClick={handleLoginPage}
       >
         {isAuthenticated === null ? null : isAuthenticated ? (
-          <div className=" hover:text-[#3B3A36] lg:text-lg text-base">
-            나의 정보{" "}
+          <div className=" font-gowun hover:text-[#3B3A36] lg:text-lg text-base border-b border-b-[#B4B4B4] ">
+            찹쌀떡님{" "}
           </div>
         ) : (
-          <div className=" flex items-center gap-2 hover:text-[#3B3A36]">
+          <div className=" flex items-center gap-2 hover:text-[#3A3A3A] hover:font-semibold">
             <LoginBtnIcon className="hidden sm:block md:block" alt="userIcon" />
-            <div className="text-xs sm:text-base">로그인 / 회원가입</div>
+            <div className="font-gowun text-xs sm:text-base">
+              로그인 / 회원가입
+            </div>
           </div>
         )}
       </div>
@@ -54,7 +55,7 @@ const SearchContainer = () => {
         <div className="container  sm:mt-4 lg:mt-8">
           <div className="">
             <div className="align-items-center">
-              <div className="flex gap-24 sm:gap-9 lg:gap-9">
+              <div className="flex gap-20 sm:gap-9 lg:gap-9">
                 <div
                   className="flex w-1/4   lg:w-[300px] cursor-pointer"
                   onClick={goHomePage}
@@ -65,20 +66,20 @@ const SearchContainer = () => {
                     alt="Today’s Icon"
                   />
                   <img
-                    className="w-full sm: lg:w-[120px] "
+                    className=" sm:w-full lg:w-[120px] "
                     src={recipeIcon}
                     alt="Recipe Icon"
                   />
                 </div>
 
-                <div className="flex w-7/8 lg:w-2/3 relative h-[50px] items-center pr-0">
+                <div className="flex w-full lg:w-2/3 relative h-[50px] items-center pr-0">
                   <input
-                    className=" border border-[#808080] rounded-full w-full s:w-3/4 lg:w-3/4 h-full pl-4 "
+                    className="font-gowun  border border-[#808080] rounded-full w-full s:w-3/4 lg:w-3/4 h-full pl-4 "
                     placeholder="오늘의 레시피 검색"
                   />
 
                   <img
-                    className="cursor-pointer absolute transform-translate-y-1/2 right-[-10px] sm:right-30 lg:right-60 hidden lg:block "
+                    className="cursor-pointer absolute transform-translate-y-1/2 right-[20px] sm:right-30 lg:right-60  lg:block "
                     width="20"
                     src={searchIcon}
                     alt="searchIcon"

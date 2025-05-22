@@ -28,6 +28,9 @@ const RecipeAddpage = () => {
   const mainFileInputRef = useRef(null);
   const stepFileInputRefs = useRef([]); // 각 단계별 파일 input 참조 저장
 
+  if (recipeTitleInputValue.length > 100) {
+    alert("레시피 제목을 100자 이내로 써주세요");
+  }
   /**  메인 요리 사진 추가 (여러 개) */
   const handleMainImageDrop = (event) => {
     event.preventDefault();
@@ -175,8 +178,8 @@ const RecipeAddpage = () => {
     <div className="min-h-screen h-auto">
       <SearchContainer />
       <Menubar />
-      <div className="container flex items-center mt-3 pt-3 gap-4 lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
-        <div className=" mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[200px] lg:h-[40px] lg:text-xl font-bold text-gray-800 flex items-center gap-2">
+      <div className="container flex items-center mt-3 pt-3  lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
+        <div className="font-gowun  mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[150px] lg:h-[40px] lg:text-xl text-gray-800 flex items-center gap-2">
           <svg
             class="w-6 h-6 text-orange-500"
             fill="none"
@@ -192,7 +195,7 @@ const RecipeAddpage = () => {
           </svg>
           레시피 등록
         </div>
-        <div className="mt-2 lg:h-[40px] lg:flex lg:items-center lg:mt-0  lg:h-full text-sm lg:text-lg lg:font-semibold text-gray-800 ">
+        <div className="font-gowun mt-2 lg:h-[40px] lg:flex lg:items-center lg:mt-0  lg:h-full text-sm lg:text-lg  text-gray-800 ">
           나만의 레시피를 등록해보세요!
         </div>
       </div>
@@ -242,12 +245,16 @@ const RecipeAddpage = () => {
             </div>
             <button
               className="cursor-pointer w-[160px] h-[35px] lg:h-auto lg:w-[200px] text-xs lg:text-base lg:mt-2 px-4 py-2 bg-gray-100 text-black rounded-lg"
-              onClick={handleMainImageUpload}
+              onClick={(e) => {
+                e.stopPropagation(); // ✅ 부모로 이벤트 전파 막기
+                handleMainImageUpload();
+              }}
             >
               사진 등록 또는 찍기
             </button>
             <input
               type="file"
+              onClick={(e) => (e.target.value = null)} // ✅ 이 줄 추가
               ref={mainFileInputRef}
               onChange={handleMainFileChange}
               accept="image/*"
@@ -268,7 +275,7 @@ const RecipeAddpage = () => {
           {ingredients.map((ingredient, index) => (
             <div className="flex flex-row gap-8 mt-8" key={index}>
               <input
-                className="w-80 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-34 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 토마토"
                 value={ingredient.ingredientsName}
                 onChange={(e) =>
@@ -280,7 +287,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                className="w-64 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-24 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1개"
                 value={ingredient.ingredientsNum}
                 onChange={(e) =>
@@ -292,7 +299,7 @@ const RecipeAddpage = () => {
                 }
               />
               <div
-                className="flex justify-center items-center cursor-pointer"
+                className="flex justify-center items-center cursor-pointer "
                 onClick={() => handleRemoveIngredient(index)}
               >
                 <SquareIconComponent />
@@ -315,7 +322,7 @@ const RecipeAddpage = () => {
           {seasonings.map((seasonings, index) => (
             <div className="flex flex-row gap-8 mt-8" key={index}>
               <input
-                className="w-80 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-34 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 간장"
                 value={seasonings.ingredientsName}
                 onChange={(e) =>
@@ -327,7 +334,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                className="w-64 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-24 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1스푼"
                 value={seasonings.ingredientsNum}
                 onChange={(e) =>
@@ -357,7 +364,7 @@ const RecipeAddpage = () => {
             요리 순서
           </div>
           {orders.map((order, index) => (
-            <div className="flex gap-8  ml-6 lg:ml-0" key={index}>
+            <div className="flex gap-3 lg:gap-4 ml-3 lg:ml-0" key={index}>
               <div className="text-base lg:text-xl font-semibold text-gray-500">
                 {index + 1}
               </div>
@@ -422,13 +429,13 @@ const RecipeAddpage = () => {
       <div className="flex container justify-center items-center gap-14 lg:gap-24 pb-20 pt-16 lg:mt-8 ">
         <div
           onClick={goHomePage}
-          className="w-1/3 h-[33px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-gray-100 text-black h-[58px]"
+          className="w-1/3 h-[35px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-gray-100 text-black lg:text-xl lg:h-[58px]"
         >
           취소
         </div>
         <div
           onClick={() => handleSubmit()}
-          className="w-1/3 h-[33px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white h-[58px]"
+          className="w-1/3 h-[35px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white lg:text-xl lg:h-[58px]"
         >
           등록
         </div>

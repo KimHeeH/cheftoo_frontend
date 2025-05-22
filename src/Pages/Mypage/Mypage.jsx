@@ -59,7 +59,7 @@ const Mypage = () => {
         const status = await checkAuthGuard();
         setIsAuthenticated(status === 200);
       } catch (err) {
-        console.error("Authentication Check Error:", err);
+        // console.error("Authentication Check Error:", err);
         setIsAuthenticated(false);
       }
     };
@@ -116,13 +116,15 @@ const Mypage = () => {
       <SearchContainer />
       <Menubar />
 
-      <div className="container flex flex-col items-center mt-16">
-        <h2 className="text-xl lg:text-2xl font-bold mb-4">마이페이지</h2>
+      <div className="container flex flex-col items-center mt-8 lg:mt-16">
+        <h2 className="text-2xl lg:text-2xl hidden lg:block mb-4 font-gowun">
+          마이페이지
+        </h2>
 
         {/* 프로필 영역 */}
-        <div className="w-full flex justify-start items-center gap-4 lg:gap-8 lg:ml-[200px]">
+        <div className="w-full flex justify-start items-center gap-4  mt-12 lg:mt-0 lg:gap-8 lg:ml-[200px]">
           <NickNameProfileIcon className="w-[20px] h-[20px] lg:w-[80px] lg:h-[80px]" />
-          <div className="text-2xl lg:font-semibold">찹쌀떡님</div>
+          <div className="text-2xl lg:font-semibold font-gowun">찹쌀떡님</div>
         </div>
 
         {/* 메뉴 리스트 */}
@@ -131,7 +133,7 @@ const Mypage = () => {
             (item, index) => (
               <div
                 key={index}
-                className="flex items-center text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
+                className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
                 // 닉네임과 동일한 선상에 맞추기
               >
                 {item}
