@@ -45,7 +45,7 @@ const RecipeDetailpage = () => {
   if (!recipe) return <div>Loading...</div>;
 
   return (
-    <div className="w-full  ">
+    <div className="w-full p-3 ">
       <div className="container mt-4 mb-4 ml-2    ">
         {/* ← 뒤로가기 아이콘 */}
         <div className="cursor-pointer mt-2" onClick={handleBackNavigate}>
@@ -71,7 +71,7 @@ const RecipeDetailpage = () => {
             </div>
             {/* 북마크 아이콘 */}
             <div
-              className={`absolute  right-0  top-1/3 lg:right-0 lg:top-1/2 -translate-y-1/2 w-12 h-16 lg:w-20 lg:h-24 border rounded-lg flex justify-center items-center cursor-pointer
+              className={`absolute  right-[-15px]  top-1/3 lg:right-0 lg:top-1/2 -translate-y-1/2 w-12 h-16 lg:w-16 lg:h-19 border rounded-lg flex justify-center items-center cursor-pointer
               transition-transform duration-150 active: active:scale-90 hover:shadow-md
                             ${
                               bookmark
