@@ -63,7 +63,7 @@ const Recipepage = () => {
       <SearchContainer />
       <Menubar />
 
-      <div className="flex justify-end w-[140px] container">
+      <div className="flex justify-end w-[140px] container overflow-y-auto">
         {" "}
         <div className="flex justify-center mt-10">
           <button
@@ -75,7 +75,7 @@ const Recipepage = () => {
         </div>
       </div>
 
-      <div className=" h-[800px] container w-full flex justify-center flex-wrap overflow-y-auto	 lg:gap-16 mt-8">
+      <div className="  container w-full flex flex-wrap pb-[80px]	 lg:gap-16 mt-8">
         {recipeData.map((recipe) => (
           <div key={recipe.recipe_id} className="w-1/2 lg:w-[240px] p-2">
             <RecipeCard recipe={recipe} />

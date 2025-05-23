@@ -169,6 +169,7 @@ const RecipeAddpage = () => {
       );
       console.log("등록 성공:", response.data);
       alert("레시피가 등록되었습니다.");
+      navigate("/recipe");
     } catch (err) {
       console.error("등록 실패", err);
     }

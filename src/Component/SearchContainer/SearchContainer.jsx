@@ -45,9 +45,7 @@ const SearchContainer = () => {
         ) : (
           <div className=" flex items-center gap-2 hover:text-[#3A3A3A] hover:font-semibold">
             <LoginBtnIcon className="hidden sm:block md:block" alt="userIcon" />
-            <div className="font-gowun text-xs sm:text-base">
-              로그인 / 회원가입
-            </div>
+            <div className=" text-xs sm:text-base">로그인 / 회원가입</div>
           </div>
         )}
       </div>
