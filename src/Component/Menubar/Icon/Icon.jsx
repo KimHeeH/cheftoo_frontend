@@ -224,6 +224,68 @@ export const SelectedUserIcon = () => {
     </svg>
   );
 };
+export const BoxIcon = () => {
+  return (
+    <svg
+      width="35"
+      height="35"
+      viewBox="0 0 35 35"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="0.5"
+        y="0.5"
+        width="24"
+        height="24"
+        fill="white"
+        stroke="#717171"
+      />
+    </svg>
+  );
+};
+export const SelectedBoxIcon = () => {
+  return (
+    <svg
+      width="35"
+      height="35"
+      viewBox="0 0 35 35"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="0.5"
+        y="0.5"
+        width="24"
+        height="24"
+        fill="white"
+        stroke="#717171"
+      />
+      <path
+        d="M8.32216 21C7.98958 21.0002 7.66023 20.9297 7.35299 20.7928C7.04574 20.6558 6.76664 20.455 6.53166 20.2019L1 14.2558L3.1108 11.9866L8.32216 17.5915L21.8892 3L24 5.26912L10.1127 20.2019C9.87768 20.455 9.59858 20.6558 9.29133 20.7928C8.98409 20.9297 8.65474 21.0002 8.32216 21Z"
+        fill="#FA590F"
+      />
+    </svg>
+  );
+};
+export const DeleteIcon = () => {
+  return (
+    <svg
+      width="21"
+      height="20"
+      viewBox="0 0 21 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M20.0837 3.33333H15.292V1.66667C15.292 1.22464 15.0901 0.800716 14.7306 0.488155C14.3712 0.175595 13.8837 0 13.3753 0L7.62533 0C7.11699 0 6.62948 0.175595 6.27004 0.488155C5.91059 0.800716 5.70866 1.22464 5.70866 1.66667V3.33333H0.916992V5H2.83366V17.5C2.83366 18.163 3.13656 18.7989 3.67573 19.2678C4.21489 19.7366 4.94616 20 5.70866 20H15.292C16.0545 20 16.7858 19.7366 17.3249 19.2678C17.8641 18.7989 18.167 18.163 18.167 17.5V5H20.0837V3.33333ZM7.62533 1.66667H13.3753V3.33333H7.62533V1.66667ZM16.2503 17.5C16.2503 17.721 16.1494 17.933 15.9696 18.0893C15.7899 18.2455 15.5462 18.3333 15.292 18.3333H5.70866C5.45449 18.3333 5.21074 18.2455 5.03102 18.0893C4.85129 17.933 4.75033 17.721 4.75033 17.5V5H16.2503V17.5Z"
+        fill="#868686"
+      />
+      <path d="M9.54167 8.33331H7.625V15H9.54167V8.33331Z" fill="#868686" />
+      <path d="M13.3757 8.33331H11.459V15H13.3757V8.33331Z" fill="#868686" />
+    </svg>
+  );
+};
 const Icon = {
   HomeIcon,
   SelectedHomeIcon,
@@ -233,5 +295,10 @@ const Icon = {
   SelectedRecipeIcon,
   SelectedBookmarkIcon,
   SelectedUserIcon,
+  SelectedBigBookmarkIcon,
+  BigBookmarkIcon,
+  SelectedBoxIcon,
+  BoxIcon,
+  DeleteIcon,
 };
 export default Icon;

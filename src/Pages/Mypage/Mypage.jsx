@@ -12,6 +12,7 @@ import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { NickNameProfileIcon } from "../../Component/Icon/Icon";
 import Loader from "../../Component/Loader";
+import useNickname from "../../hooks/useNickname";
 
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
@@ -19,6 +20,7 @@ const Mypage = () => {
   const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const { nickname } = useNickname();
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
@@ -33,7 +35,12 @@ const Mypage = () => {
   const handlePage = () => {
     navigate("/");
   };
-
+  const goUpdateNickname = () => {
+    navigate("/updateNickname");
+  };
+  const goMyRecipe = () => {
+    navigate("/myrecipe");
+  };
   useEffect(() => {
     const updateButtonImg = () => {
       if (window.matchMedia("(max-width: 768px)").matches) {
@@ -124,22 +131,38 @@ const Mypage = () => {
         {/* 프로필 영역 */}
         <div className="w-full flex justify-start items-center gap-4  mt-12 lg:mt-0 lg:gap-8 lg:ml-[200px]">
           <NickNameProfileIcon className="w-[20px] h-[20px] lg:w-[80px] lg:h-[80px]" />
-          <div className="text-2xl lg:font-semibold font-gowun">찹쌀떡님</div>
+          <div className="text-2xl lg:font-semibold font-gowun">
+            {nickname}님
+          </div>
         </div>
 
         {/* 메뉴 리스트 */}
         <div className="w-full mt-8 flex flex-col gap-2">
-          {["닉네임 변경", "등록한 레시피", "로그아웃", "회원탈퇴"].map(
-            (item, index) => (
-              <div
-                key={index}
-                className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
-                // 닉네임과 동일한 선상에 맞추기
-              >
-                {item}
-              </div>
-            )
-          )}
+          <div
+            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
+            onClick={goUpdateNickname}
+          >
+            닉네임 변경
+          </div>
+          <div
+            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
+            onClick={goMyRecipe}
+            // 닉네임과 동일한 선상에 맞추기
+          >
+            등록한 레시피
+          </div>
+          <div
+            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
+            // 닉네임과 동일한 선상에 맞추기
+          >
+            로그아웃
+          </div>
+          <div
+            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
+            // 닉네임과 동일한 선상에 맞추기
+          >
+            회원탈퇴
+          </div>
         </div>
       </div>
     </div>
