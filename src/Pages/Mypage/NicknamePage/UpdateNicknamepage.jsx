@@ -15,10 +15,14 @@ const NicknamePage = () => {
   const updateNickname = async (nickname) => {
     // /auth/nickname
     try {
-      const res = await axios.put("http://localhost:8080/auth/nickname", null, {
-        params: { nickname },
-        withCredentials: true,
-      });
+      const res = await axios.put(
+        "http://localhost:8080//auth/nickname",
+        null,
+        {
+          params: { nickname },
+          withCredentials: true,
+        }
+      );
       alert("닉네임이 변경되었습니다.");
       console.log("닉네임 변경 성공");
     } catch (err) {

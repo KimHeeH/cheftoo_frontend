@@ -9,9 +9,12 @@ const useNickname = () => {
   useEffect(() => {
     const fetchNickname = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/auth/member", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://localhost:8080/auth/nickname",
+          {
+            withCredentials: true,
+          }
+        );
         setNickname(response.data);
       } catch (error) {
         console.error("닉네임 불러오기 실패", error);
