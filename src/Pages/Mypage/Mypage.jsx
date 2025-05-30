@@ -20,7 +20,7 @@ const Mypage = () => {
   const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const { nickname } = useNickname();
+  const { prevNickname } = useNickname();
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
@@ -132,7 +132,7 @@ const Mypage = () => {
         <div className="w-full flex justify-start items-center gap-4  mt-12 lg:mt-0 lg:gap-8 lg:ml-[200px]">
           <NickNameProfileIcon className="w-[20px] h-[20px] lg:w-[80px] lg:h-[80px]" />
           <div className="text-2xl lg:font-semibold font-gowun">
-            {nickname}님
+            {prevNickname}님
           </div>
         </div>
 

@@ -206,20 +206,20 @@ const RecipeDetailpage = () => {
               ))}
           </div>
           <div className="mt-12 border-t border-1-[#919191] pt-8">
-            <div className=" flex gap-3 items-center">
-              <div className="font-gowun lg:text-2xl flex gap-3">
+            <div className=" flex lg:flex-row flex-col gap-3 lg:items-center">
+              <div className="font-gowun  text-sm lg:text-2xl flex items-center gap-3">
                 <CommentIcon /> 요리후기 ({commentList.length})
               </div>
-              <div className="font-gowun lg:text-xl">
+              <div className="font-gowun text-md lg:text-xl">
                 소중한 레시피에 후기를 남겨주세요
               </div>
             </div>
             <div className="mt-3">
-              <div className="flex flex-col gap-3 ">
+              <div className="flex flex-col gap-3  ">
                 {commentList.map((comment) => (
-                  <div>
+                  <div className="border-b pb-3">
                     {" "}
-                    <div key={comment.comment_id} className="mt-8 flex gap-3">
+                    <div key={comment.comment_id} className="mt-2 flex gap-3">
                       <div>
                         <CommentProfileIcon />
                       </div>

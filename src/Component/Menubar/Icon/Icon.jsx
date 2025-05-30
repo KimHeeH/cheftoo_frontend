@@ -227,8 +227,7 @@ export const SelectedUserIcon = () => {
 export const BoxIcon = () => {
   return (
     <svg
-      width="35"
-      height="35"
+      className="w-6 h-6 lg:w-8 lg:h-8"
       viewBox="0 0 35 35"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -246,33 +245,60 @@ export const BoxIcon = () => {
 };
 export const SelectedBoxIcon = () => {
   return (
-    <svg
-      width="35"
-      height="35"
-      viewBox="0 0 35 35"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect
-        x="0.5"
-        y="0.5"
-        width="24"
-        height="24"
-        fill="white"
-        stroke="#717171"
-      />
-      <path
-        d="M8.32216 21C7.98958 21.0002 7.66023 20.9297 7.35299 20.7928C7.04574 20.6558 6.76664 20.455 6.53166 20.2019L1 14.2558L3.1108 11.9866L8.32216 17.5915L21.8892 3L24 5.26912L10.1127 20.2019C9.87768 20.455 9.59858 20.6558 9.29133 20.7928C8.98409 20.9297 8.65474 21.0002 8.32216 21Z"
-        fill="#FA590F"
-      />
-    </svg>
+    <>
+      {/* 모바일용 (path 작게 조정한 버전) */}
+      <svg
+        className="w-6 h-6 lg:w-18 lg:h-16 block lg:hidden"
+        // width="35"
+        // height="35"
+        viewBox="0 0 35 35"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.5"
+          y="0.5"
+          width="24"
+          height="24"
+          fill="white"
+          stroke="#717171"
+        />
+        <path
+          d="M8 20C7.7 20 7.4 19.9 7.1 19.7C6.8 19.5 6.5 19.3 6.3 19.1L2 14L4 12L8 17L20 4L22 6L9.5 19.1C9.3 19.3 9 19.5 8.7 19.7C8.4 19.9 8.1 20 8 20Z"
+          fill="#FA590F"
+        />
+      </svg>
+
+      {/* lg 이상용 (원래 path 유지) */}
+      <svg
+        className="w-6 h-6 lg:w-8 lg:h-8 hidden lg:block"
+        // width="35"
+        // height="35"
+        viewBox="0 0 35 35"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.5"
+          y="0.5"
+          width="24"
+          height="24"
+          fill="white"
+          stroke="#717171"
+        />
+        <path
+          d="M8.32216 21C7.98958 21.0002 7.66023 20.9297 7.35299 20.7928C7.04574 20.6558 6.76664 20.455 6.53166 20.2019L1 14.2558L3.1108 11.9866L8.32216 17.5915L21.8892 3L24 5.26912L10.1127 20.2019C9.87768 20.455 9.59858 20.6558 9.29133 20.7928C8.98409 20.9297 8.65474 21.0002 8.32216 21Z"
+          fill="#FA590F"
+        />
+      </svg>
+    </>
   );
 };
+
 export const DeleteIcon = () => {
   return (
     <svg
-      width="21"
-      height="20"
+      className="w-4 h-4 lg:w-18 lg:h-16"
       viewBox="0 0 21 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -289,8 +315,9 @@ export const DeleteIcon = () => {
 export const CommentIcon = () => {
   return (
     <svg
-      width="34"
-      height="33"
+      className="w-7 h-5 lg:w-18 lg:h-16"
+      // width="34"
+      // height="33"
       viewBox="0 0 34 33"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -349,8 +376,7 @@ export const CommentProfileIcon = () => {
 export const IngredientIcon = () => {
   return (
     <svg
-      width="37"
-      height="33"
+      className="w-6 h-6 lg:w-18 lg:h-18"
       viewBox="0 0 37 33"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -372,8 +398,7 @@ export const IngredientIcon = () => {
 export const CookingOrderIcon = () => {
   return (
     <svg
-      width="28"
-      height="26"
+      className="w-6 h-6 lg:w-18 lg:h-18"
       viewBox="0 0 28 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

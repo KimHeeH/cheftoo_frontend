@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const useNickname = () => {
-  const [nickname, setNickname] = useState("");
+  const [prevNickname, setPrevNickname] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +15,9 @@ const useNickname = () => {
             withCredentials: true,
           }
         );
-        setNickname(response.data);
+        console.log("닉네임 응답 전체:", response);
+
+        setPrevNickname(response.data);
       } catch (error) {
         console.error("닉네임 불러오기 실패", error);
       } finally {
@@ -24,7 +26,7 @@ const useNickname = () => {
     };
     fetchNickname();
   }, []);
-  return { nickname, loading };
+  return { prevNickname, loading };
 };
 
 export default useNickname;

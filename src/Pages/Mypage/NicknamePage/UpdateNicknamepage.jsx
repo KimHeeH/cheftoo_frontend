@@ -5,13 +5,15 @@ import recipeIcon from "../img/Recipe.svg";
 import SearchContainer from "../../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../../Component/Menubar/Menubar";
 import axios from "axios";
+import useNickname from "../../../hooks/useNickname";
+import { useEffect } from "react";
 const NicknamePage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const isNewUser = searchParams.get("isNewUser") === "true";
   const [nickname, setNickname] = useState("");
-  console.log("닉네임 페이지 isNewUser:", isNewUser); // 👈 이거로 확인해봐!
-
+  const { prevNickname, loading } = useNickname();
+  console.log("prevNickname", prevNickname);
   const updateNickname = async (nickname) => {
     // /auth/nickname
     try {
@@ -29,6 +31,14 @@ const NicknamePage = () => {
       console.error("닉네임 변경 실패");
     }
   };
+  useEffect(() => {
+    if (!nickname && prevNickname) {
+      setNickname(prevNickname);
+    }
+  }, [prevNickname]);
+
+  if (loading) return null; // 또는 로딩 스피너  console.log("닉네임 페이지 isNewUser:", isNewUser); // 👈 이거로 확인해봐!
+
   return (
     <div>
       <div className="py-3 border-b border-gray-200 lg:border-0">
@@ -57,8 +67,8 @@ const NicknamePage = () => {
           type="text"
           onChange={(e) => setNickname(e.target.value)}
           value={nickname}
-          placeholder="닉네임을 입력하세요"
-          className="border w-[700px] border-gray-300 rounded-lg px-4 py-2  h-[100%] focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder={prevNickname}
+          className="border w-[700px] border-gray-300 rounded-lg px-4 py-2  h-[100%] focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-500 "
         />{" "}
       </div>
       <div className="flex container justify-center">

@@ -68,7 +68,7 @@ const Recipepage = () => {
         <div className="flex justify-center mt-10">
           <button
             onClick={handleClick}
-            className="w-[110px] h-[40px] text-xs lg:text-base lg:w-[130px] lg:px-3 lg:py-2 border border-gray-300 text-gray-700 bg-white rounded-lg shadow-md hover:bg-gray-100 active:bg-gray-200 transition-all duration-200"
+            className="bg-gray-400 hover:bg-orange-500 text-white px-6 py-2 rounded-lg transition"
           >
             레시피 등록
           </button>

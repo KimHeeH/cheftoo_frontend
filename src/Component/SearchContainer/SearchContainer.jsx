@@ -14,7 +14,7 @@ import useNickname from "../../hooks/useNickname";
 const SearchContainer = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const { nickname } = useNickname();
+  const { prevNickname } = useNickname();
   const handleLoginPage = () => {
     navigate("/mypage");
   };
@@ -41,7 +41,7 @@ const SearchContainer = () => {
       >
         {isAuthenticated === null ? null : isAuthenticated ? (
           <div className=" font-gowun hover:text-[#3B3A36] lg:text-lg text-base border-b border-b-[#B4B4B4] ">
-            {nickname}님
+            {prevNickname}님
           </div>
         ) : (
           <div className=" flex items-center gap-2 hover:text-[#3A3A3A] hover:font-semibold">
