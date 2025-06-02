@@ -63,16 +63,16 @@ const Recipepage = () => {
       <SearchContainer />
       <Menubar />
 
-      <div className="flex justify-end w-[140px] container overflow-y-auto">
+      <div className="flex justify-end w-[140px] container overflow-y-auto p-3">
         {" "}
-        <div className="flex justify-center mt-10">
+        {/* <div className="flex justify-center mt-10">
           <button
             onClick={handleClick}
             className="bg-gray-400 hover:bg-orange-500 text-white px-6 py-2 rounded-lg transition"
           >
             레시피 등록
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="  container w-full flex flex-wrap pb-[80px]	 lg:gap-16 mt-8">
