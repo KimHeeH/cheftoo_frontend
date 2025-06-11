@@ -10,51 +10,55 @@ import {
   CommentProfileIcon,
   CookingOrderIcon,
   IngredientIcon,
+  ProfileIcon,
   SelectedBigBookmarkIcon,
 } from "../../Component/Menubar/Icon/Icon";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState([]);
   const [bookmark, setBookmark] = useState(false);
+  const [comment, setComment] = useState("");
+  const [commentList, setCommentList] = useState([]);
   const navigate = useNavigate();
 
   console.log("recipeId:", recipeId); // null이면 문제가 있음
-  console.log("recipeId Type:", typeof recipeId);
-  console.log("이미지 경로:", recipe?.images?.img_path);
-  const commentList = [
-    {
-      comment_id: "6f9619ff-8b86-d011-b42d-00cf4fc964ff", // 16바이트 UUID (hex string)
-      member_id: "8c4cb86e-4f4d-43fd-95fa-93f0adfb56c9", // 작성자 ID
-      recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002", // 댓글 단 레시피 ID
-      comment_content: "이 레시피 진짜 맛있어요!", // 댓글 내용
-      data_created: "2025-05-28T15:00:00Z", // 생성일 (ISO 8601)
-      data_updated: "2025-05-28T15:00:00Z", // 수정일 (ISO 8601)
-    },
-    {
-      comment_id: "7e0578cf-0e9d-4f3f-bc14-926d3dc042fe",
-      member_id: "17f38d1c-b83b-4f7a-b179-7f5d47bb6f24",
-      recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002",
-      comment_content: "간단해서 따라 하기 좋았어요~",
-      data_created: "2025-05-28T16:10:00Z",
-      data_updated: "2025-05-28T16:10:00Z",
-    },
-    {
-      comment_id: "6f9619ff-8b86-d011-b42d-00cf4fc964ff", // 16바이트 UUID (hex string)
-      member_id: "8c4cb86e-4f4d-43fd-95fa-93f0adfb56c9", // 작성자 ID
-      recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002", // 댓글 단 레시피 ID
-      comment_content: "이 레시피 진짜 맛있어요!", // 댓글 내용
-      data_created: "2025-05-28T15:00:00Z", // 생성일 (ISO 8601)
-      data_updated: "2025-05-28T15:00:00Z", // 수정일 (ISO 8601)
-    },
-    {
-      comment_id: "7e0578cf-0e9d-4f3f-bc14-926d3dc042fe",
-      member_id: "17f38d1c-b83b-4f7a-b179-7f5d47bb6f24",
-      recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002",
-      comment_content: "간단해서 따라 하기 좋았어요~",
-      data_created: "2025-05-28T16:10:00Z",
-      data_updated: "2025-05-28T16:10:00Z",
-    },
-  ];
+  // console.log("recipeId Type:", typeof recipeId);
+  // console.log("이미지 경로:", recipe?.images?.img_path);
+
+  // const commentList = [
+  //   {
+  //     comment_id: "6f9619ff-8b86-d011-b42d-00cf4fc964ff", // 16바이트 UUID (hex string)
+  //     member_id: "8c4cb86e-4f4d-43fd-95fa-93f0adfb56c9", // 작성자 ID
+  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002", // 댓글 단 레시피 ID
+  //     comment_content: "이 레시피 진짜 맛있어요!", // 댓글 내용
+  //     data_created: "2025-05-28T15:00:00Z", // 생성일 (ISO 8601)
+  //     data_updated: "2025-05-28T15:00:00Z", // 수정일 (ISO 8601)
+  //   },
+  //   {
+  //     comment_id: "7e0578cf-0e9d-4f3f-bc14-926d3dc042fe",
+  //     member_id: "17f38d1c-b83b-4f7a-b179-7f5d47bb6f24",
+  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002",
+  //     comment_content: "간단해서 따라 하기 좋았어요~",
+  //     data_created: "2025-05-28T16:10:00Z",
+  //     data_updated: "2025-05-28T16:10:00Z",
+  //   },
+  //   {
+  //     comment_id: "6f9619ff-8b86-d011-b42d-00cf4fc964ff", // 16바이트 UUID (hex string)
+  //     member_id: "8c4cb86e-4f4d-43fd-95fa-93f0adfb56c9", // 작성자 ID
+  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002", // 댓글 단 레시피 ID
+  //     comment_content: "이 레시피 진짜 맛있어요!", // 댓글 내용
+  //     data_created: "2025-05-28T15:00:00Z", // 생성일 (ISO 8601)
+  //     data_updated: "2025-05-28T15:00:00Z", // 수정일 (ISO 8601)
+  //   },
+  //   {
+  //     comment_id: "7e0578cf-0e9d-4f3f-bc14-926d3dc042fe",
+  //     member_id: "17f38d1c-b83b-4f7a-b179-7f5d47bb6f24",
+  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002",
+  //     comment_content: "간단해서 따라 하기 좋았어요~",
+  //     data_created: "2025-05-28T16:10:00Z",
+  //     data_updated: "2025-05-28T16:10:00Z",
+  //   },
+  // ];
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
     const month = String(date.getMonth() + 1).padStart(2, "0"); // 월 (0~11이라 +1)
@@ -70,6 +74,23 @@ const RecipeDetailpage = () => {
   const handleActiveBookmark = () => {
     setBookmark(!bookmark);
     console.log("bookmark상태 값", bookmark);
+  };
+  const uploadComment = async () => {
+    console.log("setCommnet", comment);
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/recipe/${recipeId}/comment`,
+        { commentContent: comment },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" }, // 추가!
+        }
+      );
+      console.log(response.data);
+      alert("댓글이 등록되었습니다");
+    } catch (error) {
+      console.error("uploadComment Fail", error);
+    }
   };
   useEffect(() => {
     if (!recipeId) return;
@@ -89,6 +110,21 @@ const RecipeDetailpage = () => {
 
     fetchRecipe();
   }, [recipeId]);
+  useEffect(() => {
+    const fetchCommnet = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/recipe/comment/${recipeId}`,
+          { withCredentials: true }
+        );
+        console.log(response.data);
+        setCommentList(response.data);
+      } catch (error) {
+        console.error("레시피 댓글 가져오기 실패", error);
+      }
+    };
+    fetchCommnet();
+  }, []);
 
   if (!recipe) return <div>Loading...</div>;
 
@@ -145,7 +181,7 @@ const RecipeDetailpage = () => {
 
           {/* 재료 */}
           <div className="mt-12">
-            <div className="flex gap-3">
+            <div className="flex gap-3 mb-12mb-12">
               <div>
                 <IngredientIcon />
               </div>
@@ -166,8 +202,8 @@ const RecipeDetailpage = () => {
           </div>
 
           {/* 조리 순서 */}
-          <div className="mt-12">
-            <div className="flex gap-3">
+          <div className="mt-12 ">
+            <div className="flex gap-3 mb-12">
               <div>
                 <CookingOrderIcon />
               </div>
@@ -183,7 +219,7 @@ const RecipeDetailpage = () => {
                   key={i}
                   className="m-2 mt-4 bg-[#FBFBFB] p-4 border rounded-lg"
                 >
-                  <div className="font-gowun flex flex-col lg:flex-row gap-4">
+                  <div className="font-gowun flex flex-col lg:flex-row gap-2 lg:gap-4">
                     <div className="w-1/5 text-base lg:text-xl font-bold">
                       Step {order.order}
                     </div>
@@ -206,7 +242,7 @@ const RecipeDetailpage = () => {
               ))}
           </div>
           <div className="mt-12 border-t border-1-[#919191] pt-8">
-            <div className=" flex lg:flex-row flex-col gap-3 lg:items-center">
+            <div className="mb-4 lg:mb-12 flex lg:flex-row flex-col gap-3 lg:items-center">
               <div className="font-gowun  text-sm lg:text-2xl flex items-center gap-3">
                 <CommentIcon /> 요리후기 ({commentList.length})
               </div>
@@ -214,28 +250,59 @@ const RecipeDetailpage = () => {
                 소중한 레시피에 후기를 남겨주세요
               </div>
             </div>
-            <div className="mt-3">
+            <div className="mt-3 lg:mt-16">
               <div className="flex flex-col gap-3  ">
-                {commentList.map((comment) => (
-                  <div className="border-b pb-3">
+                {/* {commentList.map((comment) => (
+                  <div className="border-b  pb-3 h-24 lg:h-32">
                     {" "}
-                    <div key={comment.comment_id} className="mt-2 flex gap-3">
+                    <div key={comment.comment_id} className=" mt-2 flex gap-3">
                       <div>
                         <CommentProfileIcon />
                       </div>
-                      <div className="lg:text-2xl font-gowun text-[#919191]">
+                      <div className="text-xs lg:text-2xl font-gowun text-[#919191]">
                         {comment.member_id}
                       </div>
                       <div>|</div>
-                      <div className="text-[#919191] lg:text-lg">
+                      <div className="text-[#919191] text-xs lg:text-lg">
                         {formatTimestamp(comment.data_created)}
                       </div>
                     </div>
-                    <div className="lg:text-2xl font-gowun mt-4">
+                    <div className="lg:text-2xl font-gowun mt-2">
                       {comment.comment_content}
                     </div>
                   </div>
+                ))} */}
+                {commentList.map((comment, key) => (
+                  <div className="flex flex-col" key={comment.comment_id}>
+                    <div className="flex">
+                      <div>
+                        <ProfileIcon />
+                      </div>
+                      <div>{comment.nick_name}</div>
+                      <div>
+                        {" "}
+                        {comment.data_created
+                          ? comment.data_created
+                          : "25.05.22.16:40"}
+                      </div>
+                    </div>
+                    <div>{comment.comment_content}</div>
+                  </div>
                 ))}
+              </div>
+            </div>
+            <div className="flex mt-8 w-[900px] min-h-[200px] bg-[#FDFDFD] border-1">
+              <textarea
+                className="w-full min-h-[200px] text-xl resize-none p-4"
+                placeholder="댓글을 남겨주세요"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <div
+                className=" lg:text-2xl w-[200px] min-h-[200px] flex items-center   border-1 bg-[#FDFDFD] justify-center cursor-pointer"
+                onClick={() => uploadComment()}
+              >
+                등록
               </div>
             </div>
           </div>

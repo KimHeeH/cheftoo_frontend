@@ -31,7 +31,7 @@ const RecommendedRecipe = () => {
     }
   };
   return (
-    <div className="mt-4 relative overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
+    <div className="relative overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
       {/* <div className="animate-fadeIn">
         <div className="lg:w-[400px] relative font-gowun line container leading-relaxed flex justify-center  mt-12 lg:text-2xl lg:mt-8     ">
           <span className=" mr-1  text-[#3B3A36] lg:mr-4">
@@ -46,7 +46,7 @@ const RecommendedRecipe = () => {
         </div>
       </div> */}
 
-      <div className="text-center mt-10 ">
+      <div className="text-center mt-24 lg:mt-10 ">
         <h1 className="font-gowun text-2xl lg:text-4xl font-bold  mb-4 animate-fade-in">
           오늘의 레시피를 찾아보세요!
         </h1>
@@ -63,7 +63,7 @@ const RecommendedRecipe = () => {
           </span>
         </button>
       </div>
-      <div className="container mt-12 mb-6 border-t pt-4">
+      <div className="pl-6 lg:pl-0 container mt-12 mb-6 border-t pt-4">
         <h2 className="text-lg lg:text-3xl font-bold"> 인기 레시피</h2>
         <p className="text-gray-500 mt-2 text-base lg:text-lg">
           지금 가장 인기있는 레시피들을 만나보세요!

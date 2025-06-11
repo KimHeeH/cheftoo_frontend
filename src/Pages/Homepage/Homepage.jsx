@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const Homepage = () => {
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-hidden overflow-y-scroll	">
       <SearchContainer />
       <MenuBar />
       <RecommendedRecipe />

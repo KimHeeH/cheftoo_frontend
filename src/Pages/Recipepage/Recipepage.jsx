@@ -59,7 +59,7 @@ const Recipepage = () => {
   };
 
   return (
-    <div className=" w-screen ">
+    <div className="container w-screen ">
       <SearchContainer />
       <Menubar />
 

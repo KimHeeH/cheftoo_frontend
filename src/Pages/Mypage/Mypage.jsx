@@ -77,9 +77,8 @@ const Mypage = () => {
   }
   if (!isAuthenticated) {
     return (
-      <div>
+      <div className="h-screen">
         <SearchContainer />
-
         <Menubar />
         <div className="container flex flex-col items-center mt-44 lg:mt-16">
           <div className="flex gap-2">
@@ -93,7 +92,7 @@ const Mypage = () => {
         </div>
 
         {/* 로그인 입력 필드 */}
-        <div className="flex flex-col justify-center items-center container">
+        <div className="flex-grow flex flex-col justify-center items-center  container">
           <div className="mt-4 text-lg text-[#696868] lg:text-2xl lg:mt-8">
             로그인/회원가입
           </div>

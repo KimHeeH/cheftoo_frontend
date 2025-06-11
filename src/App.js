@@ -12,7 +12,29 @@ import Nicknamepage from "./Pages/Mypage/Nicknamepage";
 import RecipeDetailpage from "./Pages/Recipepage/RecipeDetailpage";
 import UpdateNicknamepage from "./Pages/Mypage/NicknamePage/UpdateNicknamepage";
 import MyRecipepage from "./Pages/Mypage/MyRecipepage/MyRecipepage";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import axios from "axios";
+import { setNickname } from "./store/userSlice";
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchNickname = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/auth/nickname", {
+          withCredentials: true,
+        });
+        dispatch(setNickname(res.data)); // Redux에 저장
+        console.log(res.data);
+      } catch (err) {
+        console.error("닉네임 가져오기 실패", err);
+      }
+    };
+
+    fetchNickname();
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />

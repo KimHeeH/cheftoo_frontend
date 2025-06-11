@@ -51,14 +51,16 @@ const RecipeSlider = () => {
         {imageList.map((src, index) => (
           <SwiperSlide key={index} style={{ width: "100%" }}>
             <div
-              className=" p-2 relative w-full h-[250px] lg:h-[500px] overflow-hidden rounded-xl"
+              className=" p-2 relative w-full h-[250px] lg:h-[500px] overflow-hidden rounded-xl "
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
               <img
                 src={src}
                 alt={`slide-${index}`}
-                className="w-full h-full object-cover rounded-xl transition-transform duration-300"
+                className={`w-full h-full object-cover rounded-xl transition-transform duration-300 ${
+                  hoveredIndex == index ? "scale-105 brightness-75" : ""
+                } `}
               />
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2 items-center justify-center lg:hidden">
                 {imageList.map((_, i) => (

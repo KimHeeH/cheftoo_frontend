@@ -23,89 +23,58 @@ const Menubar = () => {
   };
 
   return (
-    <div
-      className=" fixed bottom-0 left-0 w-full flex lg:bg-gray-00 justify-around items-center  lg:justify-start lg:border-t-0 
-     h-[80px] lg:h-[50px] lg:justify-start lg:items-start lg:static flex w-full container cursor-pointer bg-[#FFFFFF] text-[#3B3A36] gap-8 mt-4 lg:mt-8 border-b border-[#DCDCDC] h-9"
-    >
-      <div
-        onClick={() => goPage("/", "home")}
-        className="  flex justify-center items-center   w-1/4 h-[80px] lg:w-[10%] lg:h-[50px] text-xs lg:text-lg 
-        "
-      >
-        <div className="flex flex-col ">
-          <div className="pt-2 lg:hidden">
-            {menu === "home" ? <Icon.SelectedHomeIcon /> : <Icon.HomeIcon />}
-          </div>
-          <span
-            className={`font-bold mt-2 text-center ${
-              menu === "home" ? "text-[#111111]" : "text-[#BFBFBF]"
-            }`}
+    <div className="container fixed bottom-0 left-0 w-full bg-white border-t border-[#DCDCDC] lg:static lg:border-t-0 lg:border-b z-50 ">
+      <div className="flex justify-around lg:justify-start items-center h-[80px] lg:h-[50px] gap-8 text-[#3B3A36]">
+        {/* 메뉴 아이템 공통 구조화 */}
+        {[
+          {
+            label: "홈",
+            path: "/",
+            key: "home",
+            Icon: Icon.HomeIcon,
+            SelectedIcon: Icon.SelectedHomeIcon,
+          },
+          {
+            label: "레시피",
+            path: "/recipe",
+            key: "recipe",
+            Icon: Icon.PopularIcon,
+            SelectedIcon: Icon.SelectedRecipeIcon,
+          },
+          {
+            label: "스크랩",
+            path: "/scrap",
+            key: "scrap",
+            Icon: Icon.BookmarkIcon,
+            SelectedIcon: Icon.SelectedBookmarkIcon,
+          },
+          {
+            label: "MY",
+            path: "/mypage",
+            key: "mypage",
+            Icon: Icon.UserIcon,
+            SelectedIcon: Icon.SelectedUserIcon,
+          },
+        ].map(({ label, path, key, Icon, SelectedIcon }) => (
+          <div
+            key={key}
+            onClick={() => goPage(path, key)}
+            className="flex flex-col items-center justify-center w-1/4 lg:w-[10%] cursor-pointer text-xs lg:text-lg"
           >
-            홈
-          </span>
-        </div>
-      </div>
-      <div
-        onClick={() => goPage("/recipe", "recipe")}
-        className="  flex justify-center items-center  w-1/4  h-[80px] lg:h-[50px] lg:w-[10%] text-xs lg:w-60px lg:text-lg 
-        "
-      >
-        <div className="flex flex-column ">
-          <div className=" flex justify-center items-center pt-2 lg:hidden">
-            {menu === "recipe" ? (
-              <Icon.SelectedRecipeIcon />
-            ) : (
-              <Icon.PopularIcon />
-            )}
+            {/* 아이콘 (모바일만 표시) */}
+            <div className="pt-2 lg:hidden">
+              {menu === key ? <SelectedIcon /> : <Icon />}
+            </div>
+            {/* 텍스트 */}
+            <span
+              className={`font-bold mt-2 text-center ${
+                menu === key ? "text-[#111111]" : "text-[#BFBFBF]"
+              }`}
+            >
+              {label}
+            </span>
           </div>
-          <span
-            className={`font-bold mt-2 text-center ${
-              menu === "recipe" ? " text-[#111111] " : "text-[#BFBFBF] "
-            }`}
-          >
-            레시피
-          </span>
-        </div>
-      </div>
-      <div
-        onClick={() => goPage("/scrap", "scrap")}
-        className="   flex justify-center items-center  w-1/4 h-[80px] lg:h-[50px] text-xs lg:w-[10%] lg:text-lg
-        "
-      >
-        <div className="flex flex-column">
-          <div className="flex justify-center items-center pt-2 lg:hidden">
-            {menu === "scrap" ? (
-              <Icon.SelectedBookmarkIcon />
-            ) : (
-              <Icon.BookmarkIcon />
-            )}
-          </div>
-          <span
-            className={`font-bold mt-2 text-center ${
-              menu === "scrap" ? " text-[#111111] " : "text-[#BFBFBF] "
-            }`}
-          >
-            스크랩
-          </span>{" "}
-        </div>
-      </div>
-      <div
-        onClick={() => goPage("/mypage", "mypage")}
-        className=" flex justify-center items-center  w-1/4 h-[80px] lg:h-[50px] text-xs lg:w-[10%] lg:text-lg
-        "
-      >
-        <div className="flex flex-column">
-          <div className="flex justify-center items-center pt-2 lg:hidden">
-            {menu === "mypage" ? <Icon.SelectedUserIcon /> : <Icon.UserIcon />}
-          </div>
-          <span
-            className={`font-bold mt-2 text-center ${
-              menu === "mypage" ? " text-[#111111] " : "text-[#BFBFBF] "
-            }`}
-          >
-            MY
-          </span>{" "}
-        </div>
+        ))}
       </div>
     </div>
   );

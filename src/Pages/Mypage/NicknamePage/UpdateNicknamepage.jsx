@@ -7,8 +7,11 @@ import Menubar from "../../../Component/Menubar/Menubar";
 import axios from "axios";
 import useNickname from "../../../hooks/useNickname";
 import { useEffect } from "react";
+import { setNickname } from "../../../store/userSlice";
+import { useDispatch } from "react-redux";
 const NicknamePage = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const searchParams = new URLSearchParams(location.search);
   const isNewUser = searchParams.get("isNewUser") === "true";
   const [nickname, setNickname] = useState("");
@@ -17,18 +20,22 @@ const NicknamePage = () => {
   const updateNickname = async (nickname) => {
     // /auth/nickname
     try {
-      const res = await axios.put(
-        "http://localhost:8080//auth/nickname",
-        null,
-        {
-          params: { nickname },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.put("http://localhost:8080/auth/nickname", null, {
+        params: { nickname },
+        withCredentials: true,
+      });
       alert("닉네임이 변경되었습니다.");
+      const response = await axios.get("http://localhost:8080/auth/nickname", {
+        withCredentials: true,
+      });
+      console.log("닉네임 응답", response.data, typeof response.data); // 타입도 찍기
+      setNickname(response.data);
+      console.log("nickname", nickname);
+      dispatch(setNickname(nickname));
+
       console.log("닉네임 변경 성공");
     } catch (err) {
-      console.error("닉네임 변경 실패");
+      console.error("닉네임 변경 실패", err);
     }
   };
   useEffect(() => {

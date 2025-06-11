@@ -8,6 +8,7 @@ import { DeleteIcon } from "../../Component/Menubar/Icon/Icon";
 import { useState } from "react";
 const Scrappage = () => {
   const [selectIds, setSelectIds] = useState([]);
+
   const dummyRecipes = [
     {
       recipe_id: "1",
@@ -20,6 +21,8 @@ const Scrappage = () => {
       recipe_content: "진한 국물 맛의 된장찌개",
     },
   ];
+  const isAllSelected =
+    dummyRecipes.length > 0 && selectIds.length === dummyRecipes.length;
   const toggleBox = (recipeId) => {
     setSelectIds((prevSelected) =>
       prevSelected.includes(recipeId)
@@ -35,7 +38,7 @@ const Scrappage = () => {
     }
   };
   return (
-    <div className="container ml-4">
+    <div className="container ml-4 ">
       <SearchContainer />
       <Menubar />
 
@@ -43,19 +46,10 @@ const Scrappage = () => {
 
       <div className="flex">
         <div className="ml-4 w-full flex gap-2 text-lg items-center mt-8">
-          <div className="cursor-pointer" onClick={() => toggleAllBox}>
-            {selectIds.length === dummyRecipes.length ? (
-              <SelectedBoxIcon />
-            ) : (
-              <BoxIcon />
-            )}
+          <div className="cursor-pointer" onClick={toggleAllBox}>
+            {isAllSelected ? <SelectedBoxIcon /> : <BoxIcon />}
           </div>
-          <div className="">
-            {" "}
-            {selectIds.length === dummyRecipes.length
-              ? "전체해제 "
-              : "전체선택"}
-          </div>
+          <div className="">{isAllSelected ? "전체해제" : "전체선택"}</div>
         </div>
         <div className="mt-8 cursor-pointer border-1 w-32 flex items-center gap-2 justify-center rounded-md h-12">
           <div>
