@@ -10,9 +10,9 @@ import {
   CommentProfileIcon,
   CookingOrderIcon,
   IngredientIcon,
-  ProfileIcon,
   SelectedBigBookmarkIcon,
 } from "../../Component/Menubar/Icon/Icon";
+import { RecipeDetailProfileIcon } from "../../Component/Icon/Icon";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState([]);
@@ -87,6 +87,7 @@ const RecipeDetailpage = () => {
         }
       );
       console.log(response.data);
+      setComment([]);
       alert("댓글이 등록되었습니다");
     } catch (error) {
       console.error("uploadComment Fail", error);
@@ -124,7 +125,7 @@ const RecipeDetailpage = () => {
       }
     };
     fetchCommnet();
-  }, []);
+  }, [commentList]);
 
   if (!recipe) return <div>Loading...</div>;
 
@@ -136,7 +137,7 @@ const RecipeDetailpage = () => {
           <BackIcon />
         </div>
       </div>
-      <div className="w-full container flex justify-center max-w-[900px] px-4">
+      <div className="w-full max-w-full px-4 lg:max-w-[900px] mx-auto">
         {/* 실제 콘텐츠 */}
         <div>
           <div className="relative mb-6">
@@ -243,10 +244,10 @@ const RecipeDetailpage = () => {
           </div>
           <div className="mt-12 border-t border-1-[#919191] pt-8">
             <div className="mb-4 lg:mb-12 flex lg:flex-row flex-col gap-3 lg:items-center">
-              <div className="font-gowun  text-sm lg:text-2xl flex items-center gap-3">
+              <div className="font-gowun  text-xl lg:text-2xl flex items-center gap-3">
                 <CommentIcon /> 요리후기 ({commentList.length})
               </div>
-              <div className="font-gowun text-md lg:text-xl">
+              <div className="font-gowun text-lg lg:text-xl">
                 소중한 레시피에 후기를 남겨주세요
               </div>
             </div>
@@ -273,33 +274,41 @@ const RecipeDetailpage = () => {
                   </div>
                 ))} */}
                 {commentList.map((comment, key) => (
-                  <div className="flex flex-col" key={comment.comment_id}>
-                    <div className="flex">
-                      <div>
-                        <ProfileIcon />
+                  <div
+                    className="flex flex-col  border-b  p-8"
+                    key={comment.comment_id}
+                  >
+                    <div className="flex items-center mb-3   ">
+                      <div className="">
+                        <RecipeDetailProfileIcon />
                       </div>
-                      <div>{comment.nick_name}</div>
-                      <div>
+                      <div className="font-gowun ml-4 mr-4 text-xl text-[#919191]">
+                        {comment.nick_name}
+                      </div>
+                      <div className="mr-4 text-[#919191]"> | </div>
+                      <div className="text-[#919191]">
                         {" "}
                         {comment.data_created
                           ? comment.data_created
                           : "25.05.22.16:40"}
                       </div>
                     </div>
-                    <div>{comment.comment_content}</div>
+                    <div className="font-gowun text-lg lg:text-xl">
+                      {comment.comment_content}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="flex mt-8 w-[900px] min-h-[200px] bg-[#FDFDFD] border-1">
+            <div className="flex gap-4 lg:gap-0 min-h-[40px] mt-8 lg:w-[900px] lg:min-h-[200px] ">
               <textarea
-                className="w-full min-h-[200px] text-xl resize-none p-4"
+                className="w-full min-h-[30px] lg:min-h-[200px] lg:text-xl resize-none p-4  bg-[#FDFDFD] border-1"
                 placeholder="댓글을 남겨주세요"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
               <div
-                className=" lg:text-2xl w-[200px] min-h-[200px] flex items-center   border-1 bg-[#FDFDFD] justify-center cursor-pointer"
+                className=" text-base lg:text-xl w-24 lg:w-[200px] lg:min-h-[200px] flex items-center   border-1 bg-[#FDFDFD] justify-center cursor-pointer"
                 onClick={() => uploadComment()}
               >
                 등록

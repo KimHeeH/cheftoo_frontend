@@ -441,6 +441,7 @@ export const ProfileIcon = () => {
     </svg>
   );
 };
+
 const Icon = {
   HomeIcon,
   SelectedHomeIcon,

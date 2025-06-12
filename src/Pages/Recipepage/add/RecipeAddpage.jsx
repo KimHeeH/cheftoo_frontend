@@ -176,7 +176,7 @@ const RecipeAddpage = () => {
   };
 
   return (
-    <div className="min-h-screen h-auto">
+    <div className="min-h-screen h-auto w-full max-w-full px-4 lg:max-w-[900px] mx-auto">
       <SearchContainer />
       <Menubar />
       <div className="container flex items-center mt-3 pt-3  lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
@@ -202,7 +202,7 @@ const RecipeAddpage = () => {
       </div>
       <div className="container ">
         <div className="flex flex-row  items-center lg:items-start mt-8 lg:gap-8 ">
-          <label className="text-sm lg:text-right w-4/5 lg:w-28 lg:text-xl font-semibold text-gray-700">
+          <label className="mr-3 text-sm lg:text-right w-4/5 lg:w-28 lg:text-xl font-semibold text-gray-700">
             레시피 제목
           </label>
           <input
@@ -215,7 +215,7 @@ const RecipeAddpage = () => {
 
         {/* 요리 설명 */}
         <div className="flex flex-row items-start mt-8 lg:gap-8">
-          <label className="text-sm lg:text-right  w-4/5 lg:w-28 lg:text-xl font-semibold text-gray-700">
+          <label className=" mr-3 text-sm lg:text-right  w-4/5 lg:w-28 lg:text-xl font-semibold text-gray-700">
             요리 설명
           </label>
           <textarea
@@ -274,7 +274,7 @@ const RecipeAddpage = () => {
             재료
           </div>
           {ingredients.map((ingredient, index) => (
-            <div className="flex flex-row gap-8 mt-8" key={index}>
+            <div className="flex flex-row gap-4 mt-8" key={index}>
               <input
                 className="w-34 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 토마토"
@@ -321,7 +321,7 @@ const RecipeAddpage = () => {
             양념
           </div>
           {seasonings.map((seasonings, index) => (
-            <div className="flex flex-row gap-8 mt-8" key={index}>
+            <div className="flex flex-row gap-4 mt-8" key={index}>
               <input
                 className="w-34 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 간장"
