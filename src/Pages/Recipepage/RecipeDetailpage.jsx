@@ -13,52 +13,22 @@ import {
   SelectedBigBookmarkIcon,
 } from "../../Component/Menubar/Icon/Icon";
 import { RecipeDetailProfileIcon } from "../../Component/Icon/Icon";
+import { DotMenuIcon } from "../../Component/Menubar/Icon/Icon";
+import { XIcon } from "../../Component/Menubar/Icon/Icon";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState([]);
   const [bookmark, setBookmark] = useState(false);
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
+  const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
 
-  console.log("recipeId:", recipeId); // null이면 문제가 있음
-  // console.log("recipeId Type:", typeof recipeId);
-  // console.log("이미지 경로:", recipe?.images?.img_path);
+  const openMenuBar = () => {
+    console.log("openMenu 상태", openMenu);
+    setOpenMenu(!openMenu);
+  };
 
-  // const commentList = [
-  //   {
-  //     comment_id: "6f9619ff-8b86-d011-b42d-00cf4fc964ff", // 16바이트 UUID (hex string)
-  //     member_id: "8c4cb86e-4f4d-43fd-95fa-93f0adfb56c9", // 작성자 ID
-  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002", // 댓글 단 레시피 ID
-  //     comment_content: "이 레시피 진짜 맛있어요!", // 댓글 내용
-  //     data_created: "2025-05-28T15:00:00Z", // 생성일 (ISO 8601)
-  //     data_updated: "2025-05-28T15:00:00Z", // 수정일 (ISO 8601)
-  //   },
-  //   {
-  //     comment_id: "7e0578cf-0e9d-4f3f-bc14-926d3dc042fe",
-  //     member_id: "17f38d1c-b83b-4f7a-b179-7f5d47bb6f24",
-  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002",
-  //     comment_content: "간단해서 따라 하기 좋았어요~",
-  //     data_created: "2025-05-28T16:10:00Z",
-  //     data_updated: "2025-05-28T16:10:00Z",
-  //   },
-  //   {
-  //     comment_id: "6f9619ff-8b86-d011-b42d-00cf4fc964ff", // 16바이트 UUID (hex string)
-  //     member_id: "8c4cb86e-4f4d-43fd-95fa-93f0adfb56c9", // 작성자 ID
-  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002", // 댓글 단 레시피 ID
-  //     comment_content: "이 레시피 진짜 맛있어요!", // 댓글 내용
-  //     data_created: "2025-05-28T15:00:00Z", // 생성일 (ISO 8601)
-  //     data_updated: "2025-05-28T15:00:00Z", // 수정일 (ISO 8601)
-  //   },
-  //   {
-  //     comment_id: "7e0578cf-0e9d-4f3f-bc14-926d3dc042fe",
-  //     member_id: "17f38d1c-b83b-4f7a-b179-7f5d47bb6f24",
-  //     recipe_id: "1a79a4d6-5f9d-11ec-bf63-0242ac130002",
-  //     comment_content: "간단해서 따라 하기 좋았어요~",
-  //     data_created: "2025-05-28T16:10:00Z",
-  //     data_updated: "2025-05-28T16:10:00Z",
-  //   },
-  // ];
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
     const month = String(date.getMonth() + 1).padStart(2, "0"); // 월 (0~11이라 +1)
@@ -118,7 +88,6 @@ const RecipeDetailpage = () => {
           `http://localhost:8080/recipe/comment/${recipeId}`,
           { withCredentials: true }
         );
-        console.log(response.data);
         setCommentList(response.data);
       } catch (error) {
         console.error("레시피 댓글 가져오기 실패", error);
@@ -275,22 +244,43 @@ const RecipeDetailpage = () => {
                 ))} */}
                 {commentList.map((comment, key) => (
                   <div
-                    className="flex flex-col  border-b  p-8"
+                    className="flex flex-col  border-b  pt-8 pb-8 bg-[#fcfcfc]; rounded-lg  m-[20px]"
                     key={comment.comment_id}
                   >
                     <div className="flex items-center mb-3   ">
                       <div className="">
                         <RecipeDetailProfileIcon />
                       </div>
-                      <div className="font-gowun ml-4 mr-4 text-xl text-[#919191]">
+                      <div className="font-gowun ml-4 mr-4 text-xl min-w-[120px]">
                         {comment.nick_name}
                       </div>
                       <div className="mr-4 text-[#919191]"> | </div>
-                      <div className="text-[#919191]">
+                      <div className="text-[#919191] min-w-[200px]">
                         {" "}
                         {comment.data_created
                           ? comment.data_created
                           : "25.05.22.16:40"}
+                      </div>
+                      <div className="w-full">
+                        <div
+                          className="relative flex justify-end w-full cursor-pointer "
+                          onClick={openMenuBar}
+                        >
+                          <div className=" z-50">
+                            {openMenu ? <XIcon /> : <DotMenuIcon />}
+                          </div>
+
+                          {openMenu && (
+                            <div className="right-0 top-4 absolute flex flex-col bg-[#FDFDFD] border-1 w-48 h-20 ">
+                              <div className="flex-1 flex items-center h-1/2 border-b">
+                                삭제
+                              </div>
+                              <div className="flex-1 flex items-center h-1/2">
+                                수정
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="font-gowun text-lg lg:text-xl">
