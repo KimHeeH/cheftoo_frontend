@@ -73,7 +73,7 @@ const SearchContainer = () => {
                 </span>
               </div>
             ) : (
-              shouldHideContainerRoutes && (
+              !shouldHideContainerRoutes && (
                 <div className="bg-orange-500 hover:bg-orange-600 text-white text-sm lg:text-base px-4 py-2 h-10 rounded-lg font-black">
                   로그인 / 회원가입
                 </div>

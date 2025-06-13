@@ -266,12 +266,12 @@ const RecipeDetailpage = () => {
                           className="relative flex justify-end w-full cursor-pointer "
                           onClick={openMenuBar}
                         >
-                          <div className=" z-50">
+                          <div className=" z-50 ">
                             {openMenu ? <XIcon /> : <DotMenuIcon />}
                           </div>
 
                           {openMenu && (
-                            <div className="right-0 top-4 absolute flex flex-col bg-[#FDFDFD] border-1 w-48 h-20 ">
+                            <div className="right-0 absolute flex flex-col bg-[#FEFEFE] border-1 w-48 h-20 mr-8 pl-2">
                               <div className="flex-1 flex items-center h-1/2 border-b">
                                 삭제
                               </div>
