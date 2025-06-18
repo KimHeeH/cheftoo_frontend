@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
-import Navbar from "../../Component/Navbar/Navbar";
 import Menubar from "../../Component/Menubar/Menubar";
 import addIcon from "./img/add-recipe-btn.svg";
 import RecipeAddpage from "./add/RecipeAddpage";
@@ -35,7 +34,7 @@ const Recipepage = () => {
   };
   const getReipceData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/recipes", {
+      const response = await axios.get("http://localhost:8080/recipe", {
         withCredentials: true,
       });
       console.log(response.data);

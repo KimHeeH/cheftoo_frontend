@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { BackIcon } from "../../Component/Icon/Icon";
 import todayIcon from "./img/Today.svg";
 import recipeIcon from "./img/Recipe.svg";
 import buttonImgLarge from "./img/kakao_login_medium_wide.png";
@@ -10,7 +9,7 @@ import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../Component/Menubar/Menubar";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
-import { NickNameProfileIcon } from "../../Component/Icon/Icon";
+import { NickNameProfileIcon } from "../../Component/Menubar/Icon/Icon";
 import Loader from "../../Component/Loader";
 import useNickname from "../../hooks/useNickname";
 

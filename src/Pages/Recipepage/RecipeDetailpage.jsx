@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BackIcon } from "../../Component/Icon/Icon";
+import { BackIcon } from "../../Component/Menubar/Icon/Icon";
 import img from "./img/pasta.jpg";
 import {
   BigBookmarkIcon,
@@ -12,7 +12,7 @@ import {
   IngredientIcon,
   SelectedBigBookmarkIcon,
 } from "../../Component/Menubar/Icon/Icon";
-import { RecipeDetailProfileIcon } from "../../Component/Icon/Icon";
+import { RecipeDetailProfileIcon } from "../../Component/Menubar/Icon/Icon";
 import { DotMenuIcon } from "../../Component/Menubar/Icon/Icon";
 import { XIcon } from "../../Component/Menubar/Icon/Icon";
 const RecipeDetailpage = () => {
@@ -69,7 +69,7 @@ const RecipeDetailpage = () => {
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/recipes/${recipeId}`,
+          `http://localhost:8080/recipe/${recipeId}`,
           { withCredentials: true }
         );
         console.log(response.data);

@@ -7,7 +7,7 @@ import "./SearchContainer.style.css";
 import { useNavigate } from "react-router-dom";
 import searchIcon from "./icon/searchIcon.svg";
 import userIcon from "./icon/user.svg";
-import { LoginBtnIcon } from "../Icon/Icon";
+import { LoginBtnIcon } from "../Menubar/Icon/Icon";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useState } from "react";
 import useNickname from "../../hooks/useNickname";
