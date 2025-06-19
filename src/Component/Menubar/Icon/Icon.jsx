@@ -484,15 +484,15 @@ export const XIcon = () => {
 export const FolderIcon = () => {
   return (
     <svg
-      width="28"
-      height="25"
+      width="24"
+      height="21"
       viewBox="0 0 28 25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M14.5833 15.1042H18.6667V16.1458H14.5833V19.7917H13.4167V16.1458H9.33333V15.1042H13.4167V11.4583H14.5833V15.1042ZM28 5.72916V23.9583H0V3.64582C0 2.21041 1.30783 1.04166 2.91667 1.04166H9.471L14.1377 3.12499H25.0833C26.6922 3.12499 28 4.29374 28 5.72916ZM1.16667 3.64582V7.29166H26.8333V5.72916C26.8333 4.8677 26.0482 4.16666 25.0833 4.16666H13.8623L9.19567 2.08332H2.91667C1.95183 2.08332 1.16667 2.78436 1.16667 3.64582ZM26.8333 22.9167V8.33332H1.16667V22.9167H26.8333Z"
-        fill="#93928E"
+        fill="#FFFFFF"
       />
     </svg>
   );
@@ -500,8 +500,8 @@ export const FolderIcon = () => {
 export const FolderNameIcon = () => {
   return (
     <svg
-      width="44"
-      height="45"
+      width="35"
+      height="36"
       viewBox="0 0 44 45"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

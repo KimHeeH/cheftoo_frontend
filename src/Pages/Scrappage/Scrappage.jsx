@@ -14,6 +14,8 @@ const Scrappage = () => {
   const [folders, setFolders] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
   const [saveFolderName, setSaveFolderName] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newFolderName, setNewFolderName] = useState("");
   useEffect(() => {
     const fetchRecipeScrap = async () => {
       try {
@@ -54,7 +56,7 @@ const Scrappage = () => {
       console.error("deleteRecipeScrap Error", error);
     }
   };
-  const addRecipeScrap = async (name, tempId) => {
+  const addRecipeScrap = async (name) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/member/scrap",
@@ -62,30 +64,20 @@ const Scrappage = () => {
         { withCredentials: true }
       );
 
-      const realScrapId = response.data.scrap_id; // ✅ 서버가 준 진짜 UUID
-
-      // 📌 기존 폴더 상태에서 임시 id를 가진 폴더를 실제 UUID로 바꿔줌
-      setFolders((prev) =>
-        prev.map((folder) =>
-          folder.scrap_id === tempId
-            ? { ...folder, scrap_id: realScrapId, isNew: false }
-            : folder
-        )
-      );
+      const newFolder = response.data;
+      console.log("newFolder", newFolder);
+      setFolders((prev) => [
+        ...prev,
+        {
+          scrap_id: newFolder.scrap_id,
+          scrap_name: name,
+        },
+      ]);
     } catch (error) {
       console.error("addRecipeScrap 실패", error);
     }
   };
 
-  const addFolder = () => {
-    const newFolder = {
-      scrap_id: Date.now(),
-      scrap_name: "",
-      isNew: true,
-    };
-    setFolders((prev) => [...prev, newFolder]);
-    alert("새 폴더의 이름을 설정해주세요");
-  };
   const handleNameChange = (id, newName) => {
     setFolders((prev) =>
       prev.map((folder) =>
@@ -97,99 +89,134 @@ const Scrappage = () => {
     try {
       await axios.put(
         `http://localhost:8080/member/scrap/${id}`,
-        {
-          scrapName: name,
-        },
+        { scrapName: name },
         { withCredentials: true }
       );
-      alert("이름 변경 완료");
+
+      // 🔥 이 줄이 꼭 필요!
       setFolders((prev) =>
         prev.map((folder) =>
-          folder.scrap_id === id ? { ...folder, isNew: false } : folder
+          folder.scrap_id === id ? { ...folder, scrap_name: name } : folder
         )
       );
+
+      alert("이름 변경 완료");
       setOpenMenuId(null);
     } catch (error) {
       console.error("updateScrapName 실패", error);
     }
   };
+
   return (
-    <div className="container ml-4">
+    <div className="container px-6 py-4 h-screen">
       <SearchContainer />
       <Menubar />
-      <div className="relative h-screen">
-        {/* 폴더 리스트 - 예시로 3개 UI만 */}
+
+      {/* 폴더 추가 버튼 */}
+      <div className="flex justify-end my-6 ">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-[#FA590F] transition"
+        >
+          <FolderIcon />
+          폴더 추가
+        </button>
+      </div>
+
+      {/* 폴더 리스트 */}
+      <div className="grid gap-6 ">
         {folders.map((folder, index) => (
-          <div key={index} className="w-full">
-            <div className="flex border-1 rounded-lg hover:shadow-md items-center mt-8 justify-between cursor-pointer">
-              <div className="flex w-[400px] justify-end items-center h-24  ">
-                <FolderNameIcon />
-                <input
-                  className="ml-4 mr-4 h-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 p-1"
-                  value={folder.scrap_name}
-                  onChange={(e) =>
-                    handleNameChange(folder.scrap_id, e.target.value)
+          <div
+            key={folder.scrap_id}
+            className="flex items-center justify-between p-4 bg-white shadow-sm rounded-xl hover:shadow-md transition max-w-[1000px] cursor-pointer"
+          >
+            <div className="flex items-center gap-4 w-full max-w-[500px]">
+              <FolderNameIcon />
+              <input
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+                value={folder.scrap_name}
+                onChange={(e) =>
+                  handleNameChange(folder.scrap_id, e.target.value)
+                }
+              />
+              {saveFolderName && openMenuId === folder.scrap_id && (
+                <button
+                  onClick={() =>
+                    updateScrapName(folder.scrap_id, folder.scrap_name)
                   }
-                  onBlur={() => {
-                    if (folder.isNew && folder.scrap_name.trim() !== "") {
-                      addRecipeScrap(folder.scrap_name, folder.scrap_id); // ← tempId 전달
-                    }
-                  }}
-                />
-                {saveFolderName && openMenuId === folder.scrap_id && (
-                  <button
-                    className="border-1 w-12 h-10"
-                    onClick={() =>
-                      updateScrapName(folder.scrap_id, folder.scrap_name)
-                    }
-                  >
-                    변경
-                  </button>
-                )}
-              </div>
-
-              <div className="mr-40 relative w-fit">
-                <div
-                  className="z-50 cursor-pointer"
-                  onClick={() => handleMenu(folder.scrap_id)}
+                  className="px-3 py-2 border border-orange-400 text-orange-500 font-semibold rounded-md hover:bg-orange-50"
                 >
-                  {openMenuId === folder.scrap_id ? <XIcon /> : <DotMenuIcon />}
-                </div>
+                  변경
+                </button>
+              )}
+            </div>
 
-                {/* 예시용 드롭다운 메뉴 (항상 보이게끔) */}
-                {openMenuId === folder.scrap_id && (
-                  <div className="absolute top-8 right-0 flex flex-col bg-[#FEFEFE] border shadow-md w-48 z-50">
-                    <div
-                      className="pl-2 py-2 border-b cursor-pointer hover:bg-gray-100"
-                      onClick={() => saveBtnAble(folder.scrap_id)}
-                    >
-                      이름 변경
-                    </div>
-                    <div
-                      className="pl-2 py-2 cursor-pointer hover:bg-gray-100"
-                      onClick={() => deleteScrap(folder.scrap_id)}
-                    >
-                      삭제
-                    </div>
-                  </div>
-                )}
+            {/* 메뉴 아이콘 + 드롭다운 */}
+            <div className="relative">
+              <div
+                onClick={() => handleMenu(folder.scrap_id)}
+                className="cursor-pointer"
+              >
+                {openMenuId === folder.scrap_id ? <XIcon /> : <DotMenuIcon />}
               </div>
+
+              {openMenuId === folder.scrap_id && (
+                <div className="absolute top-10 right-0 bg-white border shadow-lg rounded-md w-32 z-50">
+                  <div
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => saveBtnAble(folder.scrap_id)}
+                  >
+                    이름 변경
+                  </div>
+                  <div
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
+                    onClick={() => deleteScrap(folder.scrap_id)}
+                  >
+                    삭제
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ))}
-
-        {/* 폴더 추가 버튼 */}
-        <div className="absolute left-1/2 lg:top-2/3 -translate-x-1/2 lg:-translate-y-1/2">
-          <div
-            className="w-60 h-20 border-1 rounded-lg flex items-end cursor-pointer"
-            onClick={addFolder}
-          >
-            <div className="flex justify-center items-center w-full h-full gap-4 ">
-              <FolderIcon />새 폴더 추가
+      </div>
+      {isModalOpen && (
+        <div className="absolute top-[30%] left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-lg z-50 w-[400px]">
+          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+            <h2 className="text-xl font-semibold mb-4">새 폴더 만들기</h2>
+            <input
+              type="text"
+              placeholder="폴더 이름"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              value={newFolderName}
+              onChange={(e) => setNewFolderName(e.target.value)}
+            />
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+              >
+                취소
+              </button>
+              <button
+                onClick={async () => {
+                  if (newFolderName.trim() !== "") {
+                    await addRecipeScrap(newFolderName);
+                    setNewFolderName("");
+                    setIsModalOpen(false);
+                    alert("폴더가 추가되었습니다");
+                  } else {
+                    alert("폴더 이름을 입력해주세요.");
+                  }
+                }}
+                className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
+              >
+                확인
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
