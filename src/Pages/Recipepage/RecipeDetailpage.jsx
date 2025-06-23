@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BackIcon } from "../../Component/Menubar/Icon/Icon";
+import { BackIcon, FolderNameIcon } from "../../Component/Menubar/Icon/Icon";
 import img from "./img/pasta.jpg";
 import {
   BigBookmarkIcon,
@@ -19,16 +19,23 @@ const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState([]);
   const [bookmark, setBookmark] = useState(false);
+  const [commentIds, setCommnetIds] = useState("");
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState([]);
   const [openMenu, setOpenMenu] = useState(false);
+  const [isScrapModalOpen, setIsScrapModalOpen] = useState(false);
+  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
+  const [folders, setFolders] = useState([]);
   const navigate = useNavigate();
 
-  const openMenuBar = () => {
+  const openMenuBar = (commentId) => {
+    setCommnetIds((prev) => (prev === commentId ? null : commentId));
     console.log("openMenu 상태", openMenu);
     setOpenMenu(!openMenu);
   };
-
+  const closeModal = () => {
+    setIsScrapModalOpen(false);
+  };
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
     const month = String(date.getMonth() + 1).padStart(2, "0"); // 월 (0~11이라 +1)
@@ -41,9 +48,10 @@ const RecipeDetailpage = () => {
   const handleBackNavigate = () => {
     navigate("/recipe");
   };
-  const handleActiveBookmark = () => {
+  const handleActiveBookmark = async (recipeId) => {
     setBookmark(!bookmark);
-    console.log("bookmark상태 값", bookmark);
+    setSelectedRecipeId(recipeId);
+    setIsScrapModalOpen(true);
   };
   const uploadComment = async () => {
     console.log("setCommnet", comment);
@@ -63,6 +71,36 @@ const RecipeDetailpage = () => {
       console.error("uploadComment Fail", error);
     }
   };
+  const handleScrapToFolder = async (scrapId) => {
+    try {
+      console.log(scrapId);
+      await axios.post(
+        "http://localhost:8080/member/scrap/recipe",
+        {
+          scrapId: scrapId,
+          recipeId: recipe.recipeId,
+        },
+        { withCredentials: true }
+      );
+      alert("스크랩 완료!");
+      setIsScrapModalOpen(false);
+    } catch (error) {
+      console.error("스크랩 실패", error);
+    }
+  };
+
+  const deleteComment = async (commentId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/recipe/comment/${commentId}`,
+        { withCredentials: true }
+      );
+      alert("댓글이 삭제되었습니다");
+    } catch (error) {
+      console.error("댓글 삭제 실패", error);
+    }
+  };
+
   useEffect(() => {
     if (!recipeId) return;
 
@@ -95,7 +133,27 @@ const RecipeDetailpage = () => {
     };
     fetchCommnet();
   }, [commentList]);
-
+  useEffect(() => {
+    const fetchRecipeScrap = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/member/scrap", {
+          withCredentials: true,
+        });
+        const mappedFolders = response.data.map((folder, index) => ({
+          ...folder,
+          scrap_name: folder.scrap_name,
+          scrap_id: folder.scrap_id,
+          index: index + 1,
+        }));
+        setFolders(mappedFolders);
+        console.log(mappedFolders);
+        // console.log(response.data);
+      } catch (error) {
+        console.error("fetchRecipeScrap Error", error);
+      }
+    };
+    fetchRecipeScrap();
+  }, []);
   if (!recipe) return <div>Loading...</div>;
 
   return (
@@ -125,14 +183,14 @@ const RecipeDetailpage = () => {
             </div>
             {/* 북마크 아이콘 */}
             <div
-              className={`absolute  right-[-15px]  top-1/3 lg:right-0 lg:top-1/2 -translate-y-1/2 w-12 h-16 lg:w-16 lg:h-19 border rounded-lg flex justify-center items-center cursor-pointer
+              className={`absolute  right-[-15px]  top-1/3 lg:right-0 lg:top-1/2 -translate-y-1/2 w-12 h-16 lg:w-16 lg:h-20 border rounded-lg flex justify-center items-center cursor-pointer
               transition-transform duration-150 active: active:scale-90 hover:shadow-md
                             ${
                               bookmark
                                 ? "bg-[#FDFDFD]"
                                 : "bg-white border-gray-300"
                             }`}
-              onClick={handleActiveBookmark}
+              onClick={() => handleActiveBookmark(recipe.recipeId)}
             >
               {bookmark ? <SelectedBigBookmarkIcon /> : <BigBookmarkIcon />}
             </div>
@@ -212,7 +270,7 @@ const RecipeDetailpage = () => {
               ))}
           </div>
           <div className="mt-12 border-t border-1-[#919191] pt-8">
-            <div className="mb-4 lg:mb-12 flex lg:flex-row flex-col gap-3 lg:items-center">
+            <div className="flex lg:flex-row flex-col gap-3 lg:items-center">
               <div className="font-gowun  text-xl lg:text-2xl flex items-center gap-3">
                 <CommentIcon /> 요리후기 ({commentList.length})
               </div>
@@ -220,7 +278,7 @@ const RecipeDetailpage = () => {
                 소중한 레시피에 후기를 남겨주세요
               </div>
             </div>
-            <div className="mt-3 lg:mt-16">
+            <div className="mt-1 lg:mt-16">
               <div className="flex flex-col gap-3  ">
                 {/* {commentList.map((comment) => (
                   <div className="border-b  pb-3 h-24 lg:h-32">
@@ -244,18 +302,18 @@ const RecipeDetailpage = () => {
                 ))} */}
                 {commentList.map((comment, key) => (
                   <div
-                    className="flex flex-col  border-b  pt-8 pb-8 bg-[#fcfcfc]; rounded-lg  m-[20px]"
+                    className="flex flex-col  border-b  pt-4 pb-4 bg-[#fcfcfc]; rounded-lg  m-[10px]"
                     key={comment.comment_id}
                   >
                     <div className="flex items-center mb-3   ">
                       <div className="">
                         <RecipeDetailProfileIcon />
                       </div>
-                      <div className="font-gowun ml-4 mr-4 text-xl min-w-[120px]">
+                      <div className="font-gowun ml-4 mr-1 lg:mr-4 text-sm lg:text-xl min-w-[80px]">
                         {comment.nick_name}
                       </div>
-                      <div className="mr-4 text-[#919191]"> | </div>
-                      <div className="text-[#919191] min-w-[200px]">
+                      <div className="mr-1 lg:mr-4 text-[#919191]"> | </div>
+                      <div className="text-sm  lg:text-base text-[#919191] min-w-[200px]">
                         {" "}
                         {comment.data_created
                           ? comment.data_created
@@ -264,15 +322,24 @@ const RecipeDetailpage = () => {
                       <div className="w-full">
                         <div
                           className="relative flex justify-end w-full cursor-pointer "
-                          onClick={openMenuBar}
+                          onClick={() => openMenuBar(comment.comment_id)}
                         >
-                          <div className=" z-50 ">
-                            {openMenu ? <XIcon /> : <DotMenuIcon />}
+                          <div className="absolute right-5  z-50 ">
+                            {commentIds === comment.comment_id ? (
+                              <XIcon />
+                            ) : (
+                              <DotMenuIcon />
+                            )}
                           </div>
 
-                          {openMenu && (
-                            <div className="right-0 absolute flex flex-col bg-[#FEFEFE] border-1 w-48 h-20 mr-8 pl-2">
-                              <div className="flex-1 flex items-center h-1/2 border-b">
+                          {commentIds === comment.comment_id && (
+                            <div className="right-5  absolute flex flex-col bg-[#FEFEFE] border-1 w-28 lg:w-48 h-20 mr-8 pl-2">
+                              <div
+                                className="flex-1 flex items-center h-1/2 border-b"
+                                onClick={() =>
+                                  deleteComment(comment.comment_id)
+                                }
+                              >
                                 삭제
                               </div>
                               <div className="flex-1 flex items-center h-1/2">
@@ -307,6 +374,37 @@ const RecipeDetailpage = () => {
           </div>
         </div>
       </div>
+      {isScrapModalOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center ">
+          <div className="w-[500px] bg-white p-6 rounded-2xl">
+            <div className="flex justify-between items-center h-8 mb-8 ">
+              {" "}
+              <div className="text-xl h-full">폴더 선택</div>
+              <div
+                onClick={() => closeModal()}
+                className="cursor-pointer h-full"
+              >
+                <XIcon />
+              </div>
+            </div>
+
+            {folders.map((folder) => (
+              <div className="flex gap-3 items-center mt-3 h-14 border-b cursor-pointer focus:shadow-lg transition-transform duration-150 active: active:scale-90 hover:shadow-md p-4 ">
+                <div>
+                  <FolderNameIcon fill="#FA590F" />
+                </div>
+                <button
+                  className="flex text-xl"
+                  key={folder.scrap_id}
+                  onClick={() => handleScrapToFolder(folder.scrap_id)}
+                >
+                  {folder.scrap_name}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

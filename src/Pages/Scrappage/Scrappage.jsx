@@ -9,13 +9,16 @@ import {
 } from "../../Component/Menubar/Icon/Icon";
 import axios from "axios";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const Scrappage = () => {
   const [folders, setFolders] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
   const [saveFolderName, setSaveFolderName] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editableFolderId, setEditableFolderId] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchRecipeScrap = async () => {
       try {
@@ -37,6 +40,9 @@ const Scrappage = () => {
     };
     fetchRecipeScrap();
   }, []);
+  const handleFolderClick = (scrapId) => {
+    navigate(`/scrap/${scrapId}`);
+  };
   const handleMenu = (id) => {
     setOpenMenuId((prev) => (prev === id ? null : id));
   };
@@ -65,6 +71,13 @@ const Scrappage = () => {
       );
 
       const newFolder = response.data;
+      console.log(response);
+
+      if (!newFolder.scrap_id) {
+        console.warn("❌ 응답에 scrap_id 없음:", newFolder);
+        alert("폴더 생성 실패: scrap_id가 없습니다.");
+        return;
+      }
       console.log("newFolder", newFolder);
       setFolders((prev) => [
         ...prev,
@@ -93,12 +106,12 @@ const Scrappage = () => {
         { withCredentials: true }
       );
 
-      // 🔥 이 줄이 꼭 필요!
       setFolders((prev) =>
         prev.map((folder) =>
           folder.scrap_id === id ? { ...folder, scrap_name: name } : folder
         )
       );
+      setEditableFolderId(null);
 
       alert("이름 변경 완료");
       setOpenMenuId(null);
@@ -113,7 +126,7 @@ const Scrappage = () => {
       <Menubar />
 
       {/* 폴더 추가 버튼 */}
-      <div className="flex justify-end my-6 ">
+      <div className="flex justify-end my-6 w-18 lg:w-auto ">
         <button
           onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-[#FA590F] transition"
@@ -125,15 +138,22 @@ const Scrappage = () => {
 
       {/* 폴더 리스트 */}
       <div className="grid gap-6 ">
-        {folders.map((folder, index) => (
+        {folders.map((folder, key, index) => (
           <div
             key={folder.scrap_id}
-            className="flex items-center justify-between p-4 bg-white shadow-sm rounded-xl hover:shadow-md transition max-w-[1000px] cursor-pointer"
+            onClick={() => handleFolderClick(folder.scrap_id)}
+            className="flex h-40 gap-4 items-center justify-between p-4 bg-white shadow-sm rounded-xl hover:shadow-md transition max-w-[1000px] cursor-pointer"
           >
             <div className="flex items-center gap-4 w-full max-w-[500px]">
               <FolderNameIcon />
               <input
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+                disabled={editableFolderId !== folder.scrap_id}
+                className={`lg:text-xl flex-1 px-3 py-2  rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400  disabled:bg-white disabled:border-0 disabled:cursor-not-allowed 
+                  ${
+                    editableFolderId !== folder.scrap_id
+                      ? "border-0"
+                      : "border border-gray-300"
+                  }`}
                 value={folder.scrap_name}
                 onChange={(e) =>
                   handleNameChange(folder.scrap_id, e.target.value)
@@ -164,13 +184,22 @@ const Scrappage = () => {
                 <div className="absolute top-10 right-0 bg-white border shadow-lg rounded-md w-32 z-50">
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => saveBtnAble(folder.scrap_id)}
+                    onClick={() => {
+                      saveBtnAble(folder.scrap_id);
+                      setEditableFolderId(folder.scrap_id);
+                    }}
                   >
                     이름 변경
                   </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
-                    onClick={() => deleteScrap(folder.scrap_id)}
+                    onClick={() => {
+                      if (!folder.scrap_id) {
+                        alert("잘못된 폴더 ID입니다.");
+                        return;
+                      }
+                      deleteScrap(folder.scrap_id);
+                    }}
                   >
                     삭제
                   </div>

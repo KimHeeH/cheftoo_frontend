@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
 import { setNickname } from "./store/userSlice";
-
+import ScrapFolderDetail from "./Pages/Scrappage/ScrapFolderDetail";
 function App() {
   const dispatch = useDispatch();
 
@@ -48,6 +48,7 @@ function App() {
       <Route path="/myrecipe" element={<MyRecipepage />} />
       <Route path="/oauth/kakao/callback" element={<KakaoRedirect />} />
       <Route path="/recipes/:recipeId" element={<RecipeDetailpage />} />
+      <Route path="/scrap/:scrapId" element={<ScrapFolderDetail />} />
     </Routes>
   );
 }
