@@ -121,21 +121,28 @@ const Scrappage = () => {
   };
 
   return (
-    <div className="container px-6 py-4 h-screen">
+    <div className="container px-6 py-4 h-screen relative">
       <SearchContainer />
       <Menubar />
 
       {/* 폴더 추가 버튼 */}
-      <div className="flex justify-end my-6 w-18 lg:w-auto ">
+      <div className="flex justify-end my-6 w-40">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-[#FA590F] transition"
+          className="z-99 fixed bottom-28 left-1/2 h-16 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-[#FA590F] transition"
         >
           <FolderIcon />
           폴더 추가
         </button>
       </div>
-
+      <div className=" lg:mt-2">
+        <h2 className="text-lg lg:text-2xl font-semibold">
+          나만의 레시피 폴더
+        </h2>
+        <h5 className="text-base text-gray-500 mt-2">
+          레시피를 폴더별로 정리해서 더 쉽게 찾아보세요!
+        </h5>
+      </div>
       {/* 폴더 리스트 */}
       <div className="grid gap-6 ">
         {folders.map((folder, key, index) => (
@@ -146,35 +153,47 @@ const Scrappage = () => {
           >
             <div className="flex items-center gap-4 w-full max-w-[500px]">
               <FolderNameIcon />
-              <input
-                disabled={editableFolderId !== folder.scrap_id}
-                className={`lg:text-xl flex-1 px-3 py-2  rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400  disabled:bg-white disabled:border-0 disabled:cursor-not-allowed 
+              <div className="flex flex-col items-center h-full">
+                {" "}
+                <input
+                  disabled={editableFolderId !== folder.scrap_id}
+                  className={`mt-1 lg:text-xl flex-1 px-3 py-2  rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400  disabled:bg-white disabled:border-0 disabled:cursor-not-allowed 
                   ${
                     editableFolderId !== folder.scrap_id
                       ? "border-0"
                       : "border border-gray-300"
                   }`}
-                value={folder.scrap_name}
-                onChange={(e) =>
-                  handleNameChange(folder.scrap_id, e.target.value)
-                }
-              />
+                  value={folder.scrap_name}
+                  onChange={(e) =>
+                    handleNameChange(folder.scrap_id, e.target.value)
+                  }
+                />
+                <div className="px-3 mt-2 w-full text-sm text-gray-500">
+                  총 5개의 레시피
+                </div>{" "}
+                {/* 예시 */}
+              </div>
+
               {saveFolderName && openMenuId === folder.scrap_id && (
                 <button
-                  onClick={() =>
-                    updateScrapName(folder.scrap_id, folder.scrap_name)
-                  }
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    updateScrapName(folder.scrap_id, folder.scrap_name);
+                  }}
                   className="px-3 py-2 border border-orange-400 text-orange-500 font-semibold rounded-md hover:bg-orange-50"
                 >
                   변경
                 </button>
               )}
             </div>
-
             {/* 메뉴 아이콘 + 드롭다운 */}
-            <div className="relative">
+            <div className="relative z-99">
               <div
-                onClick={() => handleMenu(folder.scrap_id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleMenu(folder.scrap_id);
+                }}
                 className="cursor-pointer"
               >
                 {openMenuId === folder.scrap_id ? <XIcon /> : <DotMenuIcon />}
@@ -184,7 +203,9 @@ const Scrappage = () => {
                 <div className="absolute top-10 right-0 bg-white border shadow-lg rounded-md w-32 z-50">
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
+
                       saveBtnAble(folder.scrap_id);
                       setEditableFolderId(folder.scrap_id);
                     }}
@@ -193,7 +214,9 @@ const Scrappage = () => {
                   </div>
                   <div
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
+
                       if (!folder.scrap_id) {
                         alert("잘못된 폴더 ID입니다.");
                         return;
@@ -244,6 +267,13 @@ const Scrappage = () => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+      {folders.length === 0 && (
+        <div className="text-center text-gray-400 mt-40">
+          아직 스크랩한 레시피가 없습니다.
+          <br />
+          마음에 드는 레시피를 폴더에 저장해보세요!
         </div>
       )}
     </div>

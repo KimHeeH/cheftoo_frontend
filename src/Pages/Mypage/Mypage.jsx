@@ -120,44 +120,55 @@ const Mypage = () => {
     <div>
       <SearchContainer />
       <Menubar />
-
-      <div className="container flex flex-col items-center mt-8 lg:mt-16">
-        <h2 className="text-2xl lg:text-2xl hidden lg:block mb-4 font-gowun">
-          마이페이지
+      <div className="hidden lg:block">
+        {" "}
+        <h2 className="text-2xl font-semibold text-center mt-10">
+          {prevNickname}님👋 , 반가워요!
         </h2>
+        <p className="text-gray-500 text-center mt-2">
+          회원 정보를 관리하고, 등록한 레시피를 확인해보세요.
+        </p>
+      </div>
 
+      <div className="flex flex-col items-center mt-8 lg:mt-16">
         {/* 프로필 영역 */}
-        <div className="w-full flex justify-start items-center gap-4  mt-12 lg:mt-0 lg:gap-8 lg:ml-[200px]">
+        <div className="w-full flex flex-col justify-center items-center gap-2  ">
           <NickNameProfileIcon className="w-[20px] h-[20px] lg:w-[80px] lg:h-[80px]" />
+
           <div className="text-2xl lg:font-semibold font-gowun">
             {prevNickname}님
           </div>
+          <div className="text-md text-gray-500">카카오 회원</div>
         </div>
 
         {/* 메뉴 리스트 */}
-        <div className="w-full mt-8 flex flex-col gap-2">
+        <div className="w-full max-w-[400px] mx-auto mt-10 space-y-4">
           <div
-            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
+            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer transition 
+             hover:ring-2 hover:ring-orange-400 hover:border-transparent"
             onClick={goUpdateNickname}
           >
             닉네임 변경
           </div>
+
           <div
-            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
+            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer transition 
+             hover:ring-2 hover:ring-orange-400 hover:border-transparent"
             onClick={goMyRecipe}
-            // 닉네임과 동일한 선상에 맞추기
           >
             등록한 레시피
           </div>
           <div
-            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
-            // 닉네임과 동일한 선상에 맞추기
+            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer hover:ring-2 hover:ring-orange-400 hover:border-transparent
+"
+            onClick={() => console.log("로그아웃")}
           >
             로그아웃
           </div>
           <div
-            className="flex items-center font-gowun ml-3 text-lg lg:text-xl border-b h-[60px] cursor-pointer lg:ml-[108px]"
-            // 닉네임과 동일한 선상에 맞추기
+            className="mb-5 px-5 py-4 bg-white rounded-lg  border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer text-red-500 hover:ring-2 hover:ring-red-400 hover:border-transparent
+"
+            onClick={() => console.log("회원탈퇴")}
           >
             회원탈퇴
           </div>

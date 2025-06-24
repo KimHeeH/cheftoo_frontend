@@ -62,24 +62,24 @@ const Recipepage = () => {
       <SearchContainer />
       <Menubar />
 
-      <div className="flex justify-end w-[140px] container overflow-y-auto p-3">
-        {" "}
-        {/* <div className="flex justify-center mt-10">
-          <button
-            onClick={handleClick}
-            className="bg-gray-400 hover:bg-orange-500 text-white px-6 py-2 rounded-lg transition"
-          >
-            레시피 등록
-          </button>
+      <div className="w-full flex justify-center lg:flex-col items-center lg:mt-8">
+        <div className="flex gap-3 text-lg lg:text-2xl font-semibold text-center">
+          오늘 뭐 먹지 고민될 땐?{" "}
+          <span className=" text-[#FA590F]">오늘의 레시피</span>
+        </div>
+
+        {/* <div className="text-lg text-gray-600 text-center mt-2">
+          
         </div> */}
       </div>
-
-      <div className="  container w-full flex flex-wrap pb-[80px]	 lg:gap-16 mt-8">
-        {recipeData.map((recipe) => (
-          <div key={recipe.recipe_id} className="w-1/2 lg:w-[240px] p-2">
-            <RecipeCard recipe={recipe} />
-          </div>
-        ))}
+      <div className="flex justify-center w-full px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-[900px] mt-8 pb-[80px]">
+          {recipeData.map((recipe) => (
+            <div key={recipe.recipe_id} className="w-full">
+              <RecipeCard recipe={recipe} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
