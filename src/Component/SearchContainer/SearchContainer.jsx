@@ -7,7 +7,7 @@ import "./SearchContainer.style.css";
 import { useNavigate } from "react-router-dom";
 import searchIcon from "./icon/searchIcon.svg";
 import userIcon from "./icon/user.svg";
-import { LoginBtnIcon } from "../Menubar/Icon/Icon";
+import { DropDownIcon, DropUpIcon, LoginBtnIcon } from "../Menubar/Icon/Icon";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useState } from "react";
 import useNickname from "../../hooks/useNickname";
@@ -15,6 +15,7 @@ import Icon, { CommentProfileIcon, ProfileIcon } from "../Menubar/Icon/Icon";
 import InputContainer from "./InputContainer";
 // import { useSelector } from "react-redux";
 const SearchContainer = () => {
+  const [isDropdown, setIsDropdown] = useState(false);
   const location = useLocation();
   const includeContainerRoutes = ["/"];
   const hideContainerRoutes = ["/mypage"];
@@ -35,6 +36,10 @@ const SearchContainer = () => {
   const goHomePage = () => {
     navigate("/");
   };
+  const dropdownMenu = () => {
+    setIsDropdown(!isDropdown);
+  };
+
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
@@ -67,10 +72,28 @@ const SearchContainer = () => {
           >
             {isAuthenticated ? (
               <div className="flex gap-2 items-center">
-                <ProfileIcon />
-                <span className="text-base lg:text-xl font-gowun">
+                <span className="text-base lg:text-xl  text-gray-700  hover:opacity-80">
                   {prevNickname}님
                 </span>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dropdownMenu();
+                  }}
+                  className="relative"
+                >
+                  {isDropdown ? <DropUpIcon /> : <DropDownIcon />}
+                  {isDropdown && (
+                    <div className="absolute top-full right-0 mt-2 w-32 bg-white border rounded-md shadow-md">
+                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        내 프로필
+                      </div>
+                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        로그아웃
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               !shouldHideContainerRoutes && (
@@ -102,12 +125,12 @@ const SearchContainer = () => {
             {/* 로그인 */}
             <div
               onClick={handleLoginPage}
-              className="flex w-38 items-center cursor-pointer h-12"
+              className="flex w-38 items-center cursor-pointer h-12  hover:opacity-80"
             >
               {isAuthenticated ? (
                 <div className="flex gap-2 items-center">
                   <ProfileIcon />
-                  <span className="text-base  lg:text-xl font-gowun">
+                  <span className="text-base  lg:text-xl font-semibold text-gray-700">
                     {prevNickname}님
                   </span>
                 </div>

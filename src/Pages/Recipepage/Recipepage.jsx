@@ -62,18 +62,15 @@ const Recipepage = () => {
       <SearchContainer />
       <Menubar />
 
-      <div className="w-full flex justify-center lg:flex-col items-center lg:mt-8">
-        <div className="flex gap-3 text-lg lg:text-2xl font-semibold text-center">
-          오늘 뭐 먹지 고민될 땐?{" "}
-          <span className=" text-[#FA590F]">오늘의 레시피</span>
-        </div>
-
-        {/* <div className="text-lg text-gray-600 text-center mt-2">
-          
-        </div> */}
+      <div className="text-center border-t p-8  lg:my-5 font-gowun">
+        <p className="text-gray-700 text-lg  lg:text-2xl">
+          뭐 먹을지 고민된다면,
+          <span className="text-orange-500 ml-3">오늘의 추천 레시피</span>
+        </p>
       </div>
+
       <div className="flex justify-center w-full px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-[900px] mt-8 pb-[80px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 w-full max-w-[900px]  pb-[80px]">
           {recipeData.map((recipe) => (
             <div key={recipe.recipe_id} className="w-full">
               <RecipeCard recipe={recipe} />

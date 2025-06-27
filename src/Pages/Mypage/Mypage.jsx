@@ -142,9 +142,9 @@ const Mypage = () => {
         </div>
 
         {/* 메뉴 리스트 */}
-        <div className="w-full max-w-[400px] mx-auto mt-10 space-y-4">
+        <div className="p-4 lg:p-0 w-full max-w-[400px] mx-auto mt-10 space-y-4">
           <div
-            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer transition 
+            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl  cursor-pointer transition 
              hover:ring-2 hover:ring-orange-400 hover:border-transparent"
             onClick={goUpdateNickname}
           >
@@ -152,21 +152,21 @@ const Mypage = () => {
           </div>
 
           <div
-            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer transition 
+            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl  cursor-pointer transition 
              hover:ring-2 hover:ring-orange-400 hover:border-transparent"
             onClick={goMyRecipe}
           >
             등록한 레시피
           </div>
           <div
-            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer hover:ring-2 hover:ring-orange-400 hover:border-transparent
+            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl  cursor-pointer hover:ring-2 hover:ring-orange-400 hover:border-transparent
 "
             onClick={() => console.log("로그아웃")}
           >
             로그아웃
           </div>
           <div
-            className="mb-5 px-5 py-4 bg-white rounded-lg  border border-gray-200 text-lg lg:text-xl font-gowun cursor-pointer text-red-500 hover:ring-2 hover:ring-red-400 hover:border-transparent
+            className="mb-5 px-5 py-4 bg-white rounded-lg  border border-gray-200 text-lg lg:text-xl  cursor-pointer text-red-500 hover:ring-2 hover:ring-red-400 hover:border-transparent
 "
             onClick={() => console.log("회원탈퇴")}
           >

@@ -738,6 +738,39 @@ export const MiniPictureIcon = () => {
     </svg>
   );
 };
+export const DropDownIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      id="Layer_1"
+      data-name="Layer 1"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+    >
+      <path
+        fill="#A3A3A3"
+        d="M11.744,18c-.757,0-1.48-.323-1.985-.886L3.328,10.587c-.602-.657-.747-1.535-.402-2.317,.345-.783,1.09-1.27,1.945-1.27h13.745c.854,0,1.6,.486,1.944,1.269s.2,1.66-.376,2.291l-6.487,6.589c-.474,.528-1.197,.852-1.953,.852Z"
+      />
+    </svg>
+  );
+};
+export const DropUpIcon = () => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M261.461 128C277.611 128 293.035 134.891 303.808 146.901L441.003 286.144C453.845 300.16 456.939 318.891 449.579 335.573C442.219 352.277 426.325 362.667 408.085 362.667L114.859 362.667C96.64 362.667 80.7254 352.299 73.3867 335.595C66.048 318.891 69.12 300.181 81.408 286.72L219.797 146.155C229.909 134.891 245.333 128 261.461 128Z"
+        fill="#A3A3A3"
+      />
+    </svg>
+  );
+};
 const Icon = {
   HomeIcon,
   SelectedHomeIcon,
@@ -769,5 +802,7 @@ const Icon = {
   PictureIcon,
   addIcon,
   BackIcon,
+  DropDownIcon,
+  DropUpIcon,
 };
 export default Icon;
