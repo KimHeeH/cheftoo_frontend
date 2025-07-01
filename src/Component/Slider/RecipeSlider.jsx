@@ -23,7 +23,7 @@ const RecipeSlider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="relative container">
+    <div className="relative container ">
       <Swiper
         modules={[Autoplay]}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}

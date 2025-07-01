@@ -17,7 +17,7 @@ import InputContainer from "./InputContainer";
 const SearchContainer = () => {
   const [isDropdown, setIsDropdown] = useState(false);
   const location = useLocation();
-  const includeContainerRoutes = ["/"];
+  const includeContainerRoutes = ["/", "/recipe"];
   const hideContainerRoutes = ["/mypage"];
   const shouldHideContainerRoutes = hideContainerRoutes.includes(
     location.pathname
@@ -97,14 +97,14 @@ const SearchContainer = () => {
               </div>
             ) : (
               !shouldHideContainerRoutes && (
-                <div className="bg-orange-500 hover:bg-orange-600 text-white text-sm lg:text-base px-4 py-2 h-10 rounded-lg font-black">
+                <div className="border-gray-200 border-2 hover:bg-orange-600 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
                   로그인 / 회원가입
                 </div>
               )
             )}
           </div>
         </div>
-        <div className="hidden lg:block">
+        <div className="hidden lg:block p-2">
           {/* PC 전용 input (정중앙) */}
           {shouldIncludeContainerRoutes && <InputContainer />}
         </div>
@@ -129,13 +129,12 @@ const SearchContainer = () => {
             >
               {isAuthenticated ? (
                 <div className="flex gap-2 items-center">
-                  <ProfileIcon />
                   <span className="text-base  lg:text-xl font-semibold text-gray-700">
                     {prevNickname}님
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center bg-orange-500 hover:bg-orange-600 text-white text-sm p-2  h-8 rounded-lg">
+                <div className="flex items-center border-gray-300 hover:bg-orange-600 text-white text-sm p-2  h-8 rounded-lg">
                   로그인 / 회원가입
                 </div>
               )}

@@ -12,7 +12,7 @@ import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { NickNameProfileIcon } from "../../Component/Menubar/Icon/Icon";
 import Loader from "../../Component/Loader";
 import useNickname from "../../hooks/useNickname";
-
+import cookImg from "./img/cook-book.png";
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const location = useLocation();
@@ -76,41 +76,49 @@ const Mypage = () => {
   }
   if (!isAuthenticated) {
     return (
-      <div className="h-screen">
+      <div className="h-screen ">
+        {" "}
+        {/* 배경색 추가 */}
         <SearchContainer />
         <Menubar />
-        <div className="container flex flex-col items-center mt-44 lg:mt-16">
-          <div className="flex gap-2">
-            <div className="w-[100px] lg:w-[150px]">
-              <img className="w-full" src={todayIcon} alt="Today" />
+        {/* 상단 로고 + 일러스트 */}
+        <div className="">
+          <div className=" container flex flex-col items-center mt-20 lg:mt-16 ">
+            <div className="flex gap-2 mb-6">
+              <div className="w-[100px] lg:w-[150px]">
+                <img className="w-full" src={todayIcon} alt="Today" />
+              </div>
+              <div className="w-[100px] lg:w-[150px]">
+                <img className="w-full" src={recipeIcon} alt="Recipe" />
+              </div>
             </div>
-            <div className="w-[100px] lg:w-[150px]">
-              <img className="w-full" src={recipeIcon} alt="Recipe" />
-            </div>
-          </div>
-        </div>
 
-        {/* 로그인 입력 필드 */}
-        <div className="flex-grow flex flex-col justify-center items-center  container">
-          <div className="mt-4 text-lg text-[#696868] lg:text-2xl lg:mt-8">
-            로그인/회원가입
+            {/* 🍳 일러스트 추가 */}
+            <div className="w-[180px] lg:w-[100px] mb-8">
+              <img src={cookImg} alt="요리 일러스트" />
+            </div>
           </div>
-          <div className="mt-8 text-center text-[#3B3A36] text-lg lg:text-2xl ">
-            간편하게 로그인하고 <br />
-            다양한 서비스를 이용해보세요.
+          {/* 로그인 안내 문구 */}
+          <div className="flex-grow flex flex-col justify-center items-center container">
+            <div className="mt-4 text-lg text-[#696868] lg:text-2xl lg:mt-8 font-semibold">
+              로그인 / 회원가입
+            </div>
+            <div className="font-gowun mt-4 text-center text-[#3B3A36] text-base lg:text-2xl leading-relaxed">
+              레시피를 저장하고, 나만의 요리 노트를 만들어보세요.{" "}
+            </div>
           </div>
-        </div>
-        <div className="flex container mt-8 w-full lg:mt-16">
-          {/* 카카오 버튼 */}
-          <div
-            className=" flex  justify-center items-center  w-full cursor-pointer"
-            onClick={kakaoLogin}
-          >
-            <img
-              className="w-2/3 lg:w-1/5 lg:h-10"
-              src={buttonImg}
-              alt="카카오버튼"
-            />
+          {/* 카카오 로그인 버튼 */}
+          <div className="flex container mt-8 w-full lg:mt-16">
+            <div
+              className="flex justify-center items-center w-full cursor-pointer"
+              onClick={kakaoLogin}
+            >
+              <img
+                className="w-2/3 lg:w-1/5 lg:h-10 shadow-md hover:shadow-lg transition transform hover:scale-105"
+                src={buttonImg}
+                alt="카카오 로그인"
+              />
+            </div>
           </div>
         </div>
       </div>

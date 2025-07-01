@@ -23,8 +23,8 @@ const Menubar = () => {
   };
 
   return (
-    <div className="container fixed bottom-0 left-0 w-full bg-white border-t border-[#DCDCDC] lg:static lg:border-t-0 lg:border-b z-50 ">
-      <div className="flex justify-around lg:justify-start items-center h-[80px] lg:h-[50px] gap-8 text-[#3B3A36]">
+    <div className="container fixed bottom-0 left-0 w-full bg-white  border-t border-[#DCDCDC] lg:static lg:border-t-0 lg:border-b z-50 ">
+      <div className="flex justify-around lg:justify-start items-center h-[80px] lg:h-[50px] gap-8 text-[#3B3A36] lg:bg-[#FFFDF7]">
         {/* 메뉴 아이템 공통 구조화 */}
         {[
           {

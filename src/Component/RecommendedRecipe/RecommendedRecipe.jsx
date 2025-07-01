@@ -10,6 +10,7 @@ import RecipeSlider from "../Slider/RecipeSlider";
 import { Pencil } from "lucide-react";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
+import backgroundImg from "./img/bgImg1.png";
 const RecommendedRecipe = () => {
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
 
@@ -31,7 +32,7 @@ const RecommendedRecipe = () => {
     }
   };
   return (
-    <div className="relative overflow-x-hidden overflow-y-auto lg:mt-16 lg:mb-24 ">
+    <div className="relative p-3 lg:overflow-x-hidden overflow-y-auto lg:mt-0 lg:mb-24 ">
       {/* <div className="animate-fadeIn">
         <div className="lg:w-[400px] relative font-gowun line container leading-relaxed flex justify-center  mt-12 lg:text-2xl lg:mt-8     ">
           <span className=" mr-1  text-[#3B3A36] lg:mr-4">
@@ -46,24 +47,31 @@ const RecommendedRecipe = () => {
         </div>
       </div> */}
 
-      <div className="text-center mt-24 lg:mt-10 ">
-        <h1 className="font-gowun text-2xl lg:text-4xl font-bold  mb-4 animate-fade-in">
-          오늘의 레시피를 찾아보세요!
-        </h1>
-        <p className="text-md lg:text-2xl font-gowun text-gray-500 mb-6">
-          당신의 요리를 공유하고, 새로운 레시피를 발견해보세요.
-        </p>
-        <button
-          onClick={handleClick}
-          className="flex items-center gap-2 mx-auto mt-4 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full shadow-md transition"
-        >
-          <Pencil size={18} className="text-white" />
-          <span className="text-sm lg:text-base font-medium">
-            레시피 등록하기
-          </span>
-        </button>
+      <div className="relative container mt-12 lg:mt-0 h-[250px] lg:h-[400px]">
+        <img
+          className="w-full h-full absolute top-0 left-0 object-cover opacity-50 z-0"
+          src={backgroundImg}
+        />
+        <div className="relative pl-2 lg:pl-12 z-10 flex flex-col h-full justify-center ">
+          {" "}
+          <h1 className="text-xl lg:text-4xl font-bold text-black mb-4 animate-fade-in">
+            오늘의 레시피를 찾아보세요!
+          </h1>
+          <p className="text-sm lg:text-2xl  text-gray-500 ">
+            당신의 요리를 공유하고<br></br> 새로운 레시피를 발견해보세요.
+          </p>
+          <button
+            onClick={handleClick}
+            className="flex items-center  gap-2 w-[165px] lg:w-[200px] mt-4 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full shadow-md transition"
+          >
+            <Pencil size={18} className="text-white" />
+            <span className="text-xs lg:text-base font-medium">
+              레시피 등록하기
+            </span>
+          </button>
+        </div>
       </div>
-      <div className="pl-6 lg:pl-0 container mt-12 mb-6 border-t pt-4">
+      <div className="pl-6 lg:pl-0 container mt-12 mb-6lg:mb-0 border-t pt-4">
         <h2 className="text-lg lg:text-3xl font-bold"> 인기 레시피</h2>
         <p className="text-gray-500 mt-2 text-base lg:text-lg">
           지금 가장 인기있는 레시피들을 만나보세요!

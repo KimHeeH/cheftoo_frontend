@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import checkAuthGuard from "../../hooks/checkAuthGuard";
 const Scrappage = () => {
   const [folders, setFolders] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -39,6 +40,23 @@ const Scrappage = () => {
       }
     };
     fetchRecipeScrap();
+  }, []);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const status = await checkAuthGuard();
+        if (status === 200) {
+        } else {
+          alert("로그인이 필요합니다.");
+          navigate("/mypage");
+        }
+      } catch (error) {
+        console.error("인증 오류:", error);
+        alert("로그인이 필요합니다.");
+      }
+    };
+
+    checkAuth();
   }, []);
   const handleFolderClick = (scrapId) => {
     navigate(`/scrap/${scrapId}`);
@@ -124,18 +142,18 @@ const Scrappage = () => {
     <div className="container px-6 py-4 h-screen  w-full">
       <SearchContainer />
       <Menubar />
-      <div className="border-t "></div>
+      <div className="border-t lg:border-0"></div>
       {/* 폴더 추가 버튼 */}
       <div className="lg:my-6 w-40 lg:w-60 ">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="  z-[9999] fixed bottom-28 lg:bottom-16 lg:w-60 flex justify-center lg:text-xl left-1/2 h-16 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-[#FA590F] transition"
+          className=" gap-3 z-[10] fixed bottom-24 lg:bottom-24 lg:bottom-2 w-2/3  lg:w-60 flex justify-center lg:text-xl left-1/2 h-16 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-[#FDFDFD] text-black  text-center border-1 border-[#E7E7E7] rounded-lg hover:bg-gray-100 transition"
         >
           <FolderIcon />
           폴더 추가
         </button>
       </div>
-      <div className="hidden lg:block flex flex-col items-center text-center lg:m-8 border-t pt-4">
+      <div className="hidden lg:block   lg:m-8 border-t lg:border-0 pt-4">
         <div className="text-lg lg:text-2xl font-semibold">
           나만의 레시피 폴더
         </div>
@@ -204,7 +222,7 @@ const Scrappage = () => {
                 </div>
 
                 {openMenuId === folder.scrap_id && (
-                  <div className="absolute top-full right-0 bg-white border shadow-lg rounded-md w-32 z-50">
+                  <div className="absolute top-full right-0 bg-white border rounded-md shadow-md w-32 z-[9999]">
                     <div
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       onClick={(e) => {
@@ -275,7 +293,7 @@ const Scrappage = () => {
         </div>
       )}
       {folders.length === 0 && (
-        <div className="text-center text-gray-400 mt-40 ">
+        <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[500px] lg:w-full lg:h-[200px] lg:border-1 ">
           아직 스크랩한 레시피가 없습니다.
           <br />
           마음에 드는 레시피를 폴더에 저장해보세요!
