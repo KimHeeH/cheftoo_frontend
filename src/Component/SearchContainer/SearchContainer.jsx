@@ -97,7 +97,7 @@ const SearchContainer = () => {
               </div>
             ) : (
               !shouldHideContainerRoutes && (
-                <div className="border-gray-200 border-2 hover:bg-orange-600 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
+                <div className="border-gray-100 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
                   로그인 / 회원가입
                 </div>
               )
@@ -134,7 +134,7 @@ const SearchContainer = () => {
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center border-gray-300 hover:bg-orange-600 text-white text-sm p-2  h-8 rounded-lg">
+                <div className="flex items-center border-gray-100 hover:bg-gray-100 text-white text-sm p-2  h-8 rounded-lg">
                   로그인 / 회원가입
                 </div>
               )}

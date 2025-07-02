@@ -167,49 +167,59 @@ const RecipeDetailpage = () => {
       <div className="w-full max-w-full px-4 lg:max-w-[900px] mx-auto">
         {/* 실제 콘텐츠 */}
         <div>
-          <div className="relative mb-6">
-            {" "}
-            {/* 제목+내용+아이콘 감싸는 박스 */}
-            {/* 제목 */}
-            <div
-              className="w-5/6 
-            font-gowun text-xl lg:text-3xl border-b border-[#DCDCDC] pb-3"
-            >
-              {recipe.recipe_title}
-            </div>
-            {/* 내용 */}
-            <div className="font-gowun mt-3 text-base lg:text-2xl w-4/5">
-              <p>{recipe.recipe_content}</p>
-            </div>
-            {/* 북마크 아이콘 */}
-            <div
-              className={`absolute  right-[-15px]  top-1/3 lg:right-0 lg:top-1/2 -translate-y-1/2 w-12 h-16 lg:w-16 lg:h-20 border rounded-lg flex justify-center items-center cursor-pointer
+          <div className=" mb-6 flex w-full">
+            <div className=" w-1/2 mt-3 h-[300px] lg:h-[500px] border-1">
+              <img
+                src={img}
+                // src={recipe.images?.img_path
+                //   ?.replace("C:/main_images", "http://localhost:8080/images")
+                //   .replaceAll("\\", "/")}
+                alt="대표 이미지"
+                className="w-full  h-[300px] lg:h-[500px] max-h-[500px] object-cover rounded-xl border"
+              />
+            </div>{" "}
+            <div className="w-1/2 relative">
+              <div className="w-full ml-4 mt-3 relative">
+                <div
+                  className="w-2/3 pl-2
+            text-xl lg:text-3xl  pb-3 border-b border-gray-300"
+                >
+                  {recipe.recipe_title}
+                  <div
+                    className={`absolute  right-[-15px]  top-1/3 lg:right-0 lg:top-0 w-12 h-16 lg:w-16 lg:h-20 border rounded-lg flex justify-center items-center cursor-pointer
               transition-transform duration-150 active: active:scale-90 hover:shadow-md
                             ${
                               bookmark
                                 ? "bg-[#FDFDFD]"
                                 : "bg-white border-gray-300"
                             }`}
-              onClick={() => handleActiveBookmark(recipe.recipeId)}
-            >
-              {bookmark ? <SelectedBigBookmarkIcon /> : <BigBookmarkIcon />}
+                    onClick={() => handleActiveBookmark(recipe.recipeId)}
+                  >
+                    {bookmark ? (
+                      <SelectedBigBookmarkIcon />
+                    ) : (
+                      <BigBookmarkIcon />
+                    )}
+                  </div>
+                </div>
+                {/* 내용 */}
+                <div className="mt-12 text-sm lg:text-2xl ">
+                  <p>{recipe.recipe_content}</p>
+                </div>
+              </div>
+              <div className="flex ml-4 absolute bottom-0 text-xl">
+                댓글{" "}
+                <p className="font-semibold text-xl">({commentList.length})</p>
+              </div>
             </div>
-          </div>
-
-          <div className="mt-3 h-[300px] lg:h-[500px] border-1">
-            <img
-              src={img}
-              // src={recipe.images?.img_path
-              //   ?.replace("C:/main_images", "http://localhost:8080/images")
-              //   .replaceAll("\\", "/")}
-              alt="대표 이미지"
-              className="w-full  h-[300px] lg:h-[500px] max-h-[500px] object-cover rounded-xl border"
-            />
+            {/* 제목+내용+아이콘 감싸는 박스 */}
+            {/* 제목 */}
+            {/* 북마크 아이콘 */}
           </div>
 
           {/* 재료 */}
           <div className="mt-12">
-            <div className="flex gap-3 mb-12mb-12">
+            <div className="flex gap-3 mb-12">
               <div>
                 <IngredientIcon />
               </div>
@@ -300,6 +310,20 @@ const RecipeDetailpage = () => {
                     </div>
                   </div>
                 ))} */}
+                <div className="flex gap-4 lg:gap-0 min-h-[40px] mt-8 lg:w-[900px] lg:min-h-[100px] ">
+                  <textarea
+                    className="w-full rounded-xl min-h-[30px] lg:min-h-[100px] lg:text-xl resize-none p-4  bg-[#FDFDFD] border-1"
+                    placeholder="댓글을 남겨주세요"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <div
+                    className="rounded-xl text-base lg:text-xl w-24 lg:w-[200px] lg:min-h-[100px] flex items-center   border-1 bg-[#FDFDFD] justify-center cursor-pointer"
+                    onClick={() => uploadComment()}
+                  >
+                    등록
+                  </div>
+                </div>
                 {commentList.map((comment, key) => (
                   <div
                     className="flex flex-col  border-b  pt-4 pb-4 bg-[#fcfcfc]; rounded-lg  m-[10px]"
@@ -355,20 +379,6 @@ const RecipeDetailpage = () => {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-            <div className="flex gap-4 lg:gap-0 min-h-[40px] mt-8 lg:w-[900px] lg:min-h-[200px] ">
-              <textarea
-                className="w-full min-h-[30px] lg:min-h-[200px] lg:text-xl resize-none p-4  bg-[#FDFDFD] border-1"
-                placeholder="댓글을 남겨주세요"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <div
-                className=" text-base lg:text-xl w-24 lg:w-[200px] lg:min-h-[200px] flex items-center   border-1 bg-[#FDFDFD] justify-center cursor-pointer"
-                onClick={() => uploadComment()}
-              >
-                등록
               </div>
             </div>
           </div>
