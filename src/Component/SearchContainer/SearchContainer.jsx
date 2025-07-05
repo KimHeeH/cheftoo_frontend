@@ -97,16 +97,12 @@ const SearchContainer = () => {
               </div>
             ) : (
               !shouldHideContainerRoutes && (
-                <div className="border-gray-100 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
+                <div className="border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
                   로그인 / 회원가입
                 </div>
               )
             )}
           </div>
-        </div>
-        <div className="hidden lg:block p-2">
-          {/* PC 전용 input (정중앙) */}
-          {shouldIncludeContainerRoutes && <InputContainer />}
         </div>
 
         {/* 모바일용 로고+로그인+input */}
@@ -134,7 +130,10 @@ const SearchContainer = () => {
                   </span>
                 </div>
               ) : (
-                <div className="flex items-center border-gray-100 hover:bg-gray-100 text-white text-sm p-2  h-8 rounded-lg">
+                <div
+                  className="flex items-center border-gray-100 hover:bg-gray-1
+                00 text-white text-sm p-2  h-8 rounded-lg"
+                >
                   로그인 / 회원가입
                 </div>
               )}
@@ -142,12 +141,6 @@ const SearchContainer = () => {
           </div>
 
           {/*input Container */}
-
-          {shouldIncludeContainerRoutes && (
-            <div className="mt-3">
-              <InputContainer />
-            </div>
-          )}
         </div>
       </div>
     </div>

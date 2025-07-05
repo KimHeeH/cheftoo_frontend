@@ -36,23 +36,20 @@ function App() {
     fetchNickname();
   }, []);
   return (
-    <div className="bg-[#FFFDF7]">
-      {" "}
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/recipe" element={<Recipepage />} />
-        <Route path="/search" element={<Searchpage />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/scrap" element={<Scrappage />} />
-        <Route path="/add" element={<RecipeAddpage />} />
-        <Route path="/nickname" element={<Nicknamepage />} />
-        <Route path="/updateNickname" element={<UpdateNicknamepage />} />
-        <Route path="/myrecipe" element={<MyRecipepage />} />
-        <Route path="/oauth/kakao/callback" element={<KakaoRedirect />} />
-        <Route path="/recipes/:recipeId" element={<RecipeDetailpage />} />
-        <Route path="/scrap/:scrapId" element={<ScrapFolderDetail />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/recipe" element={<Recipepage />} />
+      <Route path="/search" element={<Searchpage />} />
+      <Route path="/mypage" element={<Mypage />} />
+      <Route path="/scrap" element={<Scrappage />} />
+      <Route path="/add" element={<RecipeAddpage />} />
+      <Route path="/nickname" element={<Nicknamepage />} />
+      <Route path="/updateNickname" element={<UpdateNicknamepage />} />
+      <Route path="/myrecipe" element={<MyRecipepage />} />
+      <Route path="/oauth/kakao/callback" element={<KakaoRedirect />} />
+      <Route path="/recipes/:recipeId" element={<RecipeDetailpage />} />
+      <Route path="/scrap/:scrapId" element={<ScrapFolderDetail />} />
+    </Routes>
   );
 }
 

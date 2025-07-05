@@ -11,6 +11,7 @@ import { Pencil } from "lucide-react";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import backgroundImg from "./img/bgImg1.png";
+import InputContainer from "../SearchContainer/InputContainer";
 const RecommendedRecipe = () => {
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
 
@@ -47,8 +48,8 @@ const RecommendedRecipe = () => {
         </div>
       </div> */}
 
-      <div className="relative container mt-12 lg:mt-0 h-[250px] lg:h-[400px]">
-        <img
+      <div className="relative container  lg:mt-0 h-[100px] lg:h-[120px]">
+        {/* <img
           className="w-full h-full absolute top-0 left-0 object-cover opacity-50 z-0"
           src={backgroundImg}
         />
@@ -69,11 +70,22 @@ const RecommendedRecipe = () => {
               레시피 등록하기
             </span>
           </button>
+        </div> */}
+        <div className="w-full relative flex flex-col items-center   mt-4">
+          <div className="text-xl lg:text-2xl font-bold text-[#3B3A36]">
+            오늘의 요리는?
+          </div>
+          <div className="w-full absolute top-14 left-1/2  -translate-x-1/2">
+            <InputContainer />
+          </div>
         </div>
       </div>
       <div className="pl-6 lg:pl-0 container mt-12 mb-6lg:mb-0 border-t pt-4">
-        <h2 className="text-lg lg:text-3xl font-bold"> 인기 레시피</h2>
-        <p className="text-gray-500 mt-2 text-base lg:text-lg">
+        <h2 className="text-lg lg:text-2xl font-semibold text-[#3B3A36]">
+          {" "}
+          인기 레시피
+        </h2>
+        <p className="text-gray-500 mt-3 text-base lg:text-lg">
           지금 가장 인기있는 레시피들을 만나보세요!
         </p>
       </div>

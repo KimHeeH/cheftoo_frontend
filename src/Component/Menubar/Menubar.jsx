@@ -24,7 +24,7 @@ const Menubar = () => {
 
   return (
     <div className="container fixed bottom-0 left-0 w-full bg-white  border-t border-[#DCDCDC] lg:static lg:border-t-0 lg:border-b z-50 ">
-      <div className="flex justify-around lg:justify-start items-center h-[80px] lg:h-[50px] gap-8 text-[#3B3A36] lg:bg-[#FFFDF7]">
+      <div className="flex justify-around lg:justify-start items-center h-[80px] lg:h-[50px] gap-8 text-[#3B3A36]">
         {/* 메뉴 아이템 공통 구조화 */}
         {[
           {
@@ -67,8 +67,8 @@ const Menubar = () => {
             </div>
             {/* 텍스트 */}
             <span
-              className={`font-bold mt-2 text-center ${
-                menu === key ? "text-[#111111]" : "text-[#BFBFBF]"
+              className={` mt-2 text-center ${
+                menu === key ? "text-[#FA590F] font-bold" : "text-[#BFBFBF]"
               }`}
             >
               {label}

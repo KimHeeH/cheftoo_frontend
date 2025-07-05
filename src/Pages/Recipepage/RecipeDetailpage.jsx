@@ -26,6 +26,7 @@ const RecipeDetailpage = () => {
   const [isScrapModalOpen, setIsScrapModalOpen] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
   const [folders, setFolders] = useState([]);
+  const [scrapList, setScrapList] = useState([]);
   const navigate = useNavigate();
 
   const openMenuBar = (commentId) => {
@@ -154,6 +155,21 @@ const RecipeDetailpage = () => {
     };
     fetchRecipeScrap();
   }, []);
+
+  useEffect(() => {
+    const fetchScrap = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/member/scrap/recipe",
+          { withCredentials: true }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error("스크랩 레시피 오류", error);
+      }
+    };
+    fetchScrap();
+  }, []);
   if (!recipe) return <div>Loading...</div>;
 
   return (
@@ -208,8 +224,12 @@ const RecipeDetailpage = () => {
                 </div>
               </div>
               <div className="flex ml-4 absolute bottom-0 text-xl">
-                댓글{" "}
-                <p className="font-semibold text-xl">({commentList.length})</p>
+                <p className="font-semibold text-xl ml-2">
+                  댓글 {commentList.length}
+                </p>
+                <p className="font-semibold text-xl ml-2">
+                  북마크 {commentList.length}
+                </p>
               </div>
             </div>
             {/* 제목+내용+아이콘 감싸는 박스 */}
@@ -223,11 +243,9 @@ const RecipeDetailpage = () => {
               <div>
                 <IngredientIcon />
               </div>
-              <div className="font-gowun text-xl lg:text-2xl text-[#3B3A36]">
-                재료
-              </div>
+              <div className=" text-xl lg:text-2xl text-[#3B3A36]">재료</div>
             </div>
-            <div className="font-gowun mt-4 border-t border-black  text-lg lg:text-xl bg-[#FDFDFD]">
+            <div className=" mt-4 border-t border-black  text-lg lg:text-xl bg-[#FDFDFD]">
               <div className="flex items-center h-12 lg:h-16 border-b border-gray-300">
                 <div className="w-1/2 flex justify-center">
                   {recipe?.ingredients?.ingredients_name}
@@ -245,26 +263,28 @@ const RecipeDetailpage = () => {
               <div>
                 <CookingOrderIcon />
               </div>
-              <div className="text-xl lg:text-2xl font-gowun text-[#3B3A36]">
+              <div className="text-xl lg:text-2xl  text-[#3B3A36]">
                 조리순서
               </div>
             </div>
-            {recipe?.cooking_order
-              ?.slice()
-              .reverse()
-              .map((order, i) => (
-                <div
-                  key={i}
-                  className="m-2 mt-4 bg-[#FBFBFB] p-4 border rounded-lg"
-                >
-                  <div className="font-gowun flex flex-col lg:flex-row gap-2 lg:gap-4">
-                    <div className="w-1/5 text-base lg:text-xl font-bold">
-                      Step {order.order}
-                    </div>
-                    <div className="text-base lg:text-lg w-full">
-                      {order.content}
-                    </div>
-                    {/* {order.img_path && (
+            <div>
+              {" "}
+              {recipe?.cooking_order
+                ?.slice()
+                .reverse()
+                .map((order, i) => (
+                  <div
+                    key={i}
+                    className="w-1/2 m-2 mt-4 bg-[#FBFBFB] p-4 border rounded-lg"
+                  >
+                    <div className=" flex flex-col lg:flex-row gap-2 lg:gap-4">
+                      <div className="w-1/5 text-base lg:text-xl font-bold">
+                        Step {order.order}
+                      </div>
+                      <div className="text-base lg:text-lg w-full">
+                        {order.content}
+                      </div>
+                      {/* {order.img_path && (
                         <img
                           src={order.img_path
                             ?.replace(
@@ -275,41 +295,28 @@ const RecipeDetailpage = () => {
                           className="w-full lg:w-[200px] h-[150px] object-cover rounded border"
                         />
                       )} */}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
           <div className="mt-12 border-t border-1-[#919191] pt-8">
             <div className="flex lg:flex-row flex-col gap-3 lg:items-center">
-              <div className="font-gowun  text-xl lg:text-2xl flex items-center gap-3">
-                <CommentIcon /> 요리후기 ({commentList.length})
+              <div className=" text-xl lg:text-2xl flex items-center gap-3">
+                <div>
+                  <CommentIcon />
+                </div>
+                <div>요리후기</div>{" "}
+                <div className="text-orange-500 font-semibold">
+                  {commentList.length}
+                </div>
               </div>
-              <div className="font-gowun text-lg lg:text-xl">
+              <div className=" text-lg lg:text-xl">
                 소중한 레시피에 후기를 남겨주세요
               </div>
             </div>
             <div className="mt-1 lg:mt-16">
               <div className="flex flex-col gap-3  ">
-                {/* {commentList.map((comment) => (
-                  <div className="border-b  pb-3 h-24 lg:h-32">
-                    {" "}
-                    <div key={comment.comment_id} className=" mt-2 flex gap-3">
-                      <div>
-                        <CommentProfileIcon />
-                      </div>
-                      <div className="text-xs lg:text-2xl font-gowun text-[#919191]">
-                        {comment.member_id}
-                      </div>
-                      <div>|</div>
-                      <div className="text-[#919191] text-xs lg:text-lg">
-                        {formatTimestamp(comment.data_created)}
-                      </div>
-                    </div>
-                    <div className="lg:text-2xl font-gowun mt-2">
-                      {comment.comment_content}
-                    </div>
-                  </div>
-                ))} */}
                 <div className="flex gap-4 lg:gap-0 min-h-[40px] mt-8 lg:w-[900px] lg:min-h-[100px] ">
                   <textarea
                     className="w-full rounded-xl min-h-[30px] lg:min-h-[100px] lg:text-xl resize-none p-4  bg-[#FDFDFD] border-1"
@@ -333,7 +340,7 @@ const RecipeDetailpage = () => {
                       <div className="">
                         <RecipeDetailProfileIcon />
                       </div>
-                      <div className="font-gowun ml-4 mr-1 lg:mr-4 text-sm lg:text-xl min-w-[80px]">
+                      <div className=" ml-4 mr-1 lg:mr-4 text-sm lg:text-xl min-w-[80px]">
                         {comment.nick_name}
                       </div>
                       <div className="mr-1 lg:mr-4 text-[#919191]"> | </div>
@@ -374,7 +381,7 @@ const RecipeDetailpage = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="font-gowun text-lg lg:text-xl">
+                    <div className=" text-lg lg:text-xl">
                       {comment.comment_content}
                     </div>
                   </div>
