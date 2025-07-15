@@ -56,22 +56,34 @@ const Recipepage = () => {
   const onToggleClick = () => {
     setIsHovered(!isHovered);
   };
-
+  const goAddRecipe = () => {
+    navigate("/add");
+  };
   return (
     <div className="container w-screen ">
       <SearchContainer />
       <Menubar />
 
-      <div className="text-center pt-8  lg:my-5 font-gowun">
+      <div className="flex  justify-center flex-col text-center pt-8  lg:my-5 font-gowun">
         <p className="py-4  text-gray-700 text-lg  lg:text-2xl">
           뭐 먹을지 고민된다면,
           <span className="text-orange-500 ml-3">오늘의 추천 레시피</span>
         </p>
+        <div className=" flex justify-center w-full">
+          {" "}
+          <div
+            onClick={() => goAddRecipe()}
+            className="w-72 bg-orange-500 h-12 flex justify-center items-center text-white text-lg rounded-xl cursor-pointer  mb-10"
+          >
+            레시피 등록하기
+          </div>
+        </div>
       </div>
 
       <div className="flex justify-center w-full px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-[900px]  pb-[80px]">
-          {recipeData.map((recipe) => (
+          {/* {console.log("recipeData:", recipeData, typeof recipeData, Array.isArray(recipeData))} */}
+          {recipeData?.content?.map((recipe) => (
             <div key={recipe.recipe_id} className="w-full">
               <RecipeCard recipe={recipe} />
             </div>

@@ -10,11 +10,16 @@ import userIcon from "./icon/user.svg";
 import { DropDownIcon, DropUpIcon, LoginBtnIcon } from "../Menubar/Icon/Icon";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useState } from "react";
-import useNickname from "../../hooks/useNickname";
 import Icon, { CommentProfileIcon, ProfileIcon } from "../Menubar/Icon/Icon";
 import InputContainer from "./InputContainer";
-// import { useSelector } from "react-redux";
+import { useRecoilValue } from "recoil";
+import { nicknameState } from "../../recoil/nicknameAtom";
+import { useRecoilState } from "recoil";
+import Loader from "../Loader";
 const SearchContainer = () => {
+  const [nickname, setNickname] = useRecoilState(nicknameState);
+  console.log(nickname);
+
   const [isDropdown, setIsDropdown] = useState(false);
   const location = useLocation();
   const includeContainerRoutes = ["/", "/recipe"];
@@ -26,10 +31,7 @@ const SearchContainer = () => {
     location.pathname
   );
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const { prevNickname } = useNickname();
-  // const nickname = useSelector((state) => state.user.nickname);
-  // console.log(nickname);
+
   const handleLoginPage = () => {
     navigate("/mypage");
   };
@@ -39,19 +41,15 @@ const SearchContainer = () => {
   const dropdownMenu = () => {
     setIsDropdown(!isDropdown);
   };
-
   useEffect(() => {
-    const checkAuthentication = async () => {
-      try {
-        const status = await checkAuthGuard();
-        setIsAuthenticated(status === 200);
-      } catch (err) {
-        setIsAuthenticated(false);
+    // Recoil에 닉네임이 없으면 localStorage에서 복구
+    if (!nickname) {
+      const storedNickname = localStorage.getItem("nickname");
+      if (storedNickname) {
+        setNickname(storedNickname);
       }
-    };
-    checkAuthentication();
-  }, []);
-
+    }
+  }, [nickname, setNickname]);
   return (
     <div className="container w-screen">
       <div className="relative w-full px-4 py-4 lg:py-4 lg:py-2 lg:h-[80px] mt-8 ">
@@ -70,10 +68,10 @@ const SearchContainer = () => {
             onClick={handleLoginPage}
             className="flex items-center cursor-pointer h-12"
           >
-            {isAuthenticated ? (
+            {nickname ? (
               <div className="flex gap-2 items-center">
                 <span className="text-base lg:text-xl  text-gray-700  hover:opacity-80">
-                  {prevNickname}님
+                  {nickname}님
                 </span>
                 <div
                   onClick={(e) => {
@@ -123,10 +121,10 @@ const SearchContainer = () => {
               onClick={handleLoginPage}
               className="flex w-38 items-center cursor-pointer h-12  hover:opacity-80"
             >
-              {isAuthenticated ? (
+              {nickname ? (
                 <div className="flex gap-2 items-center">
                   <span className="text-base  lg:text-xl font-semibold text-gray-700">
-                    {prevNickname}님
+                    {nickname}님
                   </span>
                 </div>
               ) : (

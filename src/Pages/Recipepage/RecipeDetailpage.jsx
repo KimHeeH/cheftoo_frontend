@@ -28,6 +28,7 @@ const RecipeDetailpage = () => {
   const [folders, setFolders] = useState([]);
   const [scrapList, setScrapList] = useState([]);
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem("accessToken");
 
   const openMenuBar = (commentId) => {
     setCommnetIds((prev) => (prev === commentId ? null : commentId));
@@ -109,6 +110,7 @@ const RecipeDetailpage = () => {
       try {
         const response = await axios.get(
           `http://localhost:8080/recipe/${recipeId}`,
+
           { withCredentials: true }
         );
         console.log(response.data);
@@ -135,9 +137,13 @@ const RecipeDetailpage = () => {
     fetchCommnet();
   }, [commentList]);
   useEffect(() => {
+    console.log("access Token", accessToken);
     const fetchRecipeScrap = async () => {
       try {
         const response = await axios.get("http://localhost:8080/member/scrap", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
           withCredentials: true,
         });
         const mappedFolders = response.data.map((folder, index) => ({
@@ -161,7 +167,12 @@ const RecipeDetailpage = () => {
       try {
         const response = await axios.get(
           "http://localhost:8080/member/scrap/recipe",
-          { withCredentials: true }
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          }
         );
         console.log(response.data);
       } catch (error) {

@@ -11,6 +11,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
+import axiosInstance from "../../api/axiosInstance";
 const Scrappage = () => {
   const [folders, setFolders] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -19,13 +20,19 @@ const Scrappage = () => {
   const [editableFolderId, setEditableFolderId] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const fetchRecipeScrap = async () => {
       try {
+        const accessToken = localStorage.getItem("accessToken");
         const response = await axios.get("http://localhost:8080/member/scrap", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
           withCredentials: true,
         });
+
         const mappedFolders = response.data.map((folder, index) => ({
           ...folder,
           scrap_name: folder.scrap_name,
@@ -41,23 +48,23 @@ const Scrappage = () => {
     };
     fetchRecipeScrap();
   }, []);
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const status = await checkAuthGuard();
-        if (status === 200) {
-        } else {
-          alert("로그인이 필요합니다.");
-          navigate("/mypage");
-        }
-      } catch (error) {
-        console.error("인증 오류:", error);
-        alert("로그인이 필요합니다.");
-      }
-    };
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       const status = await checkAuthGuard();
+  //       if (status === 200) {
+  //       } else {
+  //         alert("로그인이 필요합니다.");
+  //         navigate("/mypage");
+  //       }
+  //     } catch (error) {
+  //       console.error("인증 오류:", error);
+  //       alert("로그인이 필요합니다.");
+  //     }
+  //   };
 
-    checkAuth();
-  }, []);
+  //   checkAuth();
+  // }, []);
   const handleFolderClick = (scrapId) => {
     navigate(`/scrap/${scrapId}`);
   };
@@ -71,6 +78,11 @@ const Scrappage = () => {
     try {
       const response = await axios.delete(
         `http://localhost:8080/member/scrap/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
 
         { withCredentials: true }
       );
@@ -82,10 +94,16 @@ const Scrappage = () => {
   };
   const addRecipeScrap = async (name) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/member/scrap",
-        { scrapName: name },
-        { withCredentials: true }
+      const response = await axiosInstance.post(
+        "/member/scrap",
+        {
+          scrapName: name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       const newFolder = response.data;

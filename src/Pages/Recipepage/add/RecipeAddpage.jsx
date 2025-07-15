@@ -25,7 +25,7 @@ const RecipeAddpage = () => {
   const navigate = useNavigate();
   const mainFileInputRef = useRef(null);
   const stepFileInputRefs = useRef([]); // 각 단계별 파일 input 참조 저장
-
+  const maxImageUpload = 3 * 1024 * 1024;
   if (recipeTitleInputValue.length > 100) {
     alert("레시피 제목을 100자 이내로 써주세요");
   }
@@ -43,7 +43,14 @@ const RecipeAddpage = () => {
 
   const handleMainFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
-    setMainImages((prev) => [...prev, ...selectedFiles]);
+    const validFiles = selectedFiles.filter((file) => {
+      if (file.size > maxImageUpload) {
+        alert(`'${file.name}'은 3MB를 초과하여 업로드할 수 없습니다.`);
+        return false;
+      }
+      return true;
+    });
+    setMainImages((prev) => [...prev, ...validFiles]);
   };
 
   /**  요리 순서별 사진 추가 */
@@ -64,6 +71,10 @@ const RecipeAddpage = () => {
 
   const handleStepFileChange = (event, index) => {
     const uploadedFile = event.target.files[0];
+    if (uploadedFile && uploadedFile.size > maxImageUpload) {
+      alert(`'${uploadedFile.name}'은 3MB를 초과하여 업로드할 수 없습니다.`);
+      return;
+    }
     setOrders((prevOrders) =>
       prevOrders.map((order, i) =>
         i === index ? { ...order, image: uploadedFile } : order

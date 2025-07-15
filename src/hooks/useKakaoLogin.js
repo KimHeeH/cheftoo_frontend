@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const useKakaoLogin = (prevPage, nextPage = null) => {
-  console.log(prevPage, nextPage);
   const [kakaoURL, setKakaoURL] = useState("");
 
   useEffect(() => {

@@ -11,15 +11,17 @@ import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { NickNameProfileIcon } from "../../Component/Menubar/Icon/Icon";
 import Loader from "../../Component/Loader";
-import useNickname from "../../hooks/useNickname";
+import { useRecoilState } from "recoil";
+import { nicknameState } from "../../recoil/nicknameAtom";
 import cookImg from "./img/cook-book.png";
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
+  const [nickname, setNickname] = useRecoilState(nicknameState);
+
   const location = useLocation();
   const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const { prevNickname } = useNickname();
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
@@ -60,21 +62,16 @@ const Mypage = () => {
   }, []);
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      try {
-        const status = await checkAuthGuard();
-        setIsAuthenticated(status === 200);
-      } catch (err) {
-        // console.error("Authentication Check Error:", err);
-        setIsAuthenticated(false);
+    // Recoil에 닉네임이 없으면 localStorage에서 복구
+    if (!nickname) {
+      const storedNickname = localStorage.getItem("nickname");
+      if (storedNickname) {
+        setNickname(storedNickname);
       }
-    };
-    checkAuthentication();
-  }, []);
-  if (isAuthenticated === null) {
-    return <Loader />;
-  }
-  if (!isAuthenticated) {
+    }
+  }, [nickname, setNickname]);
+
+  if (!nickname) {
     return (
       <div className="h-screen ">
         {" "}
@@ -131,7 +128,7 @@ const Mypage = () => {
       <div className="hidden lg:block">
         {" "}
         <h2 className="text-2xl font-semibold text-center mt-10">
-          {prevNickname}님👋 , 반가워요!
+          {nickname}님👋 , 반가워요!
         </h2>
         <p className="text-gray-500 text-center mt-2">
           회원 정보를 관리하고, 등록한 레시피를 확인해보세요.
@@ -144,7 +141,7 @@ const Mypage = () => {
           <NickNameProfileIcon className="w-[20px] h-[20px] lg:w-[80px] lg:h-[80px]" />
 
           <div className="text-2xl lg:font-semibold font-gowun">
-            {prevNickname}님
+            {nickname}님
           </div>
           <div className="text-md text-gray-500">카카오 회원</div>
         </div>
