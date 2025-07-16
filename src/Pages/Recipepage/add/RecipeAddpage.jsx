@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import Menubar from "../../../Component/Menubar/Menubar";
 import checkAuthGuard from "../../../hooks/checkAuthGuard";
 import { SquareIconComponent } from "../../../Component/Menubar/Icon/Icon";
+import axiosInstance from "../../../api/axiosInstance";
 const RecipeAddpage = () => {
-  checkAuthGuard();
-
+  const accessToken = localStorage.getItem("accessToken");
   const [mainImages, setMainImages] = useState([]); // 여러 개의 메인 요리 사진
   const [isDragging, setIsDragging] = useState(false);
   const [ingredients, setIngredients] = useState([
@@ -135,47 +135,51 @@ const RecipeAddpage = () => {
     newOrders.splice(index, 1);
     setOrders(newOrders);
   };
+
+  const getPresignedUrl = async (fileName, contentType) => {
+    console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
+
+    const res = await axiosInstance.get("/images/recipe-image/presigned-put", {
+      params: { contentType, fileName },
+    });
+    console.log(res.data);
+    return res.data;
+  };
+
   /** 레시피 등록버튼 눌렀을때 함수  */
   const handleSubmit = async () => {
+    const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const formData = new FormData();
-
+    const mainImage = mainImages[0];
+    const recipeImageKey = `recipe/image/${today}/${mainImage.name}`;
+    const recipeImageContentType = mainImage.type;
+    const cookingOrder = orders.map((order, index) => ({
+      content: order.content,
+      cookingOrderImageKey: order.image
+        ? `cookingorder/image/${today}/${order.image.name}`
+        : null,
+    }));
     const recipeData = {
       recipeTitle: recipeTitleInputValue,
       recipeContent: recipeContentValue,
       ingredients,
-      // seasonings,
-      cookingOrders: orders.map((order) => ({
-        content: order.content,
-        image: null,
-      })),
+      cookingOrder,
+      recipeImageKey,
+      recipeImageContentType,
     };
 
-    const jsonFile = new File([JSON.stringify(recipeData)], "data.json", {
-      type: "application/json",
-    });
-
-    console.log("formData는", recipeData);
-    // console.log("formData jsonBlob는", jsonBlob);
-    formData.append("data", jsonFile);
-    if (mainImages.length > 0) {
-      formData.append("image", mainImages[0]);
-    }
-    orders.forEach((order) => {
-      if (order.image) {
-        formData.append("cookingStepImages", order.image);
-      }
-    });
     try {
-      const response = await axios.post(
-        "http://localhost:8080/recipes",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
+      const { presignedUrl } = await getPresignedUrl(
+        mainImage.name,
+        recipeImageContentType
       );
+      const response = await axiosInstance.post("/recipe", recipeData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
       console.log("등록 성공:", response.data);
       alert("레시피가 등록되었습니다.");
       navigate("/recipe");
@@ -189,29 +193,29 @@ const RecipeAddpage = () => {
       <SearchContainer />
       <Menubar />
       <div className="container flex items-center mt-3 pt-3  lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
-        <div className="font-gowun  mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[150px] lg:h-[40px] lg:text-xl text-gray-800 flex items-center gap-2">
+        <div className=" mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[150px] lg:h-[40px] lg:text-xl text-gray-800 flex items-center gap-2">
           <svg
-            class="w-6 h-6 text-orange-500"
+            className="w-6 h-6 text-orange-500"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            strokeWidth="2"
             viewBox="0 0 24 24"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M12 4v16m8-8H4"
             ></path>
           </svg>
           레시피 등록
         </div>
-        <div className="font-gowun mt-2 lg:h-[40px] lg:flex lg:items-center lg:mt-0  lg:h-full text-sm lg:text-lg  text-gray-800 ">
+        <div className=" mt-2 lg:h-[40px] lg:flex lg:items-center lg:mt-0  lg:h-full text-sm lg:text-lg  text-gray-800 ">
           나만의 레시피를 등록해보세요!
         </div>
       </div>
       <div className="container ">
         <div className="flex flex-row  items-center lg:items-start mt-8 lg:gap-8 ">
-          <label className="mr-3 text-sm lg:text-right w-4/5 lg:w-28 lg:text-xl font-semibold text-gray-700">
+          <label className="mr-3 text-sm lg:text-right w-4/5 lg:w-40 lg:text-xl font-semibold text-gray-700">
             레시피 제목
           </label>
           <input
@@ -224,7 +228,7 @@ const RecipeAddpage = () => {
 
         {/* 요리 설명 */}
         <div className="flex flex-row items-start mt-8 lg:gap-8">
-          <label className=" mr-3 text-sm lg:text-right  w-4/5 lg:w-28 lg:text-xl font-semibold text-gray-700">
+          <label className=" mr-3 text-sm lg:text-right  w-4/5 lg:w-40 lg:text-xl font-semibold text-gray-700">
             요리 설명
           </label>
           <textarea

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
+import axiosInstance from "../../api/axiosInstance";
 function KakaoRedirect() {
   const setNickname = useSetRecoilState(nicknameState);
   const accessToken = localStorage.getItem("accessToken");
@@ -34,15 +35,11 @@ function KakaoRedirect() {
           // 응답받은 redirectURL로 페이지 이동
 
           try {
-            const nicknameRes = await axios.get(
-              "http://localhost:8080/auth/nickname",
-              {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-                withCredentials: true,
-              }
-            );
+            const nicknameRes = await axiosInstance.get("/auth/nickname", {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            });
             console.log(nicknameRes.data);
             setNickname(nicknameRes.data); // recoil에 저장
             localStorage.setItem("nickname", nicknameRes.data);

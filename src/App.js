@@ -15,7 +15,17 @@ import MyRecipepage from "./Pages/Mypage/MyRecipepage/MyRecipepage";
 import { useEffect } from "react";
 import axios from "axios";
 import ScrapFolderDetail from "./Pages/Scrappage/ScrapFolderDetail";
+import { useSetRecoilState } from "recoil";
+import { nicknameState } from "./recoil/nicknameAtom";
+import { useNavigate } from "react-router-dom";
+import { setupInterceptors } from "./api/axiosInstance";
 function App() {
+  const resetNickname = useSetRecoilState(nicknameState);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setupInterceptors(resetNickname, navigate);
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />

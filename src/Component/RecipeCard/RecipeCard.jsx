@@ -9,8 +9,6 @@ const RecipeCard = ({ recipe }) => {
 
     navigate(`/recipes/${recipe_id}`);
   };
-  console.log("recipe:", recipe);
-  console.log("recipe_id:", recipe.recipe_id);
 
   return (
     <div>

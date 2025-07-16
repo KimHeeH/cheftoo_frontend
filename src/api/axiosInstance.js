@@ -1,24 +1,26 @@
 // axiosInstance.js
 import axios from "axios";
-
+import { useResetRecoilState } from "recoil";
+import { nicknameState } from "../recoil/nicknameAtom";
+import { useNavigate } from "react-router-dom";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
   withCredentials: true,
 });
 
-// 응답 인터셉터 설정
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // 로그인 페이지로 이동
-
-      localStorage.removeItem("nickname");
-
-      window.location.href = "/mypage"; // 로그인 경로에 맞게 수정
+export const setupInterceptors = (resetNickname, navigate) => {
+  axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status >= 400 && error.response.status <= 403) {
+        resetNickname(); // 닉네임 리셋
+        localStorage.removeItem("accessToken"); // accessToken 삭제
+        localStorage.removeItem("nickname"); // nickname 삭제
+        alert("다시 로그인해주세요");
+        navigate("/mypage"); // 로그인 페이지로
+      }
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
-  }
-);
-
+  );
+};
 export default axiosInstance;
