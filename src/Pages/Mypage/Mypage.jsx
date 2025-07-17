@@ -22,6 +22,7 @@ const Mypage = () => {
   const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const isLoggedIn = !!localStorage.getItem("accessToken");
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
@@ -71,7 +72,7 @@ const Mypage = () => {
     }
   }, [nickname, setNickname]);
 
-  if (!nickname) {
+  if (!isLoggedIn) {
     return (
       <div className="h-screen ">
         {" "}

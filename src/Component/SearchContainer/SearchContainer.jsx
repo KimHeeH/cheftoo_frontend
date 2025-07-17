@@ -18,6 +18,8 @@ import { useRecoilState } from "recoil";
 import Loader from "../Loader";
 const SearchContainer = () => {
   const [nickname, setNickname] = useRecoilState(nicknameState);
+  const isLoggedIn = !!localStorage.getItem("accessToken");
+
   console.log(nickname);
 
   const [isDropdown, setIsDropdown] = useState(false);
@@ -68,7 +70,7 @@ const SearchContainer = () => {
             onClick={handleLoginPage}
             className="flex items-center cursor-pointer h-12"
           >
-            {nickname ? (
+            {nickname && isLoggedIn ? (
               <div className="flex gap-2 items-center">
                 <span className="text-base lg:text-xl  text-gray-700  hover:opacity-80">
                   {nickname}님

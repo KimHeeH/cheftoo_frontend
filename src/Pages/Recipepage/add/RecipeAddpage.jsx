@@ -136,12 +136,24 @@ const RecipeAddpage = () => {
     setOrders(newOrders);
   };
 
-  const getPresignedUrl = async (fileName, contentType) => {
+  const geMaintPresignedUrl = async (fileName, contentType) => {
     console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
 
     const res = await axiosInstance.get("/images/recipe-image/presigned-put", {
       params: { contentType, fileName },
     });
+    console.log(res.data);
+    return res.data;
+  };
+  const getStepImgPresignedUrl = async (fileName, contentType) => {
+    console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
+
+    const res = await axiosInstance.get(
+      "/images/cooking-order-image/presigned-put",
+      {
+        params: { contentType, fileName },
+      }
+    );
     console.log(res.data);
     return res.data;
   };
@@ -169,7 +181,11 @@ const RecipeAddpage = () => {
     };
 
     try {
-      const { presignedUrl } = await getPresignedUrl(
+      const { mainImgPresignedUrl } = await getMainImgPresignedUrl(
+        mainImage.name,
+        recipeImageContentType
+      );
+      const { stepImgPresignedUrl } = await getStepImgPresignedUrl(
         mainImage.name,
         recipeImageContentType
       );

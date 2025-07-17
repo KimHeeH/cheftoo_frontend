@@ -26,10 +26,7 @@ const Scrappage = () => {
     const fetchRecipeScrap = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
-        const response = await axios.get("http://localhost:8080/member/scrap", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+        const response = await axiosInstance.get("/member/scrap", {
           withCredentials: true,
         });
 
