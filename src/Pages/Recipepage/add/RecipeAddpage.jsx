@@ -136,7 +136,7 @@ const RecipeAddpage = () => {
     setOrders(newOrders);
   };
 
-  const geMaintPresignedUrl = async (fileName, contentType) => {
+  const getMainImgPresignedUrl = async (fileName, contentType) => {
     console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
 
     const res = await axiosInstance.get("/images/recipe-image/presigned-put", {
