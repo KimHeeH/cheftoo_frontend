@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 
 const refreshAccessToken = async () => {
   try {
-    const res = await axios.post("/auth/refresh", null, {
+    const res = await axiosInstance.post("/auth/refresh", null, {
       withCredentials: true,
     });
     console.log(res.data);
