@@ -9,6 +9,7 @@ import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import RecipeCard from "../../Component/RecipeCard/RecipeCard";
+import InputContainer from "../../Component/SearchContainer/InputContainer";
 const Recipepage = () => {
   const navigate = useNavigate();
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
@@ -63,7 +64,14 @@ const Recipepage = () => {
     <div className="container w-screen ">
       <SearchContainer />
       <Menubar />
-
+      <div className="w-full relative flex flex-col items-center   mt-4">
+        <div className="text-xl lg:text-2xl font-bold text-[#3B3A36]">
+          오늘의 요리는?
+        </div>
+        <div className="w-full absolute top-14 left-1/2  -translate-x-1/2">
+          <InputContainer />
+        </div>
+      </div>
       <div className="flex  justify-center flex-col text-center pt-8  lg:my-5 font-gowun">
         <p className="py-4  text-gray-700 text-lg  lg:text-2xl">
           뭐 먹을지 고민된다면,

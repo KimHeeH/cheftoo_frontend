@@ -17,14 +17,14 @@ const RecipeAddpage = () => {
     { ingredientsName: "", ingredientsNum: "" },
   ]);
   const [seasonings, setSeasonings] = useState([
-    { ingredientsName: "", ingredientsNum: "" },
+    { sauceName: "", quantity: "" },
   ]);
   const [orders, setOrders] = useState([{ content: "", image: null }]); // 순서별 사진 개별 관리
   const [recipeTitleInputValue, setRecipeTitleInputValue] = useState("");
   const [recipeContentValue, setRecipeContentValue] = useState("");
   const navigate = useNavigate();
   const mainFileInputRef = useRef(null);
-  const stepFileInputRefs = useRef([]); // 각 단계별 파일 input 참조 저장
+  const stepFileInputRefs = useRef([]);
   const maxImageUpload = 3 * 1024 * 1024;
   if (recipeTitleInputValue.length > 100) {
     alert("레시피 제목을 100자 이내로 써주세요");
@@ -99,9 +99,7 @@ const RecipeAddpage = () => {
     setIngredients(newIngredients);
   };
   const handleAddSeasoning = () => {
-    console.log(ingredients);
-
-    setSeasonings([...seasonings, { ingredientsName: "", ingredientsNum: "" }]);
+    setSeasonings([...seasonings, { sauceName: "", quantity: "" }]);
   };
   const handleSeasoningChange = (index, field, value) => {
     console.log(index, field, value);
@@ -139,17 +137,20 @@ const RecipeAddpage = () => {
   const getMainImgPresignedUrl = async (fileName, contentType) => {
     console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
 
-    const res = await axiosInstance.get("/images/recipe-image/presigned-put", {
-      params: { contentType, fileName },
-    });
-    console.log(res.data);
+    const res = await axios.get(
+      "http://localhost:8080/images/recipe-image/presigned-put",
+      {
+        params: { contentType, fileName },
+      }
+    );
+
     return res.data;
   };
   const getStepImgPresignedUrl = async (fileName, contentType) => {
     console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
 
-    const res = await axiosInstance.get(
-      "/images/cooking-order-image/presigned-put",
+    const res = await axios.get(
+      "http://localhost:8080/images/cooking-order-image/presigned-put",
       {
         params: { contentType, fileName },
       }
@@ -160,39 +161,76 @@ const RecipeAddpage = () => {
 
   /** 레시피 등록버튼 눌렀을때 함수  */
   const handleSubmit = async () => {
+    console.log("ingredients", ingredients);
+    console.log("seasonings", seasonings);
     const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const formData = new FormData();
     const mainImage = mainImages[0];
+    if (!mainImage) {
+      console.error("❌ mainImage 없음! 파일이 선택되지 않았습니다.");
+      return;
+    }
     const recipeImageKey = `recipe/image/${today}/${mainImage.name}`;
     const recipeImageContentType = mainImage.type;
-    const cookingOrder = orders.map((order, index) => ({
-      content: order.content,
-      cookingOrderImageKey: order.image
-        ? `cookingorder/image/${today}/${order.image.name}`
-        : null,
-    }));
-    const recipeData = {
-      recipeTitle: recipeTitleInputValue,
-      recipeContent: recipeContentValue,
-      ingredients,
-      cookingOrder,
-      recipeImageKey,
-      recipeImageContentType,
-    };
+    console.log(today);
 
     try {
-      const { mainImgPresignedUrl } = await getMainImgPresignedUrl(
+      const mainPresignedUrl = await getMainImgPresignedUrl(
         mainImage.name,
         recipeImageContentType
       );
-      const { stepImgPresignedUrl } = await getStepImgPresignedUrl(
-        mainImage.name,
-        recipeImageContentType
+      console.log(mainImage);
+      console.log("mainPresignedUrl", mainPresignedUrl);
+
+      console.log("mainImage.type", mainImage.type);
+      await axios.put(mainPresignedUrl, mainImage, {
+        headers: { "Content-Type": recipeImageContentType },
+        onUploadProgress: (progressEvent) => {
+          console.log(
+            "업로드 중...",
+            progressEvent.loaded,
+            "/",
+            progressEvent.total
+          );
+        },
+      });
+
+      const cookingOrder = await Promise.all(
+        orders.map(async (order, index) => {
+          let cookingOrderImageKey = null;
+          if (order.image) {
+            const stepFileName = order.image.name;
+            const stepContentType = order.image.type;
+
+            const stepPresignedUrl = await getStepImgPresignedUrl(
+              stepFileName,
+              stepContentType
+            );
+            await axios.put(stepPresignedUrl, order.image, {
+              headers: { "Content-Type": stepContentType },
+            });
+            cookingOrderImageKey = `cookingorder/image/${today}/${stepFileName}`;
+          }
+          return {
+            order: index + 1,
+            content: order.content,
+            cookingOrderImageKey,
+          };
+        })
       );
+      const recipeData = {
+        recipeTitle: recipeTitleInputValue,
+        recipeContent: recipeContentValue,
+        ingredients,
+        sauce: seasonings,
+        cookingOrder,
+        recipeImageKey,
+        recipeImageContentType,
+      };
+      console.log(JSON.stringify(recipeData));
       const response = await axiosInstance.post("/recipe", recipeData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -349,26 +387,22 @@ const RecipeAddpage = () => {
           <div className="text-base lg:text-lg font-semibold text-gray-700 mb-4">
             양념
           </div>
-          {seasonings.map((seasonings, index) => (
+          {seasonings.map((seasoning, index) => (
             <div className="flex flex-row gap-4 mt-8" key={index}>
               <input
                 className="w-34 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 간장"
-                value={seasonings.ingredientsName}
+                value={seasoning.sauceName}
                 onChange={(e) =>
-                  handleSeasoningChange(
-                    index,
-                    "ingredientsName",
-                    e.target.value
-                  )
+                  handleSeasoningChange(index, "sauceName", e.target.value)
                 }
               />
               <input
                 className="w-24 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
                 placeholder="예) 1스푼"
-                value={seasonings.ingredientsNum}
+                value={seasoning.quantity}
                 onChange={(e) =>
-                  handleSeasoningChange(index, "ingredientsNum", e.target.value)
+                  handleSeasoningChange(index, "quantity", e.target.value)
                 }
               />
               <div

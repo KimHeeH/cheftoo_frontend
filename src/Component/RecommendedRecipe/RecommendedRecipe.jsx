@@ -71,14 +71,6 @@ const RecommendedRecipe = () => {
             </span>
           </button>
         </div> */}
-        <div className="w-full relative flex flex-col items-center   mt-4">
-          <div className="text-xl lg:text-2xl font-bold text-[#3B3A36]">
-            오늘의 요리는?
-          </div>
-          <div className="w-full absolute top-14 left-1/2  -translate-x-1/2">
-            <InputContainer />
-          </div>
-        </div>
       </div>
       <div className="pl-6 lg:pl-0 container mt-12 mb-6lg:mb-0 border-t pt-4">
         <h2 className="text-lg lg:text-2xl font-semibold text-[#3B3A36]">
