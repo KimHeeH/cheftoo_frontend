@@ -15,7 +15,6 @@ import InputContainer from "./InputContainer";
 import { useRecoilValue } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import { useRecoilState } from "recoil";
-import UsersIcon from "./icon/UsersIcon.jsx";
 import Loader from "../Loader";
 const SearchContainer = () => {
   const [nickname, setNickname] = useRecoilState(nicknameState);
@@ -76,7 +75,6 @@ const SearchContainer = () => {
           >
             {nickname && isLoggedIn ? (
               <div className="flex gap-2 items-center">
-                <UsersIcon />
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
@@ -84,7 +82,7 @@ const SearchContainer = () => {
                   }}
                   className="relative"
                 >
-                  {isDropdown ? <DropUpIcon /> : <DropDownIcon />}
+                  {/* {isDropdown ? <DropUpIcon /> : <DropDownIcon />}
                   {isDropdown && (
                     <div className="absolute top-full right-0 mt-2 w-32 bg-white border rounded-md shadow-md">
                       <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
@@ -94,13 +92,7 @@ const SearchContainer = () => {
                         로그아웃
                       </div>
                     </div>
-                  )}
-                </div>
-                <div
-                  onClick={() => goAddRecipe()}
-                  className="w-40 border-orange-500 border-1 h-12 flex justify-center items-center text-orange-500 font-semibold text-lg rounded-xl cursor-pointer"
-                >
-                  레시피 등록하기
+                  )} */}
                 </div>
               </div>
             ) : (

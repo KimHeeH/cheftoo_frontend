@@ -57,12 +57,21 @@ const Recipepage = () => {
   const onToggleClick = () => {
     setIsHovered(!isHovered);
   };
-
+  const goAddRecipe = () => {
+    navigate("/add");
+  };
   return (
     <div className="container w-screen ">
       <SearchContainer />
       <Menubar />
-      <div className="w-full  h-12 flex justify-end mt-8 items-center"></div>
+      <div className="w-full  h-12 flex justify-end mt-8 items-center">
+        <div
+          onClick={() => goAddRecipe()}
+          className="w-40 bg-orange-500 h-12 flex justify-center items-center text-white text-lg rounded-xl cursor-pointer  mb-10"
+        >
+          레시피 등록하기
+        </div>
+      </div>
       <div className="w-full relative flex flex-col items-center h-40  mt-1">
         <div className="text-xl lg:text-2xl font-bold text-[#3B3A36]">
           오늘의 요리는?
