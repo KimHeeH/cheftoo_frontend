@@ -15,6 +15,7 @@ import InputContainer from "./InputContainer";
 import { useRecoilValue } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import { useRecoilState } from "recoil";
+import UsersIcon from "./icon/UsersIcon.jsx";
 import Loader from "../Loader";
 const SearchContainer = () => {
   const [nickname, setNickname] = useRecoilState(nicknameState);
@@ -42,6 +43,9 @@ const SearchContainer = () => {
   };
   const dropdownMenu = () => {
     setIsDropdown(!isDropdown);
+  };
+  const goAddRecipe = () => {
+    navigate("/add");
   };
   useEffect(() => {
     // Recoil에 닉네임이 없으면 localStorage에서 복구
@@ -72,9 +76,7 @@ const SearchContainer = () => {
           >
             {nickname && isLoggedIn ? (
               <div className="flex gap-2 items-center">
-                <span className="text-base lg:text-xl  text-gray-700  hover:opacity-80">
-                  {nickname}님
-                </span>
+                <UsersIcon />
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
@@ -93,6 +95,12 @@ const SearchContainer = () => {
                       </div>
                     </div>
                   )}
+                </div>
+                <div
+                  onClick={() => goAddRecipe()}
+                  className="w-40 border-orange-500 border-1 h-12 flex justify-center items-center text-orange-500 font-semibold text-lg rounded-xl cursor-pointer"
+                >
+                  레시피 등록하기
                 </div>
               </div>
             ) : (

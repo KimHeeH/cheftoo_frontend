@@ -11,7 +11,7 @@ import { SquareIconComponent } from "../../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../../api/axiosInstance";
 const RecipeAddpage = () => {
   const accessToken = localStorage.getItem("accessToken");
-  const [mainImages, setMainImages] = useState([]); // 여러 개의 메인 요리 사진
+  const [mainImages, setMainImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [ingredients, setIngredients] = useState([
     { ingredientsName: "", ingredientsNum: "" },
@@ -19,7 +19,7 @@ const RecipeAddpage = () => {
   const [seasonings, setSeasonings] = useState([
     { sauceName: "", quantity: "" },
   ]);
-  const [orders, setOrders] = useState([{ content: "", image: null }]); // 순서별 사진 개별 관리
+  const [orders, setOrders] = useState([{ content: "", image: null }]);
   const [recipeTitleInputValue, setRecipeTitleInputValue] = useState("");
   const [recipeContentValue, setRecipeContentValue] = useState("");
   const navigate = useNavigate();
@@ -276,7 +276,7 @@ const RecipeAddpage = () => {
             className="text-sm lg:text-base w-[900px] p-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="예) 토마토 파스타 레시피"
             value={recipeTitleInputValue}
-            onChange={(e) => setRecipeTitleInputValue(e.target.value)} // ✅ 이거 추가
+            onChange={(e) => setRecipeTitleInputValue(e.target.value)}
           />
         </div>
 
@@ -286,10 +286,10 @@ const RecipeAddpage = () => {
             요리 설명
           </label>
           <textarea
-            placeholder="토마토를 작게 잘라주세요"
+            placeholder="토마토소스를 이용한 파스타 레시피"
             rows="3"
             value={recipeContentValue}
-            onChange={(e) => setRecipeContentValue(e.target.value)} // ✅ 이거 추가
+            onChange={(e) => setRecipeContentValue(e.target.value)}
             className="text-sm lg:text-base w-[900px] resize-none p-2 lg:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -314,7 +314,7 @@ const RecipeAddpage = () => {
             <button
               className="cursor-pointer w-[160px] h-[35px] lg:h-auto lg:w-[200px] text-xs lg:text-base lg:mt-2 px-4 py-2 bg-gray-100 text-black rounded-lg"
               onClick={(e) => {
-                e.stopPropagation(); // ✅ 부모로 이벤트 전파 막기
+                e.stopPropagation();
                 handleMainImageUpload();
               }}
             >
@@ -322,7 +322,7 @@ const RecipeAddpage = () => {
             </button>
             <input
               type="file"
-              onClick={(e) => (e.target.value = null)} // ✅ 이 줄 추가
+              onClick={(e) => (e.target.value = null)}
               ref={mainFileInputRef}
               onChange={handleMainFileChange}
               accept="image/*"

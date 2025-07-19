@@ -7,7 +7,6 @@ import img from "./img/pasta.jpg";
 import {
   BigBookmarkIcon,
   CommentIcon,
-  CommentProfileIcon,
   CookingOrderIcon,
   IngredientIcon,
   SelectedBigBookmarkIcon,
@@ -122,20 +121,20 @@ const RecipeDetailpage = () => {
 
     fetchRecipe();
   }, [recipeId]);
-  useEffect(() => {
-    const fetchCommnet = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/recipe/comment/${recipeId}`,
-          { withCredentials: true }
-        );
-        setCommentList(response.data);
-      } catch (error) {
-        console.error("레시피 댓글 가져오기 실패", error);
-      }
-    };
-    fetchCommnet();
-  }, [commentList]);
+  // useEffect(() => {
+  //   const fetchCommnet = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:8080/recipe/comment/${recipeId}`,
+  //         { withCredentials: true }
+  //       );
+  //       setCommentList(response.data);
+  //     } catch (error) {
+  //       console.error("레시피 댓글 가져오기 실패", error);
+  //     }
+  //   };
+  //   fetchCommnet();
+  // }, [commentList]);
   useEffect(() => {
     console.log("access Token", accessToken);
     const fetchRecipeScrap = async () => {

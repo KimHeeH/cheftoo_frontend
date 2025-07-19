@@ -20,38 +20,40 @@ const refreshAccessToken = async () => {
   }
 };
 
-export const setupInterceptors = (resetNickname, navigate) => {
-  // 요청 인터셉터
-  axiosInstance.interceptors.request.use((config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
+let isRefreshing = false;
 
-  // 응답 인터셉터
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`; // 이거 붙어야 함
+  }
+  return config;
+});
+
+export const setupInterceptors = (resetNickname, navigate) => {
   axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
 
       if (
-        error.response?.status >= 400 &&
-        error.response.status <= 405 &&
-        !originalRequest._retry
+        error.response?.status === 401 &&
+        !originalRequest._retry &&
+        !isRefreshing
       ) {
         originalRequest._retry = true;
+        isRefreshing = true;
 
         try {
           const newAccessToken = await refreshAccessToken();
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          isRefreshing = false;
           return axiosInstance(originalRequest);
         } catch (err) {
+          isRefreshing = false;
           resetNickname?.();
           localStorage.removeItem("accessToken");
           localStorage.removeItem("nickname");
-          alert("다시 로그인해주세요");
           navigate?.("/mypage");
           return Promise.reject(err);
         }
