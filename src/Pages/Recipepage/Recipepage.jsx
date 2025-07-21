@@ -38,9 +38,7 @@ const Recipepage = () => {
       const response = await axios.get("http://localhost:8080/recipe", {
         withCredentials: true,
       });
-      console.log(response.data);
       setRecipeData(response.data);
-      console.log("recipeData는", recipeData);
     } catch (error) {
       console.error("레시피 조회 오류");
     }
@@ -66,10 +64,11 @@ const Recipepage = () => {
       <Menubar />
       <div className="w-full  h-12 flex justify-end mt-8 items-center">
         <div
-          onClick={() => goAddRecipe()}
-          className="w-40 bg-orange-500 h-12 flex justify-center items-center text-white text-lg rounded-xl cursor-pointer  mb-10"
+          onClick={goAddRecipe}
+          className="w-40 h-12 mb-10 mr-4 bg-orange-500 hover:bg-orange-600 active:scale-95 transition-all duration-150
+             text-white text-lg font-semibold rounded-xl shadow-md flex items-center justify-center cursor-pointer"
         >
-          레시피 등록하기
+          + 레시피 등록
         </div>
       </div>
       <div className="w-full relative flex flex-col items-center h-40  mt-1">

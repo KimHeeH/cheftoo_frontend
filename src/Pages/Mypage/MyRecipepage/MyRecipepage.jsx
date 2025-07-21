@@ -7,6 +7,7 @@ import { DeleteIcon } from "../../../Component/Menubar/Icon/Icon";
 import { BoxIcon } from "../../../Component/Menubar/Icon/Icon";
 import axios from "axios";
 import { SelectedBoxIcon } from "../../../Component/Menubar/Icon/Icon";
+import axiosInstance from "../../../api/axiosInstance";
 const MyRecipepage = () => {
   //   const [selectAll, setSelectAll] = useState(false);
   //   const [selectRecipe, setSelectRecipe] = useState(false);
@@ -33,10 +34,8 @@ const MyRecipepage = () => {
   const deleteRecipe = async () => {
     try {
       await Promise.all(
-        selectedIds.map((id) =>
-          axios.delete(`http://localhost:8080/recipes/${id}`, {
-            withCredentials: true,
-          })
+        selectedIds.map((id, index) =>
+          axiosInstance.delete(`http://localhost:8080/recipe/${id}`)
         )
       );
       setMyRecipe((prev) =>
@@ -52,13 +51,9 @@ const MyRecipepage = () => {
   useEffect(() => {
     const fetchMyRecipe = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/recipe/member",
-          {
-            withCredentials: true,
-          }
+        const response = await axiosInstance.get(
+          "http://localhost:8080/recipe/member"
         );
-        console.log("fetchMyRecipe값", response.data);
         setMyRecipe(response.data);
       } catch (error) {
         console.error("fetchMyRecipe 실패");
@@ -99,7 +94,10 @@ const MyRecipepage = () => {
 
       <div className="container">
         {myRecipe.map((recipe) => (
-          <div className="flex h-[120px] lg:h-auto  lg:gap-8 lg:mt-12 items-center">
+          <div
+            className="flex h-[120px] lg:h-auto  lg:gap-8 lg:mt-12 items-center"
+            key={recipe.recipe_id}
+          >
             {" "}
             <div className="flex lg:justify-center lg:items-center lg:h-full ">
               <div className="lg:w-80 lg:h-full relative">
@@ -109,7 +107,7 @@ const MyRecipepage = () => {
                   alt="img"
                 />
                 <div
-                  className="absolute top-0 left-0 z-10 cursor-pointer" // 위치 보정
+                  className="absolute top-0 left-0 z-10 cursor-pointer"
                   onClick={() => toggleBox(recipe.recipe_id)}
                 >
                   {selectedIds.includes(recipe.recipe_id) ? (

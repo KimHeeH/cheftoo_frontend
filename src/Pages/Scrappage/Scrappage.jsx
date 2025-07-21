@@ -36,9 +36,7 @@ const Scrappage = () => {
           scrap_id: folder.scrap_id,
           index: index + 1,
         }));
-        console.log(mappedFolders);
         setFolders(mappedFolders);
-        console.log(response.data);
       } catch (error) {
         console.error("fetchRecipeScrap Error", error);
       }
@@ -133,11 +131,9 @@ const Scrappage = () => {
   };
   const updateScrapName = async (id, name) => {
     try {
-      await axios.put(
-        `http://localhost:8080/member/scrap/${id}`,
-        { scrapName: name },
-        { withCredentials: true }
-      );
+      await axiosInstance.put(`http://localhost:8080/member/scrap/${id}`, {
+        scrapName: name,
+      });
 
       setFolders((prev) =>
         prev.map((folder) =>
@@ -218,7 +214,7 @@ const Scrappage = () => {
 
                       updateScrapName(folder.scrap_id, folder.scrap_name);
                     }}
-                    className="px-3 py-2 border border-orange-400 text-orange-500 font-semibold rounded-md hover:bg-orange-50"
+                    className="mb-4 px-3 py-2 w-20 border border-orange-400 text-orange-500 font-semibold rounded-md hover:bg-orange-50"
                   >
                     변경
                   </button>

@@ -20,8 +20,6 @@ const SearchContainer = () => {
   const [nickname, setNickname] = useRecoilState(nicknameState);
   const isLoggedIn = !!localStorage.getItem("accessToken");
 
-  console.log(nickname);
-
   const [isDropdown, setIsDropdown] = useState(false);
   const location = useLocation();
   const includeContainerRoutes = ["/", "/recipe"];

@@ -26,7 +26,6 @@ const Mypage = () => {
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
-  console.log("MY Page", { item });
   const itemCheck = (item) => {
     if (item == "my") {
       setIsHovered("my");
