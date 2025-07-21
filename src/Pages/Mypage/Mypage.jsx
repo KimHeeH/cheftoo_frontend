@@ -14,6 +14,7 @@ import Loader from "../../Component/Loader";
 import { useRecoilState } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import cookImg from "./img/cook-book.png";
+import axiosInstance from "../../api/axiosInstance";
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const [nickname, setNickname] = useRecoilState(nicknameState);
@@ -21,6 +22,8 @@ const Mypage = () => {
   const location = useLocation();
   const { item } = location.state || {};
   const [isHovered, setIsHovered] = useState("");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const isLoggedIn = !!localStorage.getItem("accessToken");
 
@@ -42,6 +45,19 @@ const Mypage = () => {
   const goMyRecipe = () => {
     navigate("/myrecipe");
   };
+  const handleLogout = async () => {
+    try {
+      const response = await axiosInstance.post("/auth/logout");
+
+      if (response.status === 200) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("nickname");
+      }
+    } catch (err) {
+      console.error("로그아웃 오류", err);
+    }
+  };
+
   useEffect(() => {
     const updateButtonImg = () => {
       if (window.matchMedia("(max-width: 768px)").matches) {
@@ -51,18 +67,14 @@ const Mypage = () => {
       }
     };
 
-    // 처음에 이미지 설정
     updateButtonImg();
 
-    // 화면 크기가 변경될 때마다 이미지 업데이트
     window.addEventListener("resize", updateButtonImg);
 
-    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
     return () => window.removeEventListener("resize", updateButtonImg);
   }, []);
 
   useEffect(() => {
-    // Recoil에 닉네임이 없으면 localStorage에서 복구
     if (!nickname) {
       const storedNickname = localStorage.getItem("nickname");
       if (storedNickname) {
@@ -74,8 +86,6 @@ const Mypage = () => {
   if (!isLoggedIn) {
     return (
       <div className="h-screen ">
-        {" "}
-        {/* 배경색 추가 */}
         <SearchContainer />
         <Menubar />
         {/* 상단 로고 + 일러스트 */}
@@ -90,7 +100,6 @@ const Mypage = () => {
               </div>
             </div>
 
-            {/* 🍳 일러스트 추가 */}
             <div className="w-[180px] lg:w-[100px] mb-8">
               <img src={cookImg} alt="요리 일러스트" />
             </div>
@@ -128,7 +137,7 @@ const Mypage = () => {
       <div className="hidden lg:block">
         {" "}
         <h2 className="text-2xl font-semibold text-center mt-10">
-          {nickname}님👋 , 반가워요!
+          {nickname}님 , 반가워요!
         </h2>
         <p className="text-gray-500 text-center mt-2">
           회원 정보를 관리하고, 등록한 레시피를 확인해보세요.
@@ -166,7 +175,7 @@ const Mypage = () => {
           <div
             className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl  cursor-pointer hover:ring-2 hover:ring-orange-400 hover:border-transparent
 "
-            onClick={() => console.log("로그아웃")}
+            onClick={() => setShowLogoutModal(true)}
           >
             로그아웃
           </div>
@@ -179,6 +188,33 @@ const Mypage = () => {
           </div>
         </div>
       </div>
+      {showLogoutModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl shadow-lg w-[90%] max-w-sm">
+            <h3 className="text-xl font-semibold mb-4">
+              로그아웃 하시겠습니까?
+            </h3>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+              >
+                취소
+              </button>
+              <button
+                onClick={async () => {
+                  await handleLogout();
+                  setShowLogoutModal(false);
+                  navigate("/");
+                }}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                로그아웃
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
