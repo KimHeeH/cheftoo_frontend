@@ -5,8 +5,6 @@ const RecipeCard = ({ recipe }) => {
   const [recipeData, setRecipeData] = useState(null);
   const navigate = useNavigate();
   const handleRecipeDetail = (recipe_id) => {
-    console.log("넘어가는 recipeId:", recipe_id);
-
     navigate(`/recipes/${recipe_id}`);
   };
 

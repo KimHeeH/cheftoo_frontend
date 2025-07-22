@@ -34,10 +34,12 @@ const MyRecipepage = () => {
   const deleteRecipe = async () => {
     try {
       await Promise.all(
-        selectedIds.map((id, index) =>
-          axiosInstance.delete(`http://localhost:8080/recipe/${id}`)
+        selectedIds.map((RecipeId, index) =>
+          axiosInstance.delete(`/recipe/${RecipeId}`)
         )
       );
+      alert("삭제가 완료되었습니다");
+      await fetchMyRecipe();
       setMyRecipe((prev) =>
         prev.filter((r) => !selectedIds.includes(r.recipe_id))
       );
@@ -47,18 +49,15 @@ const MyRecipepage = () => {
       console.error("deleteRecipe 오류");
     }
   };
-
+  const fetchMyRecipe = async () => {
+    try {
+      const response = await axiosInstance.get("/recipe/member");
+      setMyRecipe(response.data);
+    } catch (error) {
+      console.error("fetchMyRecipe 실패");
+    }
+  };
   useEffect(() => {
-    const fetchMyRecipe = async () => {
-      try {
-        const response = await axiosInstance.get(
-          "http://localhost:8080/recipe/member"
-        );
-        setMyRecipe(response.data);
-      } catch (error) {
-        console.error("fetchMyRecipe 실패");
-      }
-    };
     fetchMyRecipe();
   }, []);
   return (

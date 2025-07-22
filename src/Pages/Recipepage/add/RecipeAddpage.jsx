@@ -170,15 +170,17 @@ const RecipeAddpage = () => {
       console.error("❌ mainImage 없음! 파일이 선택되지 않았습니다.");
       return;
     }
-    const recipeImageKey = `recipe/image/${today}/${mainImage.name}`;
     const recipeImageContentType = mainImage.type;
     console.log(today);
 
     try {
-      const mainPresignedUrl = await getMainImgPresignedUrl(
+      const mainPresignedUrlResponse = await getMainImgPresignedUrl(
         mainImage.name,
         recipeImageContentType
       );
+      const mainPresignedUrl = mainPresignedUrlResponse.url;
+      const recipeImageKey = mainPresignedUrlResponse.key;
+
       console.log(mainImage);
       console.log("mainPresignedUrl", mainPresignedUrl);
 
@@ -202,10 +204,12 @@ const RecipeAddpage = () => {
             const stepFileName = order.image.name;
             const stepContentType = order.image.type;
 
-            const stepPresignedUrl = await getStepImgPresignedUrl(
+            const stepPresignedUrlResponse = await getStepImgPresignedUrl(
               stepFileName,
               stepContentType
             );
+            const stepPresignedUrl = stepPresignedUrlResponse.url;
+            const stepRecipeImageKey = stepPresignedUrlResponse.key;
             await axios.put(stepPresignedUrl, order.image, {
               headers: { "Content-Type": stepContentType },
             });

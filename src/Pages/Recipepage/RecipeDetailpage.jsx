@@ -17,7 +17,7 @@ import { XIcon } from "../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../api/axiosInstance";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
-  const [recipe, setRecipe] = useState([]);
+  const [recipe, setRecipe] = useState(null);
   const [bookmark, setBookmark] = useState(false);
   const [commentIds, setCommnetIds] = useState("");
   const [comment, setComment] = useState("");
@@ -28,6 +28,7 @@ const RecipeDetailpage = () => {
   const [folders, setFolders] = useState([]);
   const [scrapList, setScrapList] = useState([]);
   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
+  const [mainImg, setMainImg] = useState(null);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
 
@@ -111,6 +112,7 @@ const RecipeDetailpage = () => {
             withCredentials: true,
           }
         );
+        console.log(response.data);
         setRecipe(response.data);
       } catch (error) {
         console.error("레시피 가져오기 실패", error);
@@ -162,6 +164,23 @@ const RecipeDetailpage = () => {
     };
     fetchScrap();
   }, []);
+  useEffect(() => {
+    const fetchMainImg = async () => {
+      try {
+        console.log(recipe.images.img_path);
+        const response = await axios.get(`${recipe.images.img_path}`);
+        console.log(response.data);
+        setMainImg(response.data);
+      } catch (error) {
+        console.error("스크랩 레시피 오류", error);
+      }
+    };
+
+    if (recipe?.images?.img_path) {
+      fetchMainImg();
+    }
+  }, [recipe]);
+
   if (!recipe) return <div>Loading...</div>;
 
   return (
@@ -178,11 +197,9 @@ const RecipeDetailpage = () => {
           <div className="w-full ml-4 mt-3 flex flex-col gap-4">
             {/* 대표 이미지 */}
             <div className="w-full h-[220px] lg:h-[500px] rounded-xl overflow-hidden border">
-              <img
-                src={img}
-                alt="대표 이미지"
-                className="w-full h-full object-cover"
-              />
+              <div className="w-full h-[220px] lg:h-[500px] rounded-xl overflow-hidden border">
+                <img src={recipe?.images?.img_path} alt="대표 이미지" />
+              </div>
             </div>
 
             {/* 제목 & 북마크 */}
