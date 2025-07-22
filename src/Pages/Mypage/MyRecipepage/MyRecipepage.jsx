@@ -33,6 +33,7 @@ const MyRecipepage = () => {
 
   const deleteRecipe = async () => {
     try {
+      console.log(selectedIds);
       await Promise.all(
         selectedIds.map((RecipeId, index) =>
           axiosInstance.delete(`/recipe/${RecipeId}`)
@@ -40,9 +41,7 @@ const MyRecipepage = () => {
       );
       alert("삭제가 완료되었습니다");
       await fetchMyRecipe();
-      setMyRecipe((prev) =>
-        prev.filter((r) => !selectedIds.includes(r.recipe_id))
-      );
+
       setSelectedIds([]);
       console.log("deleteRecipe 성공");
     } catch (error) {
@@ -53,6 +52,7 @@ const MyRecipepage = () => {
     try {
       const response = await axiosInstance.get("/recipe/member");
       setMyRecipe(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("fetchMyRecipe 실패");
     }
