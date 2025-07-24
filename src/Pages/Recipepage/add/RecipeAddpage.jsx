@@ -209,11 +209,10 @@ const RecipeAddpage = () => {
               stepContentType
             );
             const stepPresignedUrl = stepPresignedUrlResponse.url;
-            const stepRecipeImageKey = stepPresignedUrlResponse.key;
+            cookingOrderImageKey = stepPresignedUrlResponse.key;
             await axios.put(stepPresignedUrl, order.image, {
               headers: { "Content-Type": stepContentType },
             });
-            cookingOrderImageKey = `cookingorder/image/${today}/${stepFileName}`;
           }
           return {
             order: index + 1,

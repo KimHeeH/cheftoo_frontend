@@ -17,7 +17,7 @@ const RecipeCard = ({ recipe }) => {
         {" "}
         <img
           className="object-cover rounded-t-xl w-full h-full"
-          src={img1}
+          src={recipe?.img_path}
           alt="recipeImg"
         />
       </div>

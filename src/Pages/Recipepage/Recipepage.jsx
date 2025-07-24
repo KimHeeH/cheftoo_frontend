@@ -39,6 +39,7 @@ const Recipepage = () => {
         withCredentials: true,
       });
       setRecipeData(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("레시피 조회 오류");
     }

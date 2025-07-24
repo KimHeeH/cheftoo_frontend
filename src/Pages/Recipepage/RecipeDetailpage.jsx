@@ -31,6 +31,9 @@ const RecipeDetailpage = () => {
   const [mainImg, setMainImg] = useState(null);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
+  const sortedCookingOrder = recipe?.cooking_order
+    ? [...recipe.cooking_order].sort((a, b) => a.order - b.order)
+    : [];
 
   const openMenuBar = (commentId) => {
     setCommnetIds((prev) => (prev === commentId ? null : commentId));
@@ -164,22 +167,6 @@ const RecipeDetailpage = () => {
     };
     fetchScrap();
   }, []);
-  useEffect(() => {
-    const fetchMainImg = async () => {
-      try {
-        console.log(recipe.images.img_path);
-        const response = await axios.get(`${recipe.images.img_path}`);
-        console.log(response.data);
-        setMainImg(response.data);
-      } catch (error) {
-        console.error("스크랩 레시피 오류", error);
-      }
-    };
-
-    if (recipe?.images?.img_path) {
-      fetchMainImg();
-    }
-  }, [recipe]);
 
   if (!recipe) return <div>Loading...</div>;
 
@@ -196,10 +183,12 @@ const RecipeDetailpage = () => {
         <div>
           <div className="w-full ml-4 mt-3 flex flex-col gap-4">
             {/* 대표 이미지 */}
-            <div className="w-full h-[220px] lg:h-[500px] rounded-xl overflow-hidden border">
-              <div className="w-full h-[220px] lg:h-[500px] rounded-xl overflow-hidden border">
-                <img src={recipe?.images?.img_path} alt="대표 이미지" />
-              </div>
+            <div className="w-full aspect-[4/3] lg:aspect-[16/9] rounded-xl overflow-hidden border bg-gray-100">
+              <img
+                className="w-full h-full object-contain"
+                src={recipe?.images?.img_path}
+                alt="대표 이미지"
+              />
             </div>
 
             {/* 제목 & 북마크 */}
@@ -292,7 +281,7 @@ const RecipeDetailpage = () => {
               <div className="flex gap-4">
                 {/* 왼쪽: 텍스트 목록 */}
                 <div className="w-1/2">
-                  {recipe?.cooking_order?.map((order, i) => (
+                  {sortedCookingOrder.map((order, i) => (
                     <div
                       key={i}
                       className={`cursor-pointer p-4 border-b hover:bg-gray-100 ${
@@ -310,11 +299,9 @@ const RecipeDetailpage = () => {
 
                 {/* 오른쪽: 선택된 이미지 */}
                 <div className="w-1/2 flex justify-center items-center border-1">
-                  {recipe?.cooking_order?.[selectedStepIndex]?.img_path ? (
+                  {sortedCookingOrder?.[selectedStepIndex]?.img_path ? (
                     <img
-                      src={`http://localhost:8080/images/${recipe.cooking_order[
-                        selectedStepIndex
-                      ].img_path.replaceAll("\\", "/")}`}
+                      src={sortedCookingOrder[selectedStepIndex].img_path}
                       alt="조리 이미지"
                       className="w-full max-w-[400px] rounded-xl object-cover"
                     />
