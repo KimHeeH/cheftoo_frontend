@@ -21,45 +21,54 @@ const Scrappage = () => {
   const [newFolderName, setNewFolderName] = useState("");
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
-
   useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+
     const fetchRecipeScrap = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
         const response = await axiosInstance.get("/member/scrap", {
           withCredentials: true,
         });
 
-        const mappedFolders = response.data.map((folder, index) => ({
-          ...folder,
-          scrap_name: folder.scrap_name,
-          scrap_id: folder.scrap_id,
-          index: index + 1,
-        }));
-        setFolders(mappedFolders);
+        // 폴더 리스트를 가져온 후, 각 폴더별 레시피 개수를 조회
+        const foldersWithCount = await Promise.all(
+          response.data.map(async (folder, index) => {
+            try {
+              const recipeRes = await axiosInstance.get(
+                `/member/scrap/${folder.scrap_id}/recipe`
+              );
+
+              // recipe_list가 배열인지 확인 후 length 계산
+              const recipeCount = Array.isArray(recipeRes.data.recipe_list)
+                ? recipeRes.data.recipe_list.length
+                : 0;
+
+              return {
+                ...folder,
+                index: index + 1,
+                recipeCount,
+              };
+            } catch (error) {
+              console.error("레시피 개수 조회 실패:", error);
+              return {
+                ...folder,
+                index: index + 1,
+                recipeCount: 0,
+              };
+            }
+          })
+        );
+
+        setFolders(foldersWithCount);
+        console.log("폴더 데이터:", foldersWithCount);
       } catch (error) {
-        console.error("fetchRecipeScrap Error", error);
+        navigate("/mypage");
       }
     };
+
     fetchRecipeScrap();
   }, []);
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       const status = await checkAuthGuard();
-  //       if (status === 200) {
-  //       } else {
-  //         alert("로그인이 필요합니다.");
-  //         navigate("/mypage");
-  //       }
-  //     } catch (error) {
-  //       console.error("인증 오류:", error);
-  //       alert("로그인이 필요합니다.");
-  //     }
-  //   };
 
-  //   checkAuth();
-  // }, []);
   const handleFolderClick = (scrapId) => {
     navigate(`/scrap/${scrapId}`);
   };
@@ -71,8 +80,8 @@ const Scrappage = () => {
   };
   const deleteScrap = async (id) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8080/member/scrap/${id}`,
+      const response = await axiosInstance.delete(
+        `/member/scrap/${id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -131,7 +140,7 @@ const Scrappage = () => {
   };
   const updateScrapName = async (id, name) => {
     try {
-      await axiosInstance.put(`http://localhost:8080/member/scrap/${id}`, {
+      await axiosInstance.put(`/member/scrap/${id}`, {
         scrapName: name,
       });
 
@@ -202,9 +211,9 @@ const Scrappage = () => {
                     onClick={(e) => e.stopPropagation()}
                   />
                   <div className="px-3 mt-2 w-full text-md text-gray-500">
-                    총 5개의 레시피
+                    {" "}
+                    {folder?.recipeCount}개의 레시피
                   </div>{" "}
-                  {/* 예시 */}
                 </div>
 
                 {saveFolderName && openMenuId === folder.scrap_id && (

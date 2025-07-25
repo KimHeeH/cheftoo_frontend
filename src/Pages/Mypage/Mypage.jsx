@@ -149,9 +149,7 @@ const Mypage = () => {
         <div className="w-full flex flex-col justify-center items-center gap-2  ">
           <NickNameProfileIcon className="w-[20px] h-[20px] lg:w-[80px] lg:h-[80px]" />
 
-          <div className="text-2xl lg:font-semibold font-gowun">
-            {nickname}님
-          </div>
+          <div className="text-2xl lg:font-semibold ">{nickname}님</div>
           <div className="text-md text-gray-500">카카오 회원</div>
         </div>
 

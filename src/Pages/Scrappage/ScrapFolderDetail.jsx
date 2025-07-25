@@ -62,7 +62,7 @@ const ScrapFolderDetail = () => {
             <div className="flex lg:justify-center lg:items-center lg:h-full ">
               <div className="lg:w-80 lg:h-full relative">
                 <img
-                  src={img}
+                  src={recipe.img_path}
                   className="w-[200px] lg:w-full lg:h-full rounded-md"
                   alt="img"
                 />

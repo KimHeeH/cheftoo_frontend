@@ -63,7 +63,7 @@ const RecommendedRecipe = () => {
         </p>
       </div>
       <div className="w-full">
-        <RecipeSlider />
+        <RecipeSlider popularRecipeList={popularRecipeList} />
       </div>
     </div>
   );

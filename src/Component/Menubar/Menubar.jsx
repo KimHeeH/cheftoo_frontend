@@ -25,7 +25,6 @@ const Menubar = () => {
   return (
     <div className="container fixed bottom-0 left-0 w-full bg-white  border-t border-[#DCDCDC] lg:static lg:border-t-0 lg:border-b z-50 ">
       <div className="flex justify-around lg:justify-start items-center h-[80px] lg:h-[50px] gap-8 text-[#3B3A36]">
-        {/* 메뉴 아이템 공통 구조화 */}
         {[
           {
             label: "홈",
@@ -61,14 +60,14 @@ const Menubar = () => {
             onClick={() => goPage(path, key)}
             className="flex flex-col items-center justify-center w-1/4 lg:w-[10%] cursor-pointer text-xs lg:text-lg"
           >
-            {/* 아이콘 (모바일만 표시) */}
+            {/* 아이콘 (모바일 표시) */}
             <div className="pt-2 lg:hidden">
               {menu === key ? <SelectedIcon /> : <Icon />}
             </div>
             {/* 텍스트 */}
             <span
-              className={` mt-2 text-center ${
-                menu === key ? "text-[#FA590F] font-bold" : "text-[#BFBFBF]"
+              className={` mt-2  text-center ${
+                menu === key ? "text-[#000000] font-bold" : "text-[#BFBFBF]"
               }`}
             >
               {label}

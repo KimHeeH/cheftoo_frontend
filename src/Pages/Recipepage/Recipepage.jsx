@@ -15,9 +15,7 @@ const Recipepage = () => {
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
   const [isHovered, setIsHovered] = useState(false);
   const [recipeData, setRecipeData] = useState([]);
-  // const goAddRecipePage = () => {
-  //   navigate("/add");
-  // };
+
   const handleClick = async () => {
     try {
       const status = await checkAuthGuard();
@@ -63,11 +61,11 @@ const Recipepage = () => {
     <div className="container w-screen ">
       <SearchContainer />
       <Menubar />
-      <div className="w-full  h-12 flex justify-end mt-8 items-center">
+      <div className="relative w-full  h-12 flex justify-end lg:mt-8 items-center">
         <div
           onClick={goAddRecipe}
-          className="w-40 h-12 mb-10 mr-4 bg-orange-500 hover:bg-orange-600 active:scale-95 transition-all duration-150
-             text-white text-lg font-semibold rounded-xl shadow-md flex items-center justify-center cursor-pointer"
+          className="fixed lg:top-60  bottom-10 left-1/2 -translate-x-1/2  lg:bottom-auto lg:left-auto lg:translate-x-0 lg:right-50lg: lg:w-40 h-12 mb-10 mr-4 bg-orange-500 hover:bg-orange-600 active:scale-95 transition-all duration-150
+             text-white text-lg font-semibold rounded-xl shadow-md flex items-center justify-center cursor-pointer w-full  max-w-[400px]"
         >
           + 레시피 등록
         </div>
@@ -81,7 +79,7 @@ const Recipepage = () => {
         </div>
       </div>
 
-      <div className="flex justify-center w-full px-4">
+      <div className="flex justify-center w-full px-4 mb-28">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-[900px]  pb-[80px]">
           {/* {console.log("recipeData:", recipeData, typeof recipeData, Array.isArray(recipeData))} */}
           {recipeData?.content?.map((recipe) => (
