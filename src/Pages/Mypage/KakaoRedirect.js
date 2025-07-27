@@ -20,7 +20,7 @@ function KakaoRedirect() {
 
       try {
         const response = await axios.get(
-          "http://localhost:8080/oauth/kakao/callback",
+          `${process.env.REACT_APP_BASE_URL}/oauth/kakao/callback`,
           {
             params: { code: authorizationCode, state: state },
             withCredentials: true,

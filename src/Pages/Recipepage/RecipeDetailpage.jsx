@@ -109,7 +109,7 @@ const RecipeDetailpage = () => {
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/recipe/${recipeId}`,
+          `${process.env.REACT_APP_BASE_URL}/recipe/${recipeId}`,
 
           {
             withCredentials: true,
@@ -128,7 +128,7 @@ const RecipeDetailpage = () => {
   const fetchComment = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/recipe/comment/${recipeId}`,
+        `${process.env.REACT_APP_BASE_URL}/recipe/comment/${recipeId}`,
         { withCredentials: true }
       );
       setCommentList(response.data);

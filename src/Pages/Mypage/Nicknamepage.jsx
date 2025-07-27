@@ -13,10 +13,14 @@ const NicknamePage = () => {
   console.log("닉네임 페이지 isNewUser:", isNewUser); // 👈 이거로 확인해봐!
   const insertNickname = async (nickname) => {
     try {
-      const res = await axios.put("http://localhost:8080/auth/nickname", null, {
-        params: { nickname },
-        withCredentials: true,
-      });
+      const res = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/auth/nickname`,
+        null,
+        {
+          params: { nickname },
+          withCredentials: true,
+        }
+      );
       alert("닉네임이 등록되었습니다.");
       console.log("닉네임 등록 성공");
     } catch (err) {

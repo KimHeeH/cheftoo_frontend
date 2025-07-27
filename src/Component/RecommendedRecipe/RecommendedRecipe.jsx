@@ -38,7 +38,7 @@ const RecommendedRecipe = () => {
   const fetchPopularRecipe = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/recipe/popular-top10"
+        `${process.env.REACT_APP_BASE_URL}/recipe/popular-top10`
       );
       setPopularRecipeList(response.data);
       console.log(response.data);

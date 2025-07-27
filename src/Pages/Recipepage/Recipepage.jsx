@@ -10,12 +10,18 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import RecipeCard from "../../Component/RecipeCard/RecipeCard";
 import InputContainer from "../../Component/SearchContainer/InputContainer";
+import searchIcon from "./img/searchIcon.svg";
+import { XIcon } from "../../Component/Menubar/Icon/Icon";
 const Recipepage = () => {
   const navigate = useNavigate();
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
   const [isHovered, setIsHovered] = useState(false);
   const [recipeData, setRecipeData] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  const [searchData, setSearchData] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
+  console.log(keyword);
   const handleClick = async () => {
     try {
       const status = await checkAuthGuard();
@@ -33,15 +39,44 @@ const Recipepage = () => {
   };
   const getReipceData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/recipe", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/recipe`,
+        {
+          withCredentials: true,
+        }
+      );
       setRecipeData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("레시피 조회 오류");
     }
   };
+  const displayData = isSearching
+    ? searchData?.content || []
+    : recipeData?.content || [];
+
+  const searchKeyword = async (keyword) => {
+    if (!keyword.trim()) {
+      setIsSearching(false);
+      setSearchData([]);
+      return;
+    }
+    try {
+      setIsSearching(true);
+
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/recipe`,
+        {
+          params: { keyword },
+        }
+      );
+      console.log(response.data);
+      setSearchData(response.data);
+    } catch (err) {
+      console.error("검색 실패", err);
+    }
+  };
+
   useEffect(() => {
     getReipceData();
   }, []);
@@ -57,6 +92,12 @@ const Recipepage = () => {
   const goAddRecipe = () => {
     navigate("/add");
   };
+  useEffect(() => {
+    if (keyword.trim() === "") {
+      setIsSearching(false);
+    }
+  }, [keyword]);
+
   return (
     <div className="container w-screen ">
       <SearchContainer />
@@ -70,23 +111,68 @@ const Recipepage = () => {
           + 레시피 등록
         </div>
       </div>
-      <div className="w-full relative flex flex-col items-center h-40  mt-1">
-        <div className="text-xl lg:text-2xl font-bold text-[#3B3A36]">
-          오늘의 요리는?
+      {/* 검색 + 결과 안내 */}
+      <div className="w-full max-w-[900px] mx-auto px-4 mt-10 mb-5">
+        <div className="text-xl lg:text-2xl font-bold text-gray-800 mb-4">
+          오늘의 한 끼, 뭐 먹지?{" "}
         </div>
-        <div className="w-full absolute top-14 left-1/2  -translate-x-1/2">
-          <InputContainer />
+        <div className="relative">
+          {" "}
+          <input
+            className=" w-full h-[48px] rounded-md bg-gray-100 pl-4 pr-12 text-base border border-gray-200 focus:ring-2 focus:ring-orange-400 outline-none transition"
+            placeholder="궁금한 레시피를 찾아보세요"
+            onChange={(e) => setKeyword(e.target.value)}
+            value={keyword}
+            onKeyDown={(e) => e.key === "Enter" && searchKeyword(keyword)}
+          />
+          <img
+            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer hover:scale-110 transition"
+            src={searchIcon}
+            width={20}
+            alt="검색"
+            onClick={() => searchKeyword(keyword)}
+          />
         </div>
+
+        {keyword && (
+          <div className="mt-4 flex justify-between items-center mt-3 text-gray-600 text-base">
+            <span>
+              <span className="font-semibold text-orange-600">"{keyword}"</span>{" "}
+              검색 결과
+            </span>
+            <button
+              className="text-gray-400 hover:text-gray-600 transition text-sm"
+              onClick={() => {
+                setKeyword("");
+                setIsSearching(false);
+              }}
+            >
+              전체보기
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="flex justify-center w-full px-4 mb-28">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-[900px]  pb-[80px]">
-          {/* {console.log("recipeData:", recipeData, typeof recipeData, Array.isArray(recipeData))} */}
-          {recipeData?.content?.map((recipe) => (
+          {/* {recipeData?.content?.map((recipe) => (
             <div key={recipe.recipe_id} className="w-full">
               <RecipeCard recipe={recipe} />
             </div>
-          ))}
+          ))} */}
+          {displayData.length > 0 ? (
+            displayData.map((recipe) => (
+              <div key={recipe.recipe_id} className="w-full">
+                <RecipeCard recipe={recipe} />
+              </div>
+            ))
+          ) : (
+            <div className="col-span-2 text-center text-gray-500 text-lg mt-10">
+              {isSearching
+                ? "검색 결과가 없습니다."
+                : "등록된 레시피가 없습니다."}
+            </div>
+          )}
         </div>
       </div>
     </div>

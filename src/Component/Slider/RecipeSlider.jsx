@@ -10,17 +10,11 @@ import forthImg from "../RecommendedRecipe/img/image-2.png";
 import { Navigation } from "swiper/modules";
 import "swiper/css/navigation";
 import Icon, { DotEmpty, DotFilled } from "./Icon/Icon";
-const imageList = [firstImg, secondImg, thirdImg, forthImg];
 
 const RecipeSlider = ({ popularRecipeList }) => {
-  const recipeNameList = [
-    "봉골레 파스타",
-    "제육볶음 한상",
-    "시금치 김밥",
-    "피자 컵케이크",
-  ];
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [swiperRef, setSwiperRef] = useState(null);
   console.log(popularRecipeList);
   return (
     <div className="relative container ">
@@ -60,12 +54,14 @@ const RecipeSlider = ({ popularRecipeList }) => {
                   src={recipe?.img_path || firstImg} // img_path가 없을 경우 기본 이미지
                   alt={`slide-${index}`}
                   className={`w-full h-full object-cover rounded-xl transition-transform duration-300 ${
-                    hoveredIndex == index ? "scale-105 brightness-75" : ""
+                    hoveredIndex === index ? "scale-105 brightness-75" : ""
                   }`}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/10 to-transparent"></div>
+
                 {hoveredIndex === index && (
-                  <div className="absolute bottom-4 left-4 bg-black/20 p-2 rounded-lg z-10">
-                    <span className="text-white text-base lg:text-2xl font-bold drop-shadow-lg">
+                  <div className="absolute bottom-4 left-4  p-2 rounded-lg z-10">
+                    <span className="text-white text-lg lg:text-2xl font-bold drop-shadow-md">
                       {recipe.recipe_title}
                     </span>
                   </div>
@@ -73,6 +69,19 @@ const RecipeSlider = ({ popularRecipeList }) => {
               </div>
             </SwiperSlide>
           ))}
+          {popularRecipeList.length > 1 && (
+            <div className="flex justify-center mt-4 gap-2">
+              {popularRecipeList.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => swiperRef?.slideToLoop(index)}
+                  className="focus:outline-none"
+                >
+                  {activeIndex === index ? <DotFilled /> : <DotEmpty />}
+                </button>
+              ))}
+            </div>
+          )}
         </Swiper>
       ) : (
         <div className="text-center text-gray-400">인기 레시피가 없습니다</div>

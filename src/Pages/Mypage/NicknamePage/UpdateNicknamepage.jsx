@@ -29,12 +29,15 @@ const NicknamePage = () => {
         withCredentials: true,
       });
       alert("닉네임이 변경되었습니다.");
-      const response = await axios.get("http://localhost:8080/auth/nickname", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/auth/nickname`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        }
+      );
       console.log("닉네임 응답", response.data, typeof response.data);
       setNickname(response.data);
       console.log("setNickname 진행 후 nicknameState 값:", nickname);
