@@ -5,7 +5,7 @@ const useKakaoLogin = (prevPage, nextPage = null) => {
 
   useEffect(() => {
     const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
-    const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI_LOCAL;
+    const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
     const state = encodeURIComponent(
       JSON.stringify({ prevPage: prevPage, nextPage: nextPage })
     );

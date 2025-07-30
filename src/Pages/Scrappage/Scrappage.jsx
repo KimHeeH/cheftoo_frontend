@@ -24,51 +24,49 @@ const Scrappage = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
 
-    const fetchRecipeScrap = async () => {
-      try {
-        const response = await axiosInstance.get("/member/scrap", {
-          withCredentials: true,
-        });
-
-        // 폴더 리스트를 가져온 후, 각 폴더별 레시피 개수를 조회
-        const foldersWithCount = await Promise.all(
-          response.data.map(async (folder, index) => {
-            try {
-              const recipeRes = await axiosInstance.get(
-                `/member/scrap/${folder.scrap_id}/recipe`
-              );
-
-              // recipe_list가 배열인지 확인 후 length 계산
-              const recipeCount = Array.isArray(recipeRes.data.recipe_list)
-                ? recipeRes.data.recipe_list.length
-                : 0;
-
-              return {
-                ...folder,
-                index: index + 1,
-                recipeCount,
-              };
-            } catch (error) {
-              console.error("레시피 개수 조회 실패:", error);
-              return {
-                ...folder,
-                index: index + 1,
-                recipeCount: 0,
-              };
-            }
-          })
-        );
-
-        setFolders(foldersWithCount);
-        console.log("폴더 데이터:", foldersWithCount);
-      } catch (error) {
-        navigate("/mypage");
-      }
-    };
-
     fetchRecipeScrap();
   }, []);
+  const fetchRecipeScrap = async () => {
+    try {
+      const response = await axiosInstance.get("/member/scrap", {
+        withCredentials: true,
+      });
 
+      // 폴더 리스트를 가져온 후, 각 폴더별 레시피 개수를 조회
+      const foldersWithCount = await Promise.all(
+        response.data.map(async (folder, index) => {
+          try {
+            const recipeRes = await axiosInstance.get(
+              `/member/scrap/${folder.scrap_id}/recipe`
+            );
+
+            // recipe_list가 배열인지 확인 후 length 계산
+            const recipeCount = Array.isArray(recipeRes.data.recipe_list)
+              ? recipeRes.data.recipe_list.length
+              : 0;
+
+            return {
+              ...folder,
+              index: index + 1,
+              recipeCount,
+            };
+          } catch (error) {
+            console.error("레시피 개수 조회 실패:", error);
+            return {
+              ...folder,
+              index: index + 1,
+              recipeCount: 0,
+            };
+          }
+        })
+      );
+
+      setFolders(foldersWithCount);
+      console.log("폴더 데이터:", foldersWithCount);
+    } catch (error) {
+      navigate("/mypage");
+    }
+  };
   const handleFolderClick = (scrapId) => {
     navigate(`/scrap/${scrapId}`);
   };
@@ -91,7 +89,7 @@ const Scrappage = () => {
         { withCredentials: true }
       );
       alert("삭제 완료되었습니다");
-      setFolders((prev) => prev.filter((folder) => folder.scrap_id !== id)); // ✅ 상태 직접 수정
+      setFolders((prev) => prev.filter((folder) => folder.scrap_id !== id));
     } catch (error) {
       console.error("deleteRecipeScrap Error", error);
     }
@@ -111,7 +109,8 @@ const Scrappage = () => {
       );
 
       const newFolder = response.data;
-      console.log(response);
+      console.log("newFolder", response);
+      await fetchRecipeScrap();
 
       if (!newFolder.scrap_id) {
         console.warn("❌ 응답에 scrap_id 없음:", newFolder);
@@ -119,13 +118,13 @@ const Scrappage = () => {
         return;
       }
       console.log("newFolder", newFolder);
-      setFolders((prev) => [
-        ...prev,
-        {
-          scrap_id: newFolder.scrap_id,
-          scrap_name: name,
-        },
-      ]);
+      // setFolders((prev) => [
+      //   ...prev,
+      //   {
+      //     scrap_id: newFolder.scrap_id,
+      //     scrap_name: name,
+      //   },
+      // ]);
     } catch (error) {
       console.error("addRecipeScrap 실패", error);
     }
@@ -140,15 +139,17 @@ const Scrappage = () => {
   };
   const updateScrapName = async (id, name) => {
     try {
+      /* 폴더명 바꿀때 */
       await axiosInstance.put(`/member/scrap/${id}`, {
         scrapName: name,
       });
+      await fetchRecipeScrap();
 
-      setFolders((prev) =>
-        prev.map((folder) =>
-          folder.scrap_id === id ? { ...folder, scrap_name: name } : folder
-        )
-      );
+      // setFolders((prev) =>
+      //   prev.map((folder) =>
+      //     folder.scrap_id === id ? { ...folder, scrap_name: name } : folder
+      //   )
+      // );
       setEditableFolderId(null);
 
       alert("이름 변경 완료");
@@ -167,7 +168,7 @@ const Scrappage = () => {
       <div className="lg:my-6 w-40 lg:w-60 ">
         <button
           onClick={() => setIsModalOpen(true)}
-          className=" gap-3 z-[10] fixed bottom-24 lg:bottom-24 lg:bottom-2 w-2/3  lg:w-60 flex justify-center lg:text-xl left-1/2 h-16 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-[#FDFDFD] text-black  text-center border-1 border-[#E7E7E7] rounded-lg hover:bg-gray-100 transition"
+          className=" gap-3 z-[10] fixed bottom-20 h-14  rounded-lg lg:bottom-24 lg:bottom-2 w-full  lg:w-60 flex justify-center lg:text-xl left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-[#FDFDFD] text-black  text-center border-1 border-[#E7E7E7] rounded-lg hover:bg-gray-100 transition"
         >
           <FolderIcon />
           폴더 추가
@@ -187,46 +188,54 @@ const Scrappage = () => {
           {folders.map((folder, key, index) => (
             <div
               key={folder.scrap_id}
-              className="flex h-40  items-center justify-between p-4 bg-white border-gray border-2 shadow-sm rounded-xl max-w-[500px] cursor-pointer transition transform duration-200 hover:shadow-md hover:bg-[#EEEEEE]-100 hover:scale-[1.01] "
+              className="flex h-40  items-center justify-between p-4 bg-white border-gray border-2 shadow-sm rounded-xl max-w-[600px] cursor-pointer transition transform duration-200 hover:shadow-md hover:bg-[#EEEEEE]-100 hover:scale-[1.01] "
             >
               <div
-                onClick={() => handleFolderClick(folder.scrap_id)}
+                onClick={() => {
+                  if (editableFolderId !== folder.scrap_id) {
+                    handleFolderClick(folder.scrap_id);
+                  }
+                }}
                 className="flex items-center gap-4 w-full max-w-[400px] "
               >
-                <FolderNameIcon />
-                <div className="flex flex-col items-center h-full">
+                <div className="min-w-[40px]">
+                  <FolderNameIcon />
+                </div>
+
+                <div className="flex flex-col  ">
                   {" "}
                   <input
-                    disabled={editableFolderId !== folder.scrap_id}
-                    className={`mt-1 lg:text-xl flex-1 px-3 py-2  rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400  disabled:bg-white disabled:border-0 disabled:cursor-not-allowed 
+                    readOnly={editableFolderId !== folder.scrap_id}
+                    className={`mt-1  max-w-[200px]  lg:text-xl  px-3 py-2  rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400  
                   ${
                     editableFolderId !== folder.scrap_id
-                      ? "border-0"
+                      ? "bg-white border-0 cursor-default"
                       : "border border-gray-300"
                   }`}
                     value={folder.scrap_name}
                     onChange={(e) =>
                       handleNameChange(folder.scrap_id, e.target.value)
                     }
-                    onClick={(e) => e.stopPropagation()}
                   />
-                  <div className="px-3 mt-2 w-full text-md text-gray-500">
+                  <div className="px-3 mt-2 text-md text-gray-500">
                     {" "}
                     {folder?.recipeCount}개의 레시피
                   </div>{" "}
                 </div>
-
-                {saveFolderName && openMenuId === folder.scrap_id && (
+                {saveFolderName && openMenuId === folder.scrap_id ? (
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
 
                       updateScrapName(folder.scrap_id, folder.scrap_name);
                     }}
-                    className="mb-4 px-3 py-2 w-20 border border-orange-400 text-orange-500 font-semibold rounded-md hover:bg-orange-50"
+                    className="ml-2 mb-4 px-3 py-2 w-20 border border-orange-400 text-orange-500 font-semibold rounded-md hover:bg-orange-50"
                   >
                     변경
                   </button>
+                ) : (
+                  // 투명한 더미 div로 공간 확보 (pointer-events 없애서 클릭 막기)
+                  <div className="ml-2 w-20 h-[40px] pointer-events-none" />
                 )}
               </div>
               {/* 메뉴 아이콘 + 드롭다운 */}
@@ -242,7 +251,7 @@ const Scrappage = () => {
                 </div>
 
                 {openMenuId === folder.scrap_id && (
-                  <div className="absolute top-full right-0 bg-white border rounded-md shadow-md w-32 z-[9999]">
+                  <div className="absolute top-10 right-0 bg-white border rounded-md shadow-md w-32 z-[9999]">
                     <div
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       onClick={(e) => {

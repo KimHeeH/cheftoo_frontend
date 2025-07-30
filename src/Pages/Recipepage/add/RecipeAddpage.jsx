@@ -138,7 +138,7 @@ const RecipeAddpage = () => {
     console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
 
     const res = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/images/recipe-image/presigned-put`,
+      `${process.env.REACT_APP_API_BASE_URL}/images/recipe-image/presigned-put`,
       {
         params: { contentType, fileName },
       }
@@ -150,7 +150,7 @@ const RecipeAddpage = () => {
     console.log("요청 보내는 경로:", "/images/recipe-image/presigned-put");
 
     const res = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/images/cooking-order-image/presigned-put`,
+      `${process.env.REACT_APP_API_BASE_URL}/images/cooking-order-image/presigned-put`,
       {
         params: { contentType, fileName },
       }

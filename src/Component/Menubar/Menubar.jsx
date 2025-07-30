@@ -1,6 +1,5 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import PopularIcon from "./Icon/Icon.jsx";
 import Icon from "./Icon/Icon.jsx";
 import { useState } from "react";
 const Menubar = () => {

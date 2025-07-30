@@ -14,7 +14,7 @@ const NicknamePage = () => {
   const insertNickname = async (nickname) => {
     try {
       const res = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/auth/nickname`,
+        `${process.env.REACT_APP_API_BASE_URL}/auth/nickname`,
         null,
         {
           params: { nickname },

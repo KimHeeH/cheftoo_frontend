@@ -8,13 +8,18 @@ import secondImg from "../RecommendedRecipe/img/image.png";
 import thirdImg from "../RecommendedRecipe/img/image-1.png";
 import forthImg from "../RecommendedRecipe/img/image-2.png";
 import { Navigation } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
 import "swiper/css/navigation";
 import Icon, { DotEmpty, DotFilled } from "./Icon/Icon";
 
 const RecipeSlider = ({ popularRecipeList }) => {
+  const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [swiperRef, setSwiperRef] = useState(null);
+  const handleRecipeDetail = (recipe_id) => {
+    navigate(`/recipes/${recipe_id}`);
+  };
   console.log(popularRecipeList);
   return (
     <div className="relative container ">
@@ -46,6 +51,7 @@ const RecipeSlider = ({ popularRecipeList }) => {
           {popularRecipeList.map((recipe, index) => (
             <SwiperSlide key={recipe.recipe_id} style={{ width: "100%" }}>
               <div
+                onClick={() => handleRecipeDetail(recipe.recipe_id)}
                 className="p-2 relative w-full h-[250px] lg:h-[500px] overflow-hidden rounded-xl"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}

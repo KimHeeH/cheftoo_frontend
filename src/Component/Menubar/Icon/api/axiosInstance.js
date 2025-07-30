@@ -11,6 +11,7 @@ const refreshAccessToken = async (navigate) => {
     const accessToken = localStorage.getItem("accessToken");
 
     const res = await axiosInstance.post("/auth/refresh", null, {
+      withCredentials: true,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -20,16 +21,7 @@ const refreshAccessToken = async (navigate) => {
     localStorage.setItem("accessToken", newAccessToken);
     return newAccessToken;
   } catch (err) {
-    const status = err?.response?.status;
-    if (status === 401) {
-      console.warn("토큰이 만료되었거나 유효하지 않습니다.");
-    } else if (status === 500) {
-      console.error("서버 에러 : 토큰 갱신 실패");
-    } else {
-      console.error("알 수 없는 에러 발생", err);
-    }
     if (navigate) {
-      alert("로그인을 다시 해주세요");
       navigate("/mypage");
     }
     throw err;
@@ -70,8 +62,6 @@ export const setupInterceptors = (resetNickname, navigate) => {
           resetNickname?.();
           localStorage.removeItem("accessToken");
           localStorage.removeItem("nickname");
-          alert("로그인을 다시 해주세요");
-
           navigate?.("/mypage");
           return Promise.reject(err);
         }

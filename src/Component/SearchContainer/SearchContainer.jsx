@@ -7,7 +7,7 @@ import "./SearchContainer.style.css";
 import { useNavigate } from "react-router-dom";
 import searchIcon from "./icon/searchIcon.svg";
 import userIcon from "./icon/user.svg";
-import { DropDownIcon, DropUpIcon, LoginBtnIcon } from "../Menubar/Icon/Icon";
+import { LoginBtnIcon } from "../Menubar/Icon/Icon";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useState } from "react";
 import Icon, { CommentProfileIcon, ProfileIcon } from "../Menubar/Icon/Icon";
@@ -16,22 +16,26 @@ import { useRecoilValue } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import { useRecoilState } from "recoil";
 import Loader from "../Loader";
+import { ContainerUserIcon } from "../Menubar/Icon/Icon";
+import UserIcon from "./icon/Icon_my_page";
+import { DropDownIcon, DropUpIcon } from "../Menubar/Icon/Icon";
+import { UpArrowIcon, DownArrowIcon } from "../Menubar/Icon/Icon";
 const SearchContainer = () => {
   const [nickname, setNickname] = useRecoilState(nicknameState);
+  const [isHovered, setIsHovered] = useState(false);
   const isLoggedIn = !!localStorage.getItem("accessToken");
 
   const [isDropdown, setIsDropdown] = useState(false);
   const location = useLocation();
-  const includeContainerRoutes = ["/", "/recipe"];
-  const hideContainerRoutes = ["/mypage"];
-  const shouldHideContainerRoutes = hideContainerRoutes.includes(
-    location.pathname
-  );
-  const shouldIncludeContainerRoutes = includeContainerRoutes.includes(
-    location.pathname
-  );
+  // const includeContainerRoutes = ["/", "/recipe"];
+  // const hideContainerRoutes = ["/mypage"];
+  // const shouldHideContainerRoutes = hideContainerRoutes.includes(
+  //   location.pathname
+  // );
+  // const shouldIncludeContainerRoutes = includeContainerRoutes.includes(
+  //   location.pathname
+  // );
   const navigate = useNavigate();
-
   const handleLoginPage = () => {
     navigate("/mypage");
   };
@@ -44,6 +48,7 @@ const SearchContainer = () => {
   const goAddRecipe = () => {
     navigate("/add");
   };
+
   useEffect(() => {
     // Recoil에 닉네임이 없으면 localStorage에서 복구
     if (!nickname) {
@@ -55,7 +60,7 @@ const SearchContainer = () => {
   }, [nickname, setNickname]);
   return (
     <div className="container w-screen">
-      <div className="relative w-full px-4 py-4 lg:py-4 lg:py-2 lg:h-[80px] mt-8 ">
+      <div className="relative w-full px-4 py-4 lg:py-4 lg:py-2 lg:h-[80px] lg:mt-8 ">
         <div className="hidden lg:flex justify-between items-center w-full h-full">
           {/* 로고 */}
           <div
@@ -65,42 +70,43 @@ const SearchContainer = () => {
             <img className="w-28 mr-2" src={todaysIcon} alt="Today’s Icon" />
             <img className="w-28" src={recipeIcon} alt="Recipe Icon" />
           </div>
-
-          {/* 로그인 */}
-          <div
-            onClick={handleLoginPage}
-            className="flex items-center cursor-pointer h-12"
-          >
-            {nickname && isLoggedIn ? (
-              <div className="flex gap-2 items-center">
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dropdownMenu();
-                  }}
-                  className="relative"
-                >
-                  {/* {isDropdown ? <DropUpIcon /> : <DropDownIcon />}
-                  {isDropdown && (
-                    <div className="absolute top-full right-0 mt-2 w-32 bg-white border rounded-md shadow-md">
-                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        내 프로필
-                      </div>
-                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        로그아웃
-                      </div>
-                    </div>
-                  )} */}
+          <div className="flex w-full justify-end">
+            {" "}
+            <div
+              onClick={handleLoginPage}
+              className="flex items-center cursor-pointer h-12"
+            >
+              {nickname ? (
+                <div className="flex gap-2 items-center w-20">
+                  <UserIcon />
                 </div>
-              </div>
-            ) : (
-              !shouldHideContainerRoutes && (
+              ) : (
                 <div className="border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
                   로그인 / 회원가입
                 </div>
-              )
+              )}
+            </div>
+            {isLoggedIn && (
+              <div
+                className="relative"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {" "}
+                <div
+                  onClick={goAddRecipe}
+                  className="border-1 border-orange-500 text-orange-500 font-bold cursor-pointer hover:bg-orange-500 hover:text-white w-40 rounded-3xl h-12 flex items-center pl-5 text-lg"
+                >
+                  레시피 등록
+                </div>
+                <div className="absolute right-3 top-3">
+                  {isHovered ? <UpArrowIcon /> : <DownArrowIcon />}
+                </div>
+              </div>
             )}
           </div>
+
+          {/* 로그인 */}
         </div>
 
         {/* 모바일용 로고+로그인+input */}
@@ -123,9 +129,7 @@ const SearchContainer = () => {
             >
               {nickname ? (
                 <div className="flex gap-2 items-center">
-                  <span className="text-base  lg:text-xl font-semibold text-gray-700">
-                    {nickname}님
-                  </span>
+                  <UserIcon />
                 </div>
               ) : (
                 <div

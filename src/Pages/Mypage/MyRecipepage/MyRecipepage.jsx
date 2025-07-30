@@ -7,11 +7,14 @@ import {
   SelectedBoxIcon,
 } from "../../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../../api/axiosInstance";
-
+import { useNavigate } from "react-router-dom";
 const MyRecipepage = () => {
+  const navigate = useNavigate();
   const [myRecipe, setMyRecipe] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
-
+  const handleRecipeDetail = (recipe_id) => {
+    navigate(`/recipes/${recipe_id}`);
+  };
   const isAllSelected =
     myRecipe.length > 0 && selectedIds.length === myRecipe.length;
 
@@ -86,19 +89,23 @@ const MyRecipepage = () => {
       <div className="mt-6 space-y-6 mb-40">
         {myRecipe.map((recipe) => (
           <div
-            className="flex flex-col lg:flex-row gap-4 lg:gap-8 items-start lg:items-center"
+            onClick={() => handleRecipeDetail(recipe.recipe_id)}
+            className="flex flex-col lg:flex-row gap-4 lg:gap-8 items-start lg:items-center cursor-pointer"
             key={recipe.recipe_id}
           >
             {/* 이미지 박스 */}
             <div className="relative w-full lg:w-80">
               <img
                 src={recipe.img_path}
-                className="w-full h-[180px] lg:h-full object-cover rounded-md"
+                className="w-full h-[180px] lg:h-[190px] object-cover rounded-md"
                 alt="recipe"
               />
               <div
-                className="absolute top-2 left-2 cursor-pointer"
-                onClick={() => toggleBox(recipe.recipe_id)}
+                className="absolute top-0 left-0 cursor-pointer"
+                onClick={(e) => {
+                  toggleBox(recipe.recipe_id);
+                  e.stopPropagation();
+                }}
               >
                 {selectedIds.includes(recipe.recipe_id) ? (
                   <SelectedBoxIcon />

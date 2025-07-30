@@ -30,7 +30,7 @@ const NicknamePage = () => {
       });
       alert("닉네임이 변경되었습니다.");
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/auth/nickname`,
+        `${process.env.REACT_APP_API_BASE_URL}/auth/nickname`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

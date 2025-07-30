@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../Component/Menubar/Menubar";
-import addIcon from "./img/add-recipe-btn.svg";
 import RecipeAddpage from "./add/RecipeAddpage";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
@@ -40,7 +39,7 @@ const Recipepage = () => {
   const getReipceData = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/recipe`,
+        `${process.env.REACT_APP_API_BASE_URL}/recipe`,
         {
           withCredentials: true,
         }
@@ -65,7 +64,7 @@ const Recipepage = () => {
       setIsSearching(true);
 
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/recipe`,
+        `${process.env.REACT_APP_API_BASE_URL}/recipe`,
         {
           params: { keyword },
         }
@@ -89,9 +88,7 @@ const Recipepage = () => {
   const onToggleClick = () => {
     setIsHovered(!isHovered);
   };
-  const goAddRecipe = () => {
-    navigate("/add");
-  };
+
   useEffect(() => {
     if (keyword.trim() === "") {
       setIsSearching(false);
@@ -99,20 +96,12 @@ const Recipepage = () => {
   }, [keyword]);
 
   return (
-    <div className="container w-screen ">
+    <div>
       <SearchContainer />
       <Menubar />
-      <div className="relative w-full  h-12 flex justify-end lg:mt-8 items-center">
-        <div
-          onClick={goAddRecipe}
-          className="fixed lg:top-60  bottom-10 left-1/2 -translate-x-1/2  lg:bottom-auto lg:left-auto lg:translate-x-0 lg:right-50lg: lg:w-40 h-12 mb-10 mr-4 bg-orange-500 hover:bg-orange-600 active:scale-95 transition-all duration-150
-             text-white text-lg font-semibold rounded-xl shadow-md flex items-center justify-center cursor-pointer w-full  max-w-[400px]"
-        >
-          + 레시피 등록
-        </div>
-      </div>
+      <div className="container relative w-full  lg:h-12 flex justify-end lg:mt-8 items-center"></div>
       {/* 검색 + 결과 안내 */}
-      <div className="w-full max-w-[900px] mx-auto px-4 mt-10 mb-5">
+      <div className="w-full max-w-[900px] mx-auto px-4  mb-5">
         <div className="text-xl lg:text-2xl font-bold text-gray-800 mb-4">
           오늘의 한 끼, 뭐 먹지?{" "}
         </div>
@@ -154,12 +143,7 @@ const Recipepage = () => {
       </div>
 
       <div className="flex justify-center w-full px-4 mb-28">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-[900px]  pb-[80px]">
-          {/* {recipeData?.content?.map((recipe) => (
-            <div key={recipe.recipe_id} className="w-full">
-              <RecipeCard recipe={recipe} />
-            </div>
-          ))} */}
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 lg:gap-10 w-full lg:max-w-[900px]  lg:pb-[80px]">
           {displayData.length > 0 ? (
             displayData.map((recipe) => (
               <div key={recipe.recipe_id} className="w-full">

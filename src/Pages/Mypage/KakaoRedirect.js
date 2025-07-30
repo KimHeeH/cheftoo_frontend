@@ -3,9 +3,16 @@ import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import axiosInstance from "../../api/axiosInstance";
+import { useLocation, useNavigate } from "react-router-dom";
 function KakaoRedirect() {
   const setNickname = useSetRecoilState(nicknameState);
   const accessToken = localStorage.getItem("accessToken");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
+  const bookmarkTrigger = location.state?.bookmarkTrigger || false;
+  const selectedRecipeId = location.state?.selectedRecipeId || null;
+  console.log("Redirect from:", from);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +27,7 @@ function KakaoRedirect() {
 
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/oauth/kakao/callback`,
+          `${process.env.REACT_APP_KAKAO_REDIRECT_URL_BACK}`,
           {
             params: { code: authorizationCode, state: state },
             withCredentials: true,
@@ -48,13 +55,19 @@ function KakaoRedirect() {
           }
 
           const redirectTo = response.data.redirectTo;
-
-          if (!redirectTo) {
+          if (bookmarkTrigger && selectedRecipeId) {
+            navigate(from, {
+              replace: true,
+              state: {
+                bookmarkTrigger: true,
+                selectedRecipeId,
+              },
+            });
+          } else if (redirectTo) {
+            window.location.href = redirectTo;
+          } else {
             window.location.href = "/";
-            return;
           }
-
-          window.location.href = redirectTo;
         }
       } catch (error) {
         console.error("카카오 로그인 중 에러 발생");
