@@ -1,7 +1,8 @@
-import React, { useLayoutEffect } from "react";
+// Menubar.jsx
+import React, { useLayoutEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Icon from "./Icon/Icon.jsx";
-import { useState } from "react";
+
 const Menubar = () => {
   const [menu, setMenu] = useState("");
   const location = useLocation();
@@ -17,56 +18,54 @@ const Menubar = () => {
     setMenu(pathMap[location.pathname] || "");
   }, [location.pathname]);
 
-  const goPage = (path, menu) => {
+  const goPage = (path, key) => {
     navigate(path);
   };
 
+  const items = [
+    {
+      label: "홈",
+      path: "/",
+      key: "home",
+      Icon: Icon.HomeIcon,
+      SelectedIcon: Icon.SelectedHomeIcon,
+    },
+    {
+      label: "레시피",
+      path: "/recipe",
+      key: "recipe",
+      Icon: Icon.PopularIcon,
+      SelectedIcon: Icon.SelectedRecipeIcon,
+    },
+    {
+      label: "스크랩",
+      path: "/scrap",
+      key: "scrap",
+      Icon: Icon.BookmarkIcon,
+      SelectedIcon: Icon.SelectedBookmarkIcon,
+    },
+    {
+      label: "MY",
+      path: "/mypage",
+      key: "mypage",
+      Icon: Icon.UserIcon,
+      SelectedIcon: Icon.SelectedUserIcon,
+    },
+  ];
+
   return (
-    <div className="container fixed bottom-0 left-0 w-full bg-white  border-t border-[#DCDCDC] lg:static lg:border-t-0 lg:border-b z-50 ">
-      <div className="flex justify-around lg:justify-start items-center h-[80px] lg:h-[50px] gap-8 text-[#3B3A36]">
-        {[
-          {
-            label: "홈",
-            path: "/",
-            key: "home",
-            Icon: Icon.HomeIcon,
-            SelectedIcon: Icon.SelectedHomeIcon,
-          },
-          {
-            label: "레시피",
-            path: "/recipe",
-            key: "recipe",
-            Icon: Icon.PopularIcon,
-            SelectedIcon: Icon.SelectedRecipeIcon,
-          },
-          {
-            label: "스크랩",
-            path: "/scrap",
-            key: "scrap",
-            Icon: Icon.BookmarkIcon,
-            SelectedIcon: Icon.SelectedBookmarkIcon,
-          },
-          {
-            label: "MY",
-            path: "/mypage",
-            key: "mypage",
-            Icon: Icon.UserIcon,
-            SelectedIcon: Icon.SelectedUserIcon,
-          },
-        ].map(({ label, path, key, Icon, SelectedIcon }) => (
+    <div className="fixed bottom-0 left-0 w-full bg-white border-t border-[#DCDCDC] z-50 flex lg:hidden">
+      <div className="flex justify-around items-center w-full h-[80px]">
+        {items.map(({ label, path, key, Icon, SelectedIcon }) => (
           <div
             key={key}
             onClick={() => goPage(path, key)}
-            className="flex flex-col items-center justify-center w-1/4 lg:w-[10%] cursor-pointer text-xs lg:text-lg"
+            className="flex flex-col items-center justify-center text-xs cursor-pointer"
           >
-            {/* 아이콘 (모바일 표시) */}
-            <div className="pt-2 lg:hidden">
-              {menu === key ? <SelectedIcon /> : <Icon />}
-            </div>
-            {/* 텍스트 */}
+            {menu === key ? <SelectedIcon /> : <Icon />}
             <span
-              className={` mt-2  text-center ${
-                menu === key ? "text-[#000000] font-bold" : "text-[#BFBFBF]"
+              className={`mt-1 ${
+                menu === key ? "text-brand font-bold" : "text-gray-400"
               }`}
             >
               {label}

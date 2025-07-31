@@ -99,16 +99,16 @@ const Recipepage = () => {
     <div>
       <SearchContainer />
       <Menubar />
-      <div className="container relative w-full  lg:h-12 flex justify-end lg:mt-8 items-center"></div>
+      <div className="relative w-full  lg:h-12 flex justify-end  items-center"></div>
       {/* 검색 + 결과 안내 */}
-      <div className="w-full max-w-[900px] mx-auto px-4  mb-5">
+      <div className="w-full max-w-[900px] mx-auto px-8 mb-5">
         <div className="text-xl lg:text-2xl font-bold text-gray-800 mb-4">
-          오늘의 한 끼, 뭐 먹지?{" "}
+          오늘의 <span className="text-brand">한 끼</span>, 뭐 먹지?{" "}
         </div>
         <div className="relative">
           {" "}
           <input
-            className=" w-full h-[48px] rounded-md bg-gray-100 pl-4 pr-12 text-base border border-gray-200 focus:ring-2 focus:ring-orange-400 outline-none transition"
+            className=" w-full h-[48px] rounded-md bg-white pl-4 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
             placeholder="궁금한 레시피를 찾아보세요"
             onChange={(e) => setKeyword(e.target.value)}
             value={keyword}

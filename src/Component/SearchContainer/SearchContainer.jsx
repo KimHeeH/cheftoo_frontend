@@ -20,6 +20,9 @@ import { ContainerUserIcon } from "../Menubar/Icon/Icon";
 import UserIcon from "./icon/Icon_my_page";
 import { DropDownIcon, DropUpIcon } from "../Menubar/Icon/Icon";
 import { UpArrowIcon, DownArrowIcon } from "../Menubar/Icon/Icon";
+import { MenuIcon } from "../Menubar/Icon/Icon";
+import Menubar from "../Menubar/Menubar";
+
 const SearchContainer = () => {
   const [nickname, setNickname] = useRecoilState(nicknameState);
   const [isHovered, setIsHovered] = useState(false);
@@ -35,6 +38,12 @@ const SearchContainer = () => {
   // const shouldIncludeContainerRoutes = includeContainerRoutes.includes(
   //   location.pathname
   // );
+  const navItems = [
+    { label: "홈", path: "/" },
+    { label: "레시피", path: "/recipe" },
+    { label: "스크랩", path: "/scrap" },
+    { label: "MY", path: "/mypage" },
+  ];
   const navigate = useNavigate();
   const handleLoginPage = () => {
     navigate("/mypage");
@@ -59,18 +68,38 @@ const SearchContainer = () => {
     }
   }, [nickname, setNickname]);
   return (
-    <div className="container w-screen">
-      <div className="relative w-full px-4 py-4 lg:py-4 lg:py-2 lg:h-[80px] lg:mt-8 ">
-        <div className="hidden lg:flex justify-between items-center w-full h-full">
+    <div className="lg:mt-8 w-screen border-b-2 border-brand mb-8 lg:mb-0 bg-white">
+      <div className="relative px-10 w-full py-4 lg:py-4  lg:h-[80px]  ">
+        <div className="hidden lg:flex items-center w-full h-full">
           {/* 로고 */}
           <div
             onClick={goHomePage}
-            className="flex items-center cursor-pointer h-12"
+            className="ml-20 mr-40 flex w-[200px] items-center cursor-pointer h-12"
           >
-            <img className="w-28 mr-2" src={todaysIcon} alt="Today’s Icon" />
-            <img className="w-28" src={recipeIcon} alt="Recipe Icon" />
+            <img className="w-32 mr-2" src={todaysIcon} alt="Today’s Icon" />
+            <img className="w-32" src={recipeIcon} alt="Recipe Icon" />
           </div>
-          <div className="flex w-full justify-end">
+          <div className="flex-1">
+            {/* PC 상단용 메뉴바 (가운데 정렬) */}
+            <div className="hidden lg:block ">
+              <div className="flex gap-20">
+                {navItems.map(({ label, path }) => (
+                  <span
+                    key={label}
+                    onClick={() => navigate(path)}
+                    className={`${
+                      location.pathname === path
+                        ? "text-brand"
+                        : "text-subText hover:text-brand"
+                    }  cursor-pointer text-xl font-bold`}
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-end w-[300px] mr-20">
             {" "}
             <div
               onClick={handleLoginPage}
@@ -95,7 +124,7 @@ const SearchContainer = () => {
                 {" "}
                 <div
                   onClick={goAddRecipe}
-                  className="border-1 border-orange-500 text-orange-500 font-bold cursor-pointer hover:bg-orange-500 hover:text-white w-40 rounded-3xl h-12 flex items-center pl-5 text-lg"
+                  className="border-1 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white w-40 rounded-3xl h-12 flex items-center pl-5 text-lg"
                 >
                   레시피 등록
                 </div>
@@ -123,13 +152,18 @@ const SearchContainer = () => {
               <img className="w-20" src={recipeIcon} alt="Recipe Icon" />
             </div>
             {/* 로그인 */}
-            <div
-              onClick={handleLoginPage}
-              className="flex w-38 items-center cursor-pointer h-12  hover:opacity-80"
-            >
+            <div>
+              <Menubar />
+            </div>
+            <div className="flex w-auto lg:w-38 items-center cursor-pointer h-12  hover:opacity-80">
               {nickname ? (
-                <div className="flex gap-2 items-center">
-                  <UserIcon />
+                <div className="flex items-center gap-4">
+                  <div onClick={handleLoginPage}>
+                    <UserIcon />
+                  </div>
+                  <div>
+                    <MenuIcon />
+                  </div>
                 </div>
               ) : (
                 <div
@@ -141,8 +175,6 @@ const SearchContainer = () => {
               )}
             </div>
           </div>
-
-          {/*input Container */}
         </div>
       </div>
     </div>

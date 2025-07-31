@@ -9,9 +9,8 @@ import { useState } from "react";
 
 const Homepage = () => {
   return (
-    <div className=" mb-20 lg:mb-4  min-h-screen overflow-y-auto overflow-y-scroll ">
+    <div className=" mb-20 lg:mb-4  min-h-screen  bg-[#f9fafb]">
       <SearchContainer />
-      <MenuBar />
       <RecommendedRecipe />
     </div>
   );

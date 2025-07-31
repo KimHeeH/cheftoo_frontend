@@ -9,7 +9,7 @@ const RecipeCard = ({ recipe }) => {
   return (
     <div>
       <div
-        className="rounded-xl shadow-md hover:shadow-lg transition-transform hover:scale-105 cursor-pointer border-4 w-full h-[180px] lg:h-[460px] flex justify-center items-center cursor-pointer"
+        className="rounded-3xl shadow-md hover:shadow-lg transition-transform hover:scale-105 cursor-pointer  w-full h-[180px] lg:h-[460px] flex justify-center items-center cursor-pointer"
         onClick={() => handleRecipeDetail(recipe?.recipe_id)}
       >
         {" "}
@@ -22,7 +22,7 @@ const RecipeCard = ({ recipe }) => {
       <div className="w-full font-semibold  mt-2  text-sm lg:text-xl">
         {recipe.recipe_title}
       </div>
-      <div className="w-full   text-xs lg:text-lg ">
+      <div className="w-full lg:mt-1  text-xs lg:text-lg ">
         {recipe.recipe_content}
       </div>
     </div>

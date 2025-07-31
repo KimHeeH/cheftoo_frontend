@@ -10,7 +10,7 @@ const InputContainer = () => {
         {" "}
         {/* 로그인 버튼 높이와 맞춤 */}
         <input
-          className="w-full h-full  bg-[#F4F4F4] pl-4 pr-10 rounded-lg  text-sm"
+          className="w-full h-full  bg-[#F7F7F7] pl-4 pr-10 rounded-lg  text-sm"
           placeholder="궁금한 레시피를 찾아보세요"
           onChange={(e) => setKeyword(e.target.value)}
           value={keyword}

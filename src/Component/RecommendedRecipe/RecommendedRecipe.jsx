@@ -1,27 +1,30 @@
 import React from "react";
 import { useState } from "react";
 import "./RecommendedRecipe.style.css";
-import firstImg from "./img/firstImg.png";
-import secondImg from "./img/image.png";
-import thirdImg from "./img/image-1.png";
-import forthImg from "./img/image-2.png";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import cookbook from "./img/cookbook.png";
+import { useNavigate } from "react-router-dom";
 import RecipeSlider from "../Slider/RecipeSlider";
-import { Pencil } from "lucide-react";
-import checkAuthGuard from "../../hooks/checkAuthGuard";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
-import backgroundImg from "./img/bgImg1.png";
-import InputContainer from "../SearchContainer/InputContainer";
 import { useEffect } from "react";
 import axios from "axios";
 import YouTube from "react-youtube";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/autoplay";
+import { Autoplay } from "swiper/modules";
+import "swiper/css/navigation";
+import { DotEmpty, DotFilled } from "../Slider/Icon/Icon";
+import firstImg from "./img/firstImg.png";
 const RecommendedRecipe = () => {
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
   const [popularRecipeList, setPopularRecipeList] = useState([]);
   const [youtubeList, setYoutubeList] = useState([]);
   const navigate = useNavigate();
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [swiperRef, setSwiperRef] = useState(null);
+  const handleRecipeDetail = (recipe_id) => {
+    navigate(`/recipes/${recipe_id}`);
+  };
   // useEffect(() => {
   //   const fetchYoutubeVideo = async () => {
   //     const apiKey = `${process.env.REACT_APP_YOUTUBE_API_KEY}`;
@@ -59,7 +62,7 @@ const RecommendedRecipe = () => {
         `${process.env.REACT_APP_API_BASE_URL}/recipe/popular-top10`
       );
       setPopularRecipeList(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("인기 레시피 불러오기 오류");
     }
@@ -68,20 +71,122 @@ const RecommendedRecipe = () => {
     fetchPopularRecipe();
   }, []);
 
+  useEffect(() => {
+    const fetchYoutubeVideo = async () => {
+      const response = await axios.get(
+        "http://localhost:8080/api/youtube/home-videos"
+      );
+      setYoutubeList(response.data);
+      console.log(response.data);
+    };
+    fetchYoutubeVideo();
+  });
   return (
-    <div className="relative p-3 lg:overflow-x-hidden overflow-y-auto lg:mt-0 lg:mb-24 ">
-      <div className="container lg:mt-8">
+    <div className=" flex flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
+      <div className="flex w-full mt-8 lg:h-[650px]">
         {" "}
-        <h2 className="text-lg lg:text-2xl font-semibold text-[#3B3A36] ">
-          <span className="text-orange-500 mr-1">핫이슈</span> 레시피
+        <div className="flex flex-col lg:h-2/3 justify-center w-1/3 lg:pl-0  mt-12 mb-6 lg:mb-0 pt-4">
+          <h2 className="text-lg lg:text-3xl font-semibold text-[darkText]">
+            {" "}
+            <span className="text-brandDark">인기</span> 레시피
+          </h2>
+          <p className="text-[subText] text-base lg:text-lg">
+            지금 가장 인기있는 레시피들을 만나보세요!
+          </p>
+          <button className="bg-brand rounded-3xl text-white text-xl h-14 w-80 hover:scale-105 duration-300 font-bold">
+            레시피 더보기
+          </button>
+        </div>
+        <div className="w-2/3 h-full">
+          <div className="relative ">
+            {popularRecipeList.length > 0 ? (
+              <Swiper
+                modules={[Autoplay]}
+                onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+                loop={false}
+                autoplay={{
+                  delay: 3500,
+                  disableOnInteraction: false,
+                }}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                  },
+                  640: {
+                    slidesPerView: 1,
+                    spaceBetween: 50,
+                  },
+                  1024: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                  },
+                }}
+                className=""
+              >
+                {popularRecipeList.map((recipe, index) => (
+                  <SwiperSlide key={recipe.recipe_id}>
+                    <div
+                      onClick={() => handleRecipeDetail(recipe.recipe_id)}
+                      className="p-2 relative h-[250px] lg:h-[600px] rounded-3xl"
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      <img
+                        src={recipe?.img_path || firstImg} // img_path가 없을 경우 기본 이미지
+                        alt={`slide-${index}`}
+                        className={`lg:w-full lg:h-full object-cover rounded-3xl transition-all duration-300 ${
+                          hoveredIndex === index
+                            ? "scale-105 hover:rounded-[2.5rem] "
+                            : "rounded-3xl"
+                        }`}
+                      />
+                      <div className="absolute rounded-3xl "></div>
+
+                      {hoveredIndex === index && (
+                        <div className="absolute bottom-4 left-4  p-2 rounded-3xl z-10">
+                          <span className="text-white text-lg lg:text-2xl font-bold ">
+                            {recipe.recipe_title}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </SwiperSlide>
+                ))}
+                {popularRecipeList.length > 1 && (
+                  <div className="flex justify-center mt-4 gap-2">
+                    {popularRecipeList.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => swiperRef?.slideToLoop(index)}
+                        className="focus:outline-none"
+                      >
+                        {activeIndex === index ? <DotFilled /> : <DotEmpty />}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </Swiper>
+            ) : (
+              <div className="text-center text-gray-400">
+                인기 레시피가 없습니다
+              </div>
+            )}
+          </div>{" "}
+        </div>
+      </div>
+
+      <div className=" lg:mt-8">
+        <h2 className="text-lg lg:text-2xl font-semibold text-darkText">
+          <span className="text-brand mr-1">핫이슈</span> 레시피
         </h2>
-        <p className="text-gray-500 mt-2 text-base lg:text-lg">
+        <p className="text-[subText] mt-2 text-base lg:text-lg">
           요즘 유튜브에서 핫한 요리 영상들을 모았어요!
         </p>
       </div>
 
-      <div className="container flex gap-10 overflow-x-auto no-scrollbar py-4">
-        {youtubeList.map((video) => (
+      <div className=" flex gap-10 overflow-x-auto no-scrollbar py-4">
+        {/* {youtubeList.map((video) => (
           <div
             key={video?.id?.videoId}
             className="min-w-[100px] lg:min-w-[500px] h-[160px] lg:h-[300px]"
@@ -91,19 +196,7 @@ const RecommendedRecipe = () => {
               opts={{ width: "100%", height: "160" }}
             />
           </div>
-        ))}
-      </div>
-      <div className="pl-6 lg:pl-0 container mt-12 mb-6lg:mb-0 border-t pt-4">
-        <h2 className="text-lg lg:text-2xl font-semibold text-[#3B3A36]">
-          {" "}
-          인기 레시피
-        </h2>
-        <p className="text-gray-500  text-base lg:text-lg">
-          지금 가장 인기있는 레시피들을 만나보세요!
-        </p>
-      </div>
-      <div className="w-full">
-        <RecipeSlider popularRecipeList={popularRecipeList} />
+        ))} */}
       </div>
     </div>
   );
