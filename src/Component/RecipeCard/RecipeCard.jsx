@@ -9,7 +9,7 @@ const RecipeCard = ({ recipe }) => {
   return (
     <div>
       <div
-        className="rounded-[10rem] shadow-md hover:shadow-lg transition-transform hover:scale-105 cursor-pointer  w-full h-[180px] lg:h-[460px] flex justify-center items-center cursor-pointer"
+        className="rounded-[10rem] shadow-md hover:shadow-lg transition-transform hover:scale-105 cursor-pointer  w-full h-[180px] lg:h-[420px] flex justify-center items-center cursor-pointer"
         onClick={() => handleRecipeDetail(recipe?.recipe_id)}
       >
         {" "}

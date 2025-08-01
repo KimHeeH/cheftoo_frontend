@@ -88,17 +88,24 @@ const RecommendedRecipe = () => {
     <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
       <div className="flex lg:flex-row flex-col w-full mt-8 h-[550px] lg:h-[680px]">
         {" "}
-        <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4">
+        <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4 pr-4 ">
           <span className="font-pretendard text-xl lg:text-3xl lg:mb-8 font-bold text-brandDark">
             오늘도 수고했어요{" "}
           </span>
-          <h2 className="text-2xl  font-pretendard lg:text-[45px] font-bold mt-2 lg:font-semibold text-[darkText]">
+          <h2
+            className="text-2xl  font-pretendard lg:text-[45px] font-bold mt-2 lg:font-semibold text-[darkText] leading-tight
+"
+          >
             {" "}
             <span className="lg:text-[40px] font-pretendard text-darkText">
-              따뜻한 한 끼, 인기 레시피로 함께해요{" "}
+              따뜻한 한 끼, <br />
+              인기 레시피로 함께해요{" "}
             </span>{" "}
           </h2>
-          <p className="hidden lg:block font-pretendard lg:mt-3 text-subText text-base lg:text-xl font-semibold">
+          <p
+            className="hidden lg:block font-pretendard lg:mt-3 text-subText text-base lg:text-xl font-semibold leading-snug
+"
+          >
             지금 가장 인기있는 레시피들을 만나보세요!
           </p>
           <div className="flex w-full justify-end lg:justify-start mb-2">
