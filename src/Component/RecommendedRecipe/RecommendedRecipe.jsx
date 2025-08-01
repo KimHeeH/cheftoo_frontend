@@ -71,39 +71,41 @@ const RecommendedRecipe = () => {
     fetchPopularRecipe();
   }, []);
 
-  useEffect(() => {
-    const fetchYoutubeVideo = async () => {
-      const response = await axios.get(
-        "http://localhost:8080/api/youtube/home-videos"
-      );
-      setYoutubeList(response.data);
-      console.log(response.data);
-    };
-    fetchYoutubeVideo();
-  });
+  // useEffect(() => {
+  //   const fetchYoutubeVideo = async () => {
+  //     const response = await axios.get(
+  //       "http://localhost:8080/api/youtube/home-videos"
+  //     );
+  //     setYoutubeList(response.data);
+  //     console.log(response.data);
+  //   };
+  //   fetchYoutubeVideo();
+  // });
   return (
-    <div className=" flex flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
-      <div className="flex w-full mt-8 lg:h-[680px]">
+    <div className=" flex lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
+      <div className="flex  lg:flex w-full mt-8 lg:h-[680px]">
         {" "}
-        <div className="flex flex-col lg:h-2/3 justify-center w-1/3 lg:pl-0  mt-12 mb-6 lg:mb-0 pt-4">
-          <span className="font-pretendard text-3xl mb-8 font-bold text-brandDark">
-            오늘은 어떤 요리를?
+        <div className="flex flex-col lg:h-2/3 justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4">
+          <span className="font-pretendard text-xl lg:text-3xl lg:mb-8 font-bold text-brandDark">
+            오늘도 수고했어요{" "}
           </span>
-          <h2 className="text-lg font-pretendard lg:text-[45px] font-semibold text-[darkText]">
+          <h2 className="text-2xl  font-pretendard lg:text-[45px] font-bold mt-2 lg:font-semibold text-[darkText]">
             {" "}
-            <span className="font-pretendard text-darkText">
-              인기 만점
+            <span className="lg:text-[40px] font-pretendard text-darkText">
+              따뜻한 한 끼, 인기 레시피로 함께해요{" "}
             </span>{" "}
-            레시피
           </h2>
-          <p className="font-pretendard mt-3 text-subText text-base lg:text-xl font-semibold">
+          <p className="hidden lg:block font-pretendard lg:mt-3 text-subText text-base lg:text-xl font-semibold">
             지금 가장 인기있는 레시피들을 만나보세요!
           </p>
-          <button className="mt-4 bg-brand rounded-3xl text-white text-xl h-16 w-80 hover:scale-105 duration-300 font-bold">
-            레시피 더보기
-          </button>
+          <div>
+            {" "}
+            <button className="lg:mt-4 bg-brand rounded-3xl text-white text-lg lg:text-xl h-12 lg:h-16 w-36 lg:w-80 hover:scale-105 duration-300 font-bold">
+              레시피 더보기
+            </button>
+          </div>
         </div>
-        <div className="w-2/3 h-full">
+        <div className="lg:w-2/3 h-full">
           <div className="relative ">
             {popularRecipeList.length > 0 ? (
               <Swiper

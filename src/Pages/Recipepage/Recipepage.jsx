@@ -102,13 +102,14 @@ const Recipepage = () => {
       <div className="relative w-full  lg:h-12 flex justify-end  items-center"></div>
       {/* 검색 + 결과 안내 */}
       <div className="w-full max-w-[900px] mx-auto px-8 mb-5">
-        <div className="text-xl lg:text-2xl font-bold text-gray-800 mb-4">
-          오늘의 <span className="text-brand">한 끼</span>, 뭐 먹지?{" "}
+        <div className="font-pretendard text-xl lg:text-2xl font-bold text-gray-800 mb-4">
+          오늘의 <span className="font-pretendard text-brand">한 끼</span>, 뭐
+          먹지?{" "}
         </div>
         <div className="relative">
           {" "}
           <input
-            className=" w-full h-[48px] rounded-md bg-white pl-4 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
+            className=" font-pretendard w-full h-[48px] rounded-md bg-white pl-4 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
             placeholder="궁금한 레시피를 찾아보세요"
             onChange={(e) => setKeyword(e.target.value)}
             value={keyword}
@@ -126,11 +127,13 @@ const Recipepage = () => {
         {keyword && (
           <div className="mt-4 flex justify-between items-center mt-3 text-gray-600 text-base">
             <span>
-              <span className="font-semibold text-orange-600">"{keyword}"</span>{" "}
+              <span className="font-pretendard font-semibold text-orange-600">
+                "{keyword}"
+              </span>{" "}
               검색 결과
             </span>
             <button
-              className="text-gray-400 hover:text-gray-600 transition text-sm"
+              className="font-pretendard text-gray-400 hover:text-gray-600 transition text-sm"
               onClick={() => {
                 setKeyword("");
                 setIsSearching(false);
@@ -151,7 +154,7 @@ const Recipepage = () => {
               </div>
             ))
           ) : (
-            <div className="col-span-2 text-center text-gray-500 text-lg mt-10">
+            <div className="font-pretendard col-span-2 text-center text-gray-500 text-lg mt-10">
               {isSearching
                 ? "검색 결과가 없습니다."
                 : "등록된 레시피가 없습니다."}
