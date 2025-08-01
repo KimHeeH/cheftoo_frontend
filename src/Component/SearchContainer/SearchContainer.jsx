@@ -110,7 +110,7 @@ const SearchContainer = () => {
                   <UserIcon />
                 </div>
               ) : (
-                <div className="border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
+                <div className="font-pretendard border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
                   로그인 / 회원가입
                 </div>
               )}
@@ -124,7 +124,7 @@ const SearchContainer = () => {
                 {" "}
                 <div
                   onClick={goAddRecipe}
-                  className="border-1 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white w-40 rounded-3xl h-12 flex items-center pl-5 text-lg"
+                  className="font-pretendard border-1 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white w-40 rounded-3xl h-12 flex items-center pl-5 text-lg"
                 >
                   레시피 등록
                 </div>
