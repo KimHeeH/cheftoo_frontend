@@ -207,7 +207,7 @@ const RecipeDetailpage = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-full px-2 lg:px-4 lg:max-w-[900px] mx-auto">
+      <div className="w-full max-w-full px-2 lg:px-4 lg:max-w-[900px] mx-auto font-pretendard">
         <div>
           {/* 대표 이미지 */}
           <div className="w-full aspect-[3/2] lg:aspect-[16/9] rounded-xl overflow-hidden border bg-gray-100">

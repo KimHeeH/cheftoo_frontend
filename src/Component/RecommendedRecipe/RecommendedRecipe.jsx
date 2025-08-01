@@ -67,6 +67,9 @@ const RecommendedRecipe = () => {
       console.error("인기 레시피 불러오기 오류");
     }
   };
+  const goRecipePage = () => {
+    navigate("/recipe");
+  };
   useEffect(() => {
     fetchPopularRecipe();
   }, []);
@@ -82,10 +85,10 @@ const RecommendedRecipe = () => {
   //   fetchYoutubeVideo();
   // });
   return (
-    <div className=" flex lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
-      <div className="flex  lg:flex w-full mt-8 lg:h-[680px]">
+    <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
+      <div className="flex lg:flex-row flex-col w-full mt-8 h-[550px] lg:h-[680px]">
         {" "}
-        <div className="flex flex-col lg:h-2/3 justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4">
+        <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4">
           <span className="font-pretendard text-xl lg:text-3xl lg:mb-8 font-bold text-brandDark">
             오늘도 수고했어요{" "}
           </span>
@@ -98,10 +101,13 @@ const RecommendedRecipe = () => {
           <p className="hidden lg:block font-pretendard lg:mt-3 text-subText text-base lg:text-xl font-semibold">
             지금 가장 인기있는 레시피들을 만나보세요!
           </p>
-          <div>
+          <div className="flex w-full justify-end lg:justify-start mb-2">
             {" "}
-            <button className="lg:mt-4 bg-brand rounded-3xl text-white text-lg lg:text-xl h-12 lg:h-16 w-36 lg:w-80 hover:scale-105 duration-300 font-bold">
-              레시피 더보기
+            <button
+              onClick={() => goRecipePage()}
+              className="lg:flex lg:gap-3 justify-center items-center mt-2 lg:mt-4 bg-brand rounded-3xl text-white text-sm lg:text-2xl h-8 lg:h-16 w-20 lg:w-80 hover:scale-105 duration-300 font-bold"
+            >
+              <span className="hidden lg:block">레시피</span> 더보기
             </button>
           </div>
         </div>
@@ -123,23 +129,29 @@ const RecommendedRecipe = () => {
                   0: {
                     slidesPerView: 1,
                     spaceBetween: 0,
-                    slidesPerView: 1.1,
+                    centeredSlides: true,
                   },
                   640: {
                     slidesPerView: 1,
                     spaceBetween: 50,
                     slidesPerView: 1.2,
+                    centeredSlides: false,
                   },
                   1024: {
                     slidesPerView: 1,
                     spaceBetween: 10,
                     slidesPerView: 1.3,
+                    centeredSlides: false,
                   },
                 }}
               >
                 {popularRecipeList.map((recipe, index) => (
-                  <SwiperSlide key={recipe.recipe_id}>
-                    <div className="flex flex-col">
+                  <SwiperSlide
+                    className="!h-auto"
+                    autoHeight={true}
+                    key={recipe.recipe_id}
+                  >
+                    <div className="flex flex-col gap-4  lg:gap-0 h-full">
                       {" "}
                       <div
                         onClick={() => handleRecipeDetail(recipe.recipe_id)}
@@ -150,22 +162,22 @@ const RecommendedRecipe = () => {
                         <img
                           src={recipe?.img_path || firstImg} // img_path가 없을 경우 기본 이미지
                           alt={`slide-${index}`}
-                          className={`lg:w-full lg:h-full object-cover rounded-3xl transition-all duration-300 ${
+                          className={`h-full w-full lg:w-full lg:h-full object-cover rounded-3xl transition-all duration-300 ${
                             hoveredIndex === index
                               ? "scale-105 hover:rounded-[2.5rem] "
                               : "rounded-3xl"
                           }`}
                         />
                       </div>
-                      <div className="flex flex-col">
+                      <div className="px-4  flex flex-col">
                         {" "}
-                        <div className=" p-2z-10">
-                          <span className="text-darkText text-lg lg:text-3xl font-bold ">
+                        <div className=" lg:p-2 z-10">
+                          <span className=" font-pretendard text-darkText text-base lg:text-3xl font-bold ">
                             {recipe.recipe_title}
                           </span>
                         </div>
-                        <div className=" p-2 z-10">
-                          <span className="text-subText text-lg lg:text-2xl font-bold ">
+                        <div className=" lg:p-2 z-10">
+                          <span className=" font-pretendard text-subText text-sm  lg:text-2xl font-bold ">
                             {recipe.recipe_content}
                           </span>
                         </div>
