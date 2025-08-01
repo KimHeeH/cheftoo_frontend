@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         gowun: ['"Gowun Dodum"', "sans-serif"],
+        pretendard: ["Pretendard", "sans-serif"],
       },
       colors: {
         brand: "#10B981", // emerald-500

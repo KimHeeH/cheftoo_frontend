@@ -74,7 +74,7 @@ const SearchContainer = () => {
           {/* 로고 */}
           <div
             onClick={goHomePage}
-            className="ml-20 mr-40 flex w-[200px] items-center cursor-pointer h-12"
+            className="ml-20 mr-40 flex w-[280px] items-center cursor-pointer h-12"
           >
             <img className="w-32 mr-2" src={todaysIcon} alt="Today’s Icon" />
             <img className="w-32" src={recipeIcon} alt="Recipe Icon" />
@@ -91,7 +91,7 @@ const SearchContainer = () => {
                       location.pathname === path
                         ? "text-brand"
                         : "text-subText hover:text-brand"
-                    }  cursor-pointer text-xl font-bold`}
+                    }  cursor-pointer text-xl font-pretendard font-bold`}
                   >
                     {label}
                   </span>
