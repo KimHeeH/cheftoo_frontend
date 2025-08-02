@@ -246,46 +246,47 @@ const RecipeAddpage = () => {
   };
 
   return (
-    <div className="min-h-screen h-auto w-full max-w-full px-4 lg:max-w-[900px] mx-auto">
+    <div className="font-pretendard">
       <SearchContainer />
       <Menubar />
-      <div className="container flex items-center mt-3 pt-3  lg:h-[40px] border-t-2 border-gray-100 lg:border-0">
-        <div className=" mt-2 lg:mt-0 flex items-center h-full text-md w-[120px] lg:w-[150px] lg:h-[40px] lg:text-xl text-gray-800 flex items-center gap-2">
-          <svg
-            className="w-6 h-6 text-orange-500"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4v16m8-8H4"
-            ></path>
-          </svg>
-          레시피 등록
+
+      <div className="max-w-4xl mx-auto px-4">
+        {/* 상단 제목 */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center mt-8 pt-4 gap-4">
+          <div className="flex items-center text-gray-800 lg:text-2xl font-semibold gap-2">
+            <svg
+              className="w-6 h-6 text-[#10B981]"
+              fill="#10B981"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4v16m8-8H4"
+              ></path>
+            </svg>
+            레시피 등록
+          </div>
         </div>
-        <div className=" mt-2 lg:h-[40px] lg:flex lg:items-center lg:mt-0  lg:h-full text-sm lg:text-lg  text-gray-800 ">
-          나만의 레시피를 등록해보세요!
-        </div>
-      </div>
-      <div className="container ">
-        <div className="flex flex-row  items-center lg:items-start mt-8 lg:gap-8 ">
-          <label className="mr-3 text-sm lg:text-right w-4/5 lg:w-40 lg:text-xl font-semibold text-gray-700">
+
+        {/* 제목 */}
+        <div className="mt-8">
+          <label className="block text-gray-700 font-semibold text-sm lg:text-xl mb-2">
             레시피 제목
           </label>
           <input
-            className="text-sm lg:text-base w-[900px] p-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-xl"
             placeholder="예) 토마토 파스타 레시피"
             value={recipeTitleInputValue}
             onChange={(e) => setRecipeTitleInputValue(e.target.value)}
           />
         </div>
 
-        {/* 요리 설명 */}
-        <div className="flex flex-row items-start mt-8 lg:gap-8">
-          <label className=" mr-3 text-sm lg:text-right  w-4/5 lg:w-40 lg:text-xl font-semibold text-gray-700">
+        {/* 설명 */}
+        <div className="mt-8">
+          <label className="block text-gray-700 font-semibold text-sm lg:text-xl mb-2">
             요리 설명
           </label>
           <textarea
@@ -293,29 +294,27 @@ const RecipeAddpage = () => {
             rows="3"
             value={recipeContentValue}
             onChange={(e) => setRecipeContentValue(e.target.value)}
-            className="text-sm lg:text-base w-[900px] resize-none p-2 lg:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full resize-none p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
           />
         </div>
-        {/* 요리 사진 (메인) */}
-        <div className="flex flex-row items-center mt-8 lg:gap-8">
-          <label className="w-1/4 h-[35px] lg:h-auto  lg:w-28 lg:text-right text-sm  lg:text-xl font-semibold text-gray-700">
+
+        {/* 메인 이미지 */}
+        <div className="mt-8">
+          <label className="block text-gray-700 font-semibold text-sm lg:text-xl mb-2">
             요리 사진
           </label>
           <div
-            className=" flex items-center lg:w-[900px] lg:h-[300px] lg:border-2 border-dashed border-gray-300 rounded-lg flex lg:flex-col justify-center items-center hover:border-blue-400"
+            className="w-full min-h-[200px] lg:h-[300px] border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center hover:border-blue-400 cursor-pointer"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleMainImageDrop}
             onClick={handleMainImageUpload}
           >
-            <div className=" hidden lg:block">
-              {" "}
-              <PictureIcon />
-            </div>
-            <div className="hidden lg:block text-gray-500 text-center font-medium mt-2">
+            <PictureIcon />
+            <p className="text-gray-500 text-center mt-2 hidden lg:block">
               파일을 끌어서 이곳에 놓아주세요!
-            </div>
+            </p>
             <button
-              className="cursor-pointer w-[160px] h-[35px] lg:h-auto lg:w-[200px] text-xs lg:text-base lg:mt-2 px-4 py-2 bg-gray-100 text-black rounded-lg"
+              className="mt-3 px-4 py-2 bg-gray-100 rounded-lg text-sm"
               onClick={(e) => {
                 e.stopPropagation();
                 handleMainImageUpload();
@@ -325,8 +324,8 @@ const RecipeAddpage = () => {
             </button>
             <input
               type="file"
-              onClick={(e) => (e.target.value = null)}
               ref={mainFileInputRef}
+              onClick={(e) => (e.target.value = null)}
               onChange={handleMainFileChange}
               accept="image/*"
               multiple
@@ -339,14 +338,16 @@ const RecipeAddpage = () => {
             </div>
           </div>
         </div>
-        <div className="shadow-sm rounded-lg p-6 w-full   lg:max-w-5xl mt-8">
-          <div className="text-sm lg:text-lg font-semibold text-gray-700 mb-4">
+
+        {/* 재료 */}
+        <div className="mt-10">
+          <div className="text-sm lg:text-xl font-semibold text-gray-700 mb-4">
             재료
           </div>
           {ingredients.map((ingredient, index) => (
-            <div className="flex flex-row gap-4 mt-8" key={index}>
+            <div key={index} className="flex gap-4 mb-4">
               <input
-                className="w-34 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-full lg:w-1/2 p-2 border rounded-md text-sm lg:text-base"
                 placeholder="예) 토마토"
                 value={ingredient.ingredientsName}
                 onChange={(e) =>
@@ -358,7 +359,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                className="w-24 text-xs lg:text-base  border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-1/3 p-2 border rounded-md text-sm lg:text-base"
                 placeholder="예) 1개"
                 value={ingredient.ingredientsNum}
                 onChange={(e) =>
@@ -370,30 +371,30 @@ const RecipeAddpage = () => {
                 }
               />
               <div
-                className="flex justify-center items-center cursor-pointer "
+                className="flex items-center cursor-pointer"
                 onClick={() => handleRemoveIngredient(index)}
               >
                 <SquareIconComponent />
               </div>
             </div>
           ))}
-        </div>
-        <div className="flex justify-center lg:justify-start">
           <button
-            className=" w-1/4 text-xs lg:text-base lg:w-32 mt-4 py-2 bg-[#F8F8F8] hover:bg-[#E5E5E5] border-1 border-[#E5E5E5]   text-black font-medium rounded-md hover:bg-gray-300 transition-all duration-300"
+            className="text-sm lg:text-base px-4 py-2 bg-brand text-white hover:bg-brandDark rounded-md"
             onClick={handleAddIngredient}
           >
             재료 추가
           </button>
         </div>
-        <div className="shadow-sm rounded-lg p-6 w-full max-w-5xl mt-8">
-          <div className="text-base lg:text-lg font-semibold text-gray-700 mb-4">
+
+        {/* 양념 */}
+        <div className="mt-10">
+          <div className="text-sm lg:text-xl font-semibold text-gray-700 mb-4">
             양념
           </div>
           {seasonings.map((seasoning, index) => (
-            <div className="flex flex-row gap-4 mt-8" key={index}>
+            <div key={index} className="flex gap-4 mb-4">
               <input
-                className="w-34 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-full lg:w-1/2 p-2 border rounded-md text-sm lg:text-base"
                 placeholder="예) 간장"
                 value={seasoning.sauceName}
                 onChange={(e) =>
@@ -401,7 +402,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                className="w-24 text-xs lg:text-base border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-400  outline-none transition-all duration-300"
+                className="w-1/3 p-2 border rounded-md text-sm lg:text-base"
                 placeholder="예) 1스푼"
                 value={seasoning.quantity}
                 onChange={(e) =>
@@ -409,102 +410,90 @@ const RecipeAddpage = () => {
                 }
               />
               <div
-                className="flex justify-center items-center cursor-pointer"
+                className="flex items-center cursor-pointer"
                 onClick={() => handleRemoveSeasoing(index)}
               >
                 <SquareIconComponent />
               </div>
             </div>
           ))}
-        </div>
-        <div className="flex justify-center lg:justify-start">
           <button
-            className="  w-1/4 text-xs lg:text-base lg:w-32 mt-4 py-2 text-black font-medium rounded-md bg-[#F8F8F8] hover:bg-[#E5E5E5] border-1 border-[#E5E5E5]  transition-all duration-300"
+            className="text-sm lg:text-base px-4 py-2  bg-brand text-white hover:bg-brandDark rounded-md"
             onClick={handleAddSeasoning}
           >
             양념 추가
           </button>
         </div>
+
         {/* 요리 순서 */}
-        <div className="flex flex-col gap-8 mt-8">
-          <div className="text-sm ml-4 lg:ml-0 lg:text-lg lg:w-28 lg:text-xl font-semibold text-gray-700">
+        <div className="mt-10">
+          <div className="text-sm lg:text-xl font-semibold text-gray-700 mb-4">
             요리 순서
           </div>
           {orders.map((order, index) => (
-            <div className="flex gap-3 lg:gap-4 ml-3 lg:ml-0" key={index}>
-              <div className="text-base lg:text-xl font-semibold text-gray-500">
+            <div key={index} className="flex flex-col lg:flex-row gap-4 mb-6">
+              <div className="flex items-start text-gray-600 font-semibold">
                 {index + 1}
               </div>
-
               <textarea
-                className="resize-none text-xs h-[60px] lg:text-base w-2/3 lg:w-[600px] lg:h-[100px] p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full lg:w-2/3 p-2 border rounded-lg resize-none text-sm lg:text-base"
                 placeholder="예) 토마토를 잘라주세요."
                 value={order.content}
                 onChange={(e) =>
-                  setOrders((prevOrders) =>
-                    prevOrders.map((o, i) =>
+                  setOrders((prev) =>
+                    prev.map((o, i) =>
                       i === index ? { ...o, content: e.target.value } : o
                     )
                   )
                 }
               />
               <div
-                className=" flex flex-col justify-center items-center h-[80px] lg:w-[100px] lg:h-[100px] lg:border-2 border-dashed border-gray-300  hover:border-blue-300"
+                className="w-full lg:w-[120px] h-[100px] border-2 border-dashed border-gray-300 hover:border-blue-300 flex flex-col justify-center items-center cursor-pointer"
                 onDragOver={(e) => e.preventDefault()}
-                onDrop={(event) => handleStepImageDrop(event, index)}
+                onDrop={(e) => handleStepImageDrop(e, index)}
                 onClick={() => handleStepImageUpload(index)}
               >
-                <div className="border-2 border-dash border-gray-100">
-                  <MiniPictureIcon />
-                </div>
-
-                <div className="cursor-pointer mt-3 text-[10px] w-[80px] mt-1 h-[20px] flex items-center justify-center  lg:mt-0 lg:w-18 border-2 border-gray-200 lg:bg-white rounded-lg lg:text-black lg:text-xs ">
-                  사진 업로드
-                </div>
+                <MiniPictureIcon />
+                <p className="text-xs mt-2">사진 업로드</p>
                 <input
                   type="file"
                   ref={(el) => (stepFileInputRefs.current[index] = el)}
-                  onChange={(event) => handleStepFileChange(event, index)}
+                  onChange={(e) => handleStepFileChange(e, index)}
                   accept="image/*"
                   className="hidden"
                 />
-                <p>{order.image ? `파일: ${order.image.name}` : ""}</p>
+                <p className="text-xs">{order.image?.name}</p>
               </div>
               <div
-                className="flex justify-center items-center cursor-pointer"
-                onClick={() => {
-                  handleRemoveOrder(index);
-                }}
+                className="flex items-center cursor-pointer"
+                onClick={() => handleRemoveOrder(index)}
               >
                 <SquareIconComponent />
               </div>
             </div>
           ))}
-          <div className="flex justify-center items-center lg:justify-start h-[16px] lg:mt-4 ">
-            {" "}
-            <button
-              className="mb-10 text-xs lg:text-base w-1/4 lg:w-32 mt-4 py-2 bg-[#F8F8F8] hover:bg-[#E5E5E5] border-1 border-[#E5E5E5]  rounded-md"
-              onClick={handleAddOrder}
-            >
-              추가
-            </button>
-          </div>
+          <button
+            className="text-sm lg:text-base px-4 py-2 bg-brand text-white hover:bg-brandDark rounded-md"
+            onClick={handleAddOrder}
+          >
+            순서 추가
+          </button>
         </div>
 
-        {/* 순서 추가 버튼 */}
-      </div>
-      <div className="flex container justify-center items-center gap-14 lg:gap-24 pb-20 pt-16 lg:mt-8 ">
-        <div
-          onClick={goHomePage}
-          className="w-1/3 h-[35px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-gray-100 text-black lg:text-xl lg:h-[58px]"
-        >
-          취소
-        </div>
-        <div
-          onClick={() => handleSubmit()}
-          className="w-1/3 h-[35px] lg:h-12 cursor-pointer flex justify-center items-center rounded-md lg:w-[250px] bg-orange-500  hover:bg-orange-600 text-white lg:text-xl lg:h-[58px]"
-        >
-          등록
+        {/* 버튼 */}
+        <div className="flex justify-center  lg:text-xl lg:justify-between gap-6 mt-16 mb-20">
+          <button
+            onClick={goHomePage}
+            className="w-1/2 lg:w-[200px] py-3 rounded-md bg-gray-100 text-black hover:bg-gray-200"
+          >
+            취소
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="w-1/2 lg:w-[200px] py-3 rounded-md bg-brand hover:bg-brandDark text-white"
+          >
+            등록
+          </button>
         </div>
       </div>
     </div>

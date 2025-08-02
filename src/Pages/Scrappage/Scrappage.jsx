@@ -160,7 +160,7 @@ const Scrappage = () => {
   };
 
   return (
-    <div className=" h-screen  w-full">
+    <div className=" h-screen  w-full font-pretendard">
       <SearchContainer />
       <Menubar />
       <div className="border-t lg:border-0"></div>

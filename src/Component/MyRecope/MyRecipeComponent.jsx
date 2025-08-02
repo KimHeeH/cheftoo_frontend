@@ -54,7 +54,7 @@ const MyRecipeComponent = () => {
     fetchMyRecipe();
   }, []);
   return (
-    <div className="max-w-[1000px] mx-auto">
+    <div className="font-pretendard max-w-[1000px] mx-auto">
       <div className="text-2xl font-semibold">나의 레시피</div>
       <div className="flex  sm:flex-row sm:items-center justify-between mt-6 gap-6">
         <div className="flex items-center gap-2">
@@ -66,11 +66,11 @@ const MyRecipeComponent = () => {
           </div>
         </div>
         <div
-          className="cursor-pointer border w-20 lg:w-32 flex items-center gap-1 justify-center rounded-md h-8 lg:h-12 hover:bg-gray-100"
+          className="cursor-pointer border w-20 lg:w-32 flex items-center gap-1 justify-center bg-brand rounded-md h-8 lg:h-12 hover:bg-brandDark"
           onClick={deleteRecipe}
         >
           <DeleteIcon />
-          <span className="text-sm lg:text-lg">삭제</span>
+          <span className="text-sm lg:text-xl text-white ">삭제</span>
         </div>
       </div>
 

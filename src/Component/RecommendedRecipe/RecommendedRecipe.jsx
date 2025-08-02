@@ -207,7 +207,7 @@ const RecommendedRecipe = () => {
                 )}
               </Swiper>
             ) : (
-              <div className="font-pretendard text-center text-gray-400">
+              <div className="font-pretendard flex items-center text-center text-gray-400">
                 인기 레시피가 없습니다
               </div>
             )}

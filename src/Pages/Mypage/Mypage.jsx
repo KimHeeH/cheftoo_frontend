@@ -192,7 +192,7 @@ const Mypage = () => {
         </div>
 
         {/* 메뉴 리스트 */}
-        <div className="font-Pretendard font-semibold p-4 lg:p-0 w-full flex max-w-[1000px] mx-auto mt-10  h-[130px] text-lg cursor-pointer">
+        <div className="font-pretendard font-semibold p-4 lg:p-0 w-full flex max-w-[1000px] mx-auto mt-10  h-[130px] text-lg cursor-pointer">
           <div
             onClick={() => setSelected("scrap")}
             className={`gap-3 w-1/2 rounded-r-none rounded-l-[10rem]  border-2 border-gray-200 h-full   flex justify-center items-center ${
@@ -215,7 +215,7 @@ const Mypage = () => {
             나의 댓글
           </div>
         </div>
-        <div className="w-full font-Pretendard border-t max-w-[1000px] mx-auto pt-4">
+        <div className="w-full font-pretendard border-t max-w-[1000px] mx-auto pt-4">
           {selected === "scrap" ? (
             <MyRecipeComponent />
           ) : (
