@@ -51,7 +51,13 @@ export const setupInterceptors = (resetNickname, navigate) => {
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
-
+      if (error.response?.status === 403) {
+        alert("로그인 후 이용 가능한 서비스입니다.");
+        resetNickname?.();
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("nickname");
+        navigate("/mypage");
+      }
       if (
         error.response?.status === 401 &&
         !originalRequest._retry &&
@@ -70,9 +76,11 @@ export const setupInterceptors = (resetNickname, navigate) => {
           resetNickname?.();
           localStorage.removeItem("accessToken");
           localStorage.removeItem("nickname");
-          alert("로그인을 다시 해주세요");
+          if (navigate) {
+            alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
 
-          navigate?.("/mypage");
+            navigate("/mypage");
+          }
           return Promise.reject(err);
         }
       }

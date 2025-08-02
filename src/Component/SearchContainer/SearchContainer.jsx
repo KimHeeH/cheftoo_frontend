@@ -7,7 +7,7 @@ import "./SearchContainer.style.css";
 import { useNavigate } from "react-router-dom";
 import searchIcon from "./icon/searchIcon.svg";
 import userIcon from "./icon/user.svg";
-import { LoginBtnIcon } from "../Menubar/Icon/Icon";
+import { CommentUserIcon, LoginBtnIcon } from "../Menubar/Icon/Icon";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
 import { useState } from "react";
 import Icon, { CommentProfileIcon, ProfileIcon } from "../Menubar/Icon/Icon";
@@ -107,7 +107,7 @@ const SearchContainer = () => {
             >
               {nickname ? (
                 <div className="flex gap-2 items-center w-20">
-                  <UserIcon />
+                  <CommentUserIcon />{" "}
                 </div>
               ) : (
                 <div className="font-pretendard border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
@@ -159,7 +159,7 @@ const SearchContainer = () => {
               {nickname ? (
                 <div className="flex items-center gap-4">
                   <div onClick={handleLoginPage}>
-                    <UserIcon />
+                    <CommentUserIcon />
                   </div>
                   <div>
                     <MenuIcon />

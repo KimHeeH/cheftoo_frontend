@@ -9,12 +9,21 @@ import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../Component/Menubar/Menubar";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import checkAuthGuard from "../../hooks/checkAuthGuard";
-import { NickNameProfileIcon } from "../../Component/Menubar/Icon/Icon";
+import {
+  BookmarkIcon,
+  CommentIcon,
+  NickNameProfileIcon,
+  SelectedRecipeIcon,
+} from "../../Component/Menubar/Icon/Icon";
 import Loader from "../../Component/Loader";
 import { useRecoilState } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import cookImg from "./img/cook-book.png";
 import axiosInstance from "../../api/axiosInstance";
+import MypageProfile from "./img/MypageProfile.png";
+import MyRecipepage from "./MyRecipepage/MyRecipepage";
+import MyRecipeComponent from "../../Component/MyRecope/MyRecipeComponent";
+import MyCommentComponent from "../../Component/MyComment/MyCommentComponent";
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const [nickname, setNickname] = useRecoilState(nicknameState);
@@ -25,6 +34,7 @@ const Mypage = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [selected, setSelected] = useState("scrap");
   const isLoggedIn = !!localStorage.getItem("accessToken");
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
@@ -89,7 +99,7 @@ const Mypage = () => {
         <SearchContainer />
         <Menubar />
         {/* 상단 로고 + 일러스트 */}
-        <div className="">
+        <div className="font-pretendard">
           <div className=" container flex flex-col items-center mt-20 lg:mt-16 ">
             <div className="flex gap-2 mb-6">
               <div className="w-[100px] lg:w-[150px]">
@@ -109,7 +119,7 @@ const Mypage = () => {
             <div className="mt-4 text-lg text-[#696868] lg:text-2xl lg:mt-8 font-semibold">
               로그인 / 회원가입
             </div>
-            <div className="font-gowun mt-4 text-center text-[#3B3A36] text-base lg:text-2xl leading-relaxed">
+            <div className=" mt-4 text-center text-[#3B3A36] text-base lg:text-2xl leading-relaxed">
               레시피를 저장하고, 나만의 요리 노트를 만들어보세요.{" "}
             </div>
           </div>
@@ -131,59 +141,86 @@ const Mypage = () => {
     );
   }
   return (
-    <div>
+    <div className="font-pretendard">
       <SearchContainer />
       <Menubar />
-      <div className="hidden lg:block">
+      <div className="hidden lg:block ">
         {" "}
-        <h2 className="text-2xl font-semibold text-center mt-10">
+        {/* <h2 className="text-2xl font-semibold text-center mt-10">
           {nickname}님 , 반가워요!
         </h2>
         <p className="text-gray-500 text-center mt-2">
           회원 정보를 관리하고, 등록한 레시피를 확인해보세요.
-        </p>
+        </p> */}
       </div>
 
       <div className="flex flex-col items-center mt-8 lg:mt-16">
         {/* 프로필 영역 */}
-        <div className="w-full flex flex-col justify-center items-center gap-2  ">
-          <NickNameProfileIcon className="w-[20px] h-[20px] lg:w-[80px] lg:h-[80px]" />
+        <div className="flex justify-center gap-4 ">
+          {" "}
+          <div className="w-full flex  justify-center items-center gap-2  ">
+            <img src={MypageProfile} alt="프로필" className="w-24 lg:w-40" />
+          </div>
+          <div className="flex flex-col justify-center gap-2 ">
+            <div className="flex w-[300px] items-center gap-4">
+              {" "}
+              <div className="text-2xl lg:font-semibold ">
+                {nickname}님{" "}
+                <span className="lg:text-base text-gray-500">
+                  {" "}
+                  - 카카오 회원
+                </span>
+              </div>
+            </div>
+            <div className=""></div>
 
-          <div className="text-2xl lg:font-semibold ">{nickname}님</div>
-          <div className="text-md text-gray-500">카카오 회원</div>
+            <div className="w-[300px] flex gap-2">
+              <button
+                className="rounded-xl w-32 border-2 h-8 text-darkText hover:bg-gray-100"
+                onClick={() => setShowLogoutModal(true)}
+              >
+                로그아웃
+              </button>
+              <button
+                className="rounded-xl w-32 border-2  h-8 text-darkText hover:bg-gray-100"
+                onClick={goUpdateNickname}
+              >
+                회원정보 수정
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* 메뉴 리스트 */}
-        <div className="p-4 lg:p-0 w-full max-w-[400px] mx-auto mt-10 space-y-4">
+        <div className="font-Pretendard font-semibold p-4 lg:p-0 w-full flex max-w-[1000px] mx-auto mt-10  h-[130px] text-lg cursor-pointer">
           <div
-            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl  cursor-pointer transition 
-             hover:ring-2 hover:ring-orange-400 hover:border-transparent"
-            onClick={goUpdateNickname}
+            onClick={() => setSelected("scrap")}
+            className={`gap-3 w-1/2 rounded-r-none rounded-l-[10rem]  border-2 border-gray-200 h-full   flex justify-center items-center ${
+              selected === "scrap"
+                ? "bg-brand text-white"
+                : "bg-white border  text-gray-800"
+            }`}
           >
-            닉네임 변경
+            나의 레시피
           </div>
 
           <div
-            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl  cursor-pointer transition 
-             hover:ring-2 hover:ring-orange-400 hover:border-transparent"
-            onClick={goMyRecipe}
+            onClick={() => setSelected("comment")}
+            className={`gap-3 w-1/2 rounded-l-none rounded-r-[10rem]  border-2 border-gray-200 h-full  hover:bg-brand hover:border-white  hover:text-white flex justify-center items-center ${
+              selected === "comment"
+                ? "bg-brand text-white"
+                : "bg-white border  text-black"
+            }`}
           >
-            등록한 레시피
+            나의 댓글
           </div>
-          <div
-            className="px-5 py-4 bg-white rounded-lg border border-gray-200 text-lg lg:text-xl  cursor-pointer hover:ring-2 hover:ring-orange-400 hover:border-transparent
-"
-            onClick={() => setShowLogoutModal(true)}
-          >
-            로그아웃
-          </div>
-          <div
-            className="mb-5 px-5 py-4 bg-white rounded-lg  border border-gray-200 text-lg lg:text-xl  cursor-pointer text-red-500 hover:ring-2 hover:ring-red-400 hover:border-transparent
-"
-            onClick={() => console.log("회원탈퇴")}
-          >
-            회원탈퇴
-          </div>
+        </div>
+        <div className="w-full font-Pretendard border-t max-w-[1000px] mx-auto pt-4">
+          {selected === "scrap" ? (
+            <MyRecipeComponent />
+          ) : (
+            <MyCommentComponent />
+          )}
         </div>
       </div>
       {showLogoutModal && (

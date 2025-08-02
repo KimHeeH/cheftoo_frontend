@@ -2,7 +2,11 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BackIcon, FolderNameIcon } from "../../Component/Menubar/Icon/Icon";
+import {
+  BackIcon,
+  CommentUserIcon,
+  FolderNameIcon,
+} from "../../Component/Menubar/Icon/Icon";
 import {
   BigBookmarkIcon,
   CommentIcon,
@@ -15,7 +19,7 @@ import { DotMenuIcon } from "../../Component/Menubar/Icon/Icon";
 import { XIcon } from "../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../api/axiosInstance";
 import { useLocation } from "react-router-dom";
-
+import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -127,8 +131,8 @@ const RecipeDetailpage = () => {
   };
   const fetchRecipe = async () => {
     try {
-      const response = await axiosInstance.get(
-        `/recipe/${recipeId}`,
+      const response = await axios.get(
+        `http://localhost:8080/api/recipe/${recipeId}`,
 
         {
           withCredentials: true,
@@ -200,6 +204,7 @@ const RecipeDetailpage = () => {
 
   return (
     <div className="w-full p-3">
+      <SearchContainer />
       <div className="container mt-4 mb-4 ml-2">
         {/* ← 뒤로가기 아이콘 */}
         <div className="cursor-pointer mt-2" onClick={handleBackNavigate}>
@@ -234,20 +239,24 @@ const RecipeDetailpage = () => {
           </div>
 
           {/* 내용 */}
-          <p className="text-gray-700 text-sm lg:text-lg leading-relaxed mt-2">
+          <p className="text-gray-700 text-sm lg:text-2xl leading-relaxed mt-2">
             {recipe.recipe_content}
           </p>
 
           {/* 댓글/북마크 수 */}
-          <div className="flex gap-4 text-xs lg:text-sm text-gray-500 mt-2">
-            <span>댓글 {commentList.length}</span>
-            <span>북마크 {recipe.scrap_count}</span>
+          <div className="flex gap-4 text-xs lg:text-xl text-subText mt-2">
+            <span>
+              댓글 <span className="text-darkText">{commentList.length}</span>
+            </span>
+            <span>
+              북마크 <span className="text-darkText">{recipe.scrap_count}</span>
+            </span>
           </div>
         </div>
 
         {/* 재료 */}
         <div className="mt-10">
-          <div className="flex gap-2 mb-4 bg-orange-400 px-3 py-1.5 rounded-md items-center w-fit">
+          <div className="flex gap-2 mb-4 bg-brand  px-3 py-1.5 rounded-md items-center w-fit">
             <IngredientIcon />
             <span className="text-white text-sm lg:text-xl font-semibold">
               재료
@@ -271,7 +280,7 @@ const RecipeDetailpage = () => {
         </div>
         {/* 재료 */}
         <div className="mt-10">
-          <div className="flex gap-2 mb-4 bg-orange-400 px-3 py-1.5 rounded-md items-center w-fit">
+          <div className="flex gap-2 mb-4 bg-brand px-3 py-1.5 rounded-md items-center w-fit">
             <IngredientIcon />
             <span className="text-white text-sm lg:text-xl font-semibold">
               양념
@@ -295,7 +304,7 @@ const RecipeDetailpage = () => {
         </div>
         {/* 조리 순서 */}
         <div className="mt-10">
-          <div className="flex gap-2 mb-4 bg-orange-400 px-3 py-1.5 rounded-md items-center w-fit">
+          <div className="flex gap-2 mb-4 bg-brand px-3 py-1.5 rounded-md items-center w-fit">
             <CookingOrderIcon />
             <span className="text-white text-sm lg:text-xl font-semibold">
               조리순서
@@ -308,8 +317,8 @@ const RecipeDetailpage = () => {
               {sortedCookingOrder.map((order, i) => (
                 <div
                   key={i}
-                  className={`cursor-pointer p-3 border-b hover:bg-gray-100 ${
-                    selectedStepIndex === i ? "bg-orange-100" : ""
+                  className={`cursor-pointer p-3 border-b hover:bg-[#F5F5F5] ${
+                    selectedStepIndex === i ? "bg-[#EAF6F2]" : ""
                   }`}
                   onClick={() => setSelectedStepIndex(i)}
                 >
@@ -336,17 +345,16 @@ const RecipeDetailpage = () => {
 
         {/* 댓글 영역 */}
         <div className="mt-10 border-t pt-6">
-          <div className="flex flex-wrap gap-2 items-center text-base lg:text-2xl font-semibold mb-4">
-            <CommentIcon />
+          <div className="flex flex-wrap gap-3 items-center text-base lg:text-2xl font-semibold mb-4">
             <span>요리후기</span>
-            <span className="text-orange-500">{commentList.length}</span>
-            <span className="text-xs lg:text-base font-normal text-gray-500">
+            <span className="text-brand ">{commentList.length}</span>
+            <span className="text-xs lg:text-base font-normal text-subText">
               소중한 레시피에 후기를 남겨주세요
             </span>
           </div>
 
           {/* 댓글 작성 */}
-          <div className="bg-[#FDFDFD] border rounded-xl p-3 shadow-sm">
+          <div className="bg-[#EAF6F2] border rounded-xl p-3 shadow-sm">
             <textarea
               className="w-full rounded-lg text-sm lg:text-lg resize-none p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
               placeholder="댓글을 남겨주세요"
@@ -357,7 +365,7 @@ const RecipeDetailpage = () => {
             <div className="flex justify-end mt-2">
               <button
                 onClick={uploadComment}
-                className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-1.5 rounded-lg text-sm lg:text-base font-semibold transition-transform active:scale-95"
+                className="bg-brand hover:bg-brandDark text-white px-4 py-1.5 rounded-lg text-sm lg:text-base font-semibold transition-transform active:scale-95"
               >
                 등록
               </button>
@@ -371,8 +379,8 @@ const RecipeDetailpage = () => {
             >
               {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
               <div className="flex justify-between items-center mb-2">
-                <div className="flex items-center gap-2">
-                  <RecipeDetailProfileIcon />
+                <div className="flex items-center gap-3">
+                  <CommentUserIcon />
                   <span className="text-sm font-semibold text-gray-800">
                     {comment.nick_name}
                   </span>
@@ -438,7 +446,7 @@ const RecipeDetailpage = () => {
                   onClick={() => handleScrapToFolder(folder.scrap_id)}
                   className="flex items-center gap-3 px-4 py-3 border rounded-lg cursor-pointer hover:bg-orange-50 transition"
                 >
-                  <FolderNameIcon fill="#FA590F" />
+                  <FolderNameIcon fill="#10B981" />
                   <span className="text-base font-medium text-gray-800">
                     {folder.scrap_name}
                   </span>

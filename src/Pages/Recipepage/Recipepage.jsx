@@ -146,7 +146,7 @@ const Recipepage = () => {
               </div>
             )}
             <div></div>
-            <div className="border-t pt-4 px-8  grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-10 w-full lg:max-w-[1700px]  lg:pb-[80px]">
+            <div className="border-t pt-4 lg:px-8  grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-10 w-full lg:max-w-[1700px]  lg:pb-[80px]">
               {displayData.length > 0 ? (
                 displayData.map((recipe) => (
                   <div key={recipe.recipe_id} className="w-full">
