@@ -10,7 +10,6 @@ function KakaoRedirect() {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from || "/";
-  const bookmarkTrigger = location.state?.bookmarkTrigger || false;
   const selectedRecipeId = location.state?.selectedRecipeId || null;
   console.log("Redirect from:", from);
 
@@ -55,17 +54,10 @@ function KakaoRedirect() {
           }
 
           const redirectTo = response.data.redirectTo;
-          if (bookmarkTrigger && selectedRecipeId) {
-            navigate(from, {
-              replace: true,
-              state: {
-                bookmarkTrigger: true,
-                selectedRecipeId,
-              },
-            });
-          } else if (redirectTo) {
+          if (typeof redirectTo === "string" && redirectTo.startsWith("/")) {
             window.location.href = redirectTo;
           } else {
+            console.warn("redirectTo 값이 없거나 잘못됨:", redirectTo);
             window.location.href = "/";
           }
         }

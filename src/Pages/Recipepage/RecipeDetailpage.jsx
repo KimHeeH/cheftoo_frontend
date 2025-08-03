@@ -18,7 +18,6 @@ import { RecipeDetailProfileIcon } from "../../Component/Menubar/Icon/Icon";
 import { DotMenuIcon } from "../../Component/Menubar/Icon/Icon";
 import { XIcon } from "../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../api/axiosInstance";
-import { useLocation } from "react-router-dom";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();

@@ -19,8 +19,6 @@ import { useSetRecoilState } from "recoil";
 import { nicknameState } from "./recoil/nicknameAtom";
 import { useNavigate } from "react-router-dom";
 import { setupInterceptors } from "./api/axiosInstance";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 function App() {
   const resetNickname = useSetRecoilState(nicknameState);
   const navigate = useNavigate();
@@ -29,24 +27,20 @@ function App() {
     setupInterceptors(resetNickname, navigate);
   }, []);
   return (
-    <>
-      {" "}
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/recipe" element={<Recipepage />} />
-        <Route path="/search" element={<Searchpage />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/scrap" element={<Scrappage />} />
-        <Route path="/add" element={<RecipeAddpage />} />
-        <Route path="/nickname" element={<Nicknamepage />} />
-        <Route path="/updateNickname" element={<UpdateNicknamepage />} />
-        <Route path="/myrecipe" element={<MyRecipepage />} />
-        <Route path="/oauth/kakao/callback" element={<KakaoRedirect />} />
-        <Route path="/recipes/:recipeId" element={<RecipeDetailpage />} />
-        <Route path="/scrap/:scrapId" element={<ScrapFolderDetail />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/recipe" element={<Recipepage />} />
+      <Route path="/search" element={<Searchpage />} />
+      <Route path="/mypage" element={<Mypage />} />
+      <Route path="/scrap" element={<Scrappage />} />
+      <Route path="/add" element={<RecipeAddpage />} />
+      <Route path="/nickname" element={<Nicknamepage />} />
+      <Route path="/updateNickname" element={<UpdateNicknamepage />} />
+      <Route path="/myrecipe" element={<MyRecipepage />} />
+      <Route path="/oauth/kakao/callback" element={<KakaoRedirect />} />
+      <Route path="/recipes/:recipeId" element={<RecipeDetailpage />} />
+      <Route path="/scrap/:scrapId" element={<ScrapFolderDetail />} />
+    </Routes>
   );
 }
 
