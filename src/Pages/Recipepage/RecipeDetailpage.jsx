@@ -46,14 +46,24 @@ const RecipeDetailpage = () => {
     setIsScrapModalOpen(false);
   };
   function formatTimestamp(timestamp) {
-    const date = new Date(timestamp);
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
+    if (!timestamp) return "";
 
-    return `${month}.${day} ${hours}:${minutes}`;
+    const [datePart, timePart] = timestamp.split(" ");
+    if (!datePart || !timePart) return "";
+
+    const [year, month, day] = datePart.split("-").map((v) => parseInt(v, 10));
+    const [hours, minutes] = timePart.split(":").map((v) => parseInt(v, 10));
+
+    // 2자리로 맞추기
+    const yy = String(year).padStart(2, "0");
+    const mm = String(month).padStart(2, "0");
+    const dd = String(day).padStart(2, "0");
+    const hh = String(hours).padStart(2, "0");
+    const min = String(minutes).padStart(2, "0");
+
+    return `${yy}/${mm}/${dd} ${hh}:${min}`;
   }
+
   const handleBackNavigate = () => {
     navigate(-1);
   };
@@ -157,10 +167,26 @@ const RecipeDetailpage = () => {
         { withCredentials: true }
       );
       setCommentList(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("레시피 댓글 가져오기 실패", error);
     }
   };
+  // const updateComment = async (comment_id,comment) => {
+  //   try {
+  //     const response = await axiosInstance.put(
+  //       "/comment",
+  //       {
+  //         commentId: , // ← 이거 필수
+  //         content: "수정된 내용",
+  //       },
+  //       { withCredentials: true }
+  //     );
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.errpr("updateComment 오류", error);
+  //   }
+  // };
   useEffect(() => {
     if (recipeId) fetchComment();
   }, [recipeId]);
@@ -211,7 +237,7 @@ const RecipeDetailpage = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-full px-2 lg:px-4 lg:max-w-[900px] mx-auto font-pretendard">
+      <div className="w-full max-w-full px-2 lg:px-4 lg:max-w-[900px] mx-auto font-pretendard pb-20">
         <div>
           {/* 대표 이미지 */}
           <div className="w-full aspect-[3/2] lg:aspect-[16/9] rounded-xl overflow-hidden border bg-gray-100">
@@ -380,13 +406,13 @@ const RecipeDetailpage = () => {
               <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-3">
                   <CommentUserIcon />
-                  <span className="text-sm font-semibold text-gray-800">
+                  <span className="text-lg font-semibold text-gray-800">
                     {comment.nick_name}
                   </span>
-                  <span className="text-sm text-gray-400">
-                    ·{" "}
+                  <span className="text-base text-gray-400">
+                    {" "}
                     {comment.data_created
-                      ? formatTimestamp(comment.data_created)
+                      ? formatTimestamp(comment?.data_created)
                       : "날짜 없음"}
                   </span>
                 </div>
@@ -407,7 +433,10 @@ const RecipeDetailpage = () => {
                       >
                         삭제
                       </div>
-                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      <div
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer "
+                        // onClick={() => updateComment(comment.comment_id)}
+                      >
                         수정
                       </div>
                     </div>
@@ -416,7 +445,7 @@ const RecipeDetailpage = () => {
               </div>
 
               {/* 본문 */}
-              <div className="text-gray-700 text-base">
+              <div className="text-gray-700 text-lg">
                 {comment.comment_content}
               </div>
             </div>

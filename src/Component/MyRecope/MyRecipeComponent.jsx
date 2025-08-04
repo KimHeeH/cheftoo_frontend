@@ -83,7 +83,7 @@ const MyRecipeComponent = () => {
             key={recipe.recipe_id}
           >
             {/* 이미지 박스 */}
-            <div className="relative w-full  aspect-[4/3] overflow-hidden rounded-3xl rounded-tl-none">
+            <div className="relative w-full hover:scale-[1.05] transition-all duration-300 aspect-[4/3] overflow-hidden rounded-3xl rounded-tl-none">
               <img
                 src={recipe.img_path}
                 className="lg:w-full h-[180px] lg:h-full object-cover rounded-md"

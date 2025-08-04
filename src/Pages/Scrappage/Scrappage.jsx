@@ -176,10 +176,10 @@ const Scrappage = () => {
       </div>
       <div className="px-8">
         <div className=" block container  lg:m-8 border-t lg:border-0 pt-4 ">
-          <div className="text-lg lg:text-2xl font-semibold">
+          <div className="text-xl lg:text-2xl font-semibold">
             나만의 레시피 폴더
           </div>
-          <div className="text-sm text-gray-500 mt-2 ">
+          <div className="text-lg text-gray-500 mt-2 ">
             레시피를 폴더별로 정리해서 더 쉽게 찾아보세요!
           </div>
         </div>
@@ -189,7 +189,7 @@ const Scrappage = () => {
             {folders.map((folder, key, index) => (
               <div
                 key={folder.scrap_id}
-                className="flex h-40 mb-4 lg:mb-0 items-center justify-between p-4 bg-white border-gray border-2  rounded-xl lg:max-w-[600px] cursor-pointer transition transform duration-200 hover:shadow-md hover:bg-[#EEEEEE]-100 hover:scale-[1.01] "
+                className="relative flex h-40 mb-4 lg:mb-0 items-center justify-between p-4 bg-white border-gray border-2  rounded-xl lg:max-w-[600px] cursor-pointer transition transform duration-200 hover:shadow-md hover:bg-[#EEEEEE]-100 hover:scale-[1.01] "
               >
                 <div
                   onClick={() => {
@@ -203,50 +203,42 @@ const Scrappage = () => {
                     <FolderNameIcon />
                   </div>
 
-                  <div className="flex flex-col  ">
+                  <div className="flex flex-col lg:max-w-[400px]  ">
                     {" "}
                     <input
-                      readOnly={editableFolderId !== folder.scrap_id}
-                      className={`mt-1  lg:max-w-[200px]  lg:text-xl  px-3 py-2  rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400  
-                  ${
-                    editableFolderId !== folder.scrap_id
-                      ? "bg-white border-0 cursor-default"
-                      : "border border-gray-300"
-                  }`}
+                      className="text-lg font-semibold text-gray-800 bg-transparent focus:outline-none px-2 py-1 rounded-md border border-gray-300 max-w-[200px]"
                       value={folder.scrap_name}
+                      onFocus={() => setEditableFolderId(folder.scrap_id)}
                       onChange={(e) =>
                         handleNameChange(folder.scrap_id, e.target.value)
                       }
+                      onBlur={() =>
+                        updateScrapName(folder.scrap_id, folder.scrap_name)
+                      }
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          updateScrapName(folder.scrap_id, folder.scrap_name);
+                          e.target.blur(); // 포커스 제거
+                        } else if (e.key === "Escape") {
+                          setEditableFolderId(null);
+                          fetchRecipeScrap();
+                        }
+                      }}
                     />
                     <div className="px-3 mt-2 text-md text-gray-500">
                       {" "}
                       {folder?.recipeCount}개의 레시피
                     </div>{" "}
                   </div>
-                  {saveFolderName && openMenuId === folder.scrap_id ? (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-
-                        updateScrapName(folder.scrap_id, folder.scrap_name);
-                      }}
-                      className="ml-2 mb-4 px-3 py-2 w-20 border border-orange-400 text-orange-500 font-semibold rounded-md hover:bg-orange-50"
-                    >
-                      변경
-                    </button>
-                  ) : (
-                    // 투명한 더미 div로 공간 확보 (pointer-events 없애서 클릭 막기)
-                    <div className="ml-2 w-20 h-[40px] pointer-events-none" />
-                  )}
                 </div>
                 {/* 메뉴 아이콘 + 드롭다운 */}
-                <div className="relative z-50  -translate-x-6 ">
+                <div className=" absolute top-2 right-0 z-50  ">
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
                       handleMenu(folder.scrap_id);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer relative"
                   >
                     {openMenuId === folder.scrap_id ? (
                       <XIcon />
@@ -257,17 +249,6 @@ const Scrappage = () => {
 
                   {openMenuId === folder.scrap_id && (
                     <div className="absolute top-10 right-0 bg-white border rounded-md shadow-md w-32 z-[9999]">
-                      <div
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation();
-
-                          saveBtnAble(folder.scrap_id);
-                          setEditableFolderId(folder.scrap_id);
-                        }}
-                      >
-                        이름 변경
-                      </div>
                       <div
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
                         onClick={(e) => {

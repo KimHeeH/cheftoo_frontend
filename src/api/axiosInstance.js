@@ -77,7 +77,7 @@ export const setupInterceptors = (resetNickname, navigate) => {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("nickname");
           if (navigate) {
-            alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
+            // alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
 
             navigate("/mypage");
           }

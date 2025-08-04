@@ -76,13 +76,21 @@ const SearchContainer = () => {
             onClick={goHomePage}
             className="ml-20 mr-40 flex w-[280px] items-center cursor-pointer h-12"
           >
-            <img className="w-32 mr-2" src={todaysIcon} alt="Today’s Icon" />
-            <img className="w-32" src={recipeIcon} alt="Recipe Icon" />
+            <img
+              className="w-32 min-w-32 max-w-32"
+              src={todaysIcon}
+              alt="Today’s Icon"
+            />
+            <img
+              className="w-32 min-w-32 max-w-32"
+              src={recipeIcon}
+              alt="Recipe Icon"
+            />
           </div>
           <div className="flex-1">
             {/* PC 상단용 메뉴바 (가운데 정렬) */}
             <div className="hidden lg:block ">
-              <div className="flex gap-20">
+              <div className="flex gap-5 lg:gap-20">
                 {navItems.map(({ label, path }) => (
                   <span
                     key={label}
@@ -91,7 +99,7 @@ const SearchContainer = () => {
                       location.pathname === path
                         ? "text-brand"
                         : "text-subText hover:text-brand"
-                    }  cursor-pointer text-xl font-pretendard font-bold`}
+                    }  cursor-pointer text-xl font-pretendard font-bold whitespace-nowrap`}
                   >
                     {label}
                   </span>
@@ -99,7 +107,7 @@ const SearchContainer = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-end w-[300px] mr-20">
+          <div className="flex items-center justify-end w-[300px] ml-20 mr-20">
             {" "}
             <div
               onClick={handleLoginPage}
@@ -110,7 +118,7 @@ const SearchContainer = () => {
                   <CommentUserIcon />{" "}
                 </div>
               ) : (
-                <div className="font-pretendard border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
+                <div className="min-w-[140px] whitespace-nowrap font-pretendard border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-10 rounded-2xl font-black">
                   로그인 / 회원가입
                 </div>
               )}
@@ -168,7 +176,7 @@ const SearchContainer = () => {
               ) : (
                 <div
                   className="flex items-center border-gray-100 hover:bg-gray-1
-                00 text-white text-sm p-2  h-8 rounded-lg"
+                00 text-white text-sm p-2  h-8 rounded-lg min-w-[140px] whitespace-nowrap"
                 >
                   로그인 / 회원가입
                 </div>

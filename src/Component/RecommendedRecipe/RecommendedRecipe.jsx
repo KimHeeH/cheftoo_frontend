@@ -56,6 +56,79 @@ const RecommendedRecipe = () => {
   //     kakaoLoginHandler();
   //   }
   // };
+  const renderVideos = (videoIds) => {
+    videoIds.forEach((id) => {
+      console.log("렌더링할 비디오 ID:", id);
+      // 실제 렌더링 작업
+    });
+  };
+  useEffect(() => {
+    const loadYoutubeVideos = async () => {
+      const cached = localStorage.getItem("youtubeVideos");
+
+      // 캐시가 없으면 → 무조건 API 2개 호출해서 저장
+      if (!cached) {
+        try {
+          const versionRes = await fetch(
+            "http://localhost:8080/api/youtube/version"
+          );
+          const version = await versionRes.text();
+
+          const videosRes = await fetch(
+            "http://localhost:8080/api/youtube/home-videos"
+          );
+          const data = await videosRes.json();
+
+          localStorage.setItem(
+            "youtubeVideos",
+            JSON.stringify({
+              version,
+              videoIds: data.video_id_list,
+            })
+          );
+          setYoutubeList(data.video_id_list);
+        } catch (error) {
+          console.error("유튜브 영상 로드 실패 (초기)", error);
+        }
+        return;
+      }
+
+      // 캐시가 있을 경우 → 버전 비교
+      try {
+        const { version: cachedVersion, videoIds } = JSON.parse(cached);
+
+        const versionRes = await fetch(
+          "http://localhost:8080/api/youtube/version"
+        );
+        const version = await versionRes.text();
+
+        if (version !== cachedVersion) {
+          const videosRes = await fetch(
+            "http://localhost:8080/api/youtube/home-videos"
+          );
+          const data = await videosRes.json();
+
+          localStorage.setItem(
+            "youtubeVideos",
+            JSON.stringify({
+              version,
+              videoIds: data.video_id_list,
+            })
+          );
+          setYoutubeList(data.video_id_list);
+        } else {
+          setYoutubeList(videoIds); // 버전 같으면 캐시 사용
+        }
+      } catch (error) {
+        console.error("유튜브 영상 로드 실패", error);
+        const { videoIds } = JSON.parse(cached);
+        setYoutubeList(videoIds); // fallback
+      }
+    };
+
+    loadYoutubeVideos();
+  }, []);
+
   const fetchPopularRecipe = async () => {
     try {
       const response = await axios.get(
@@ -86,7 +159,7 @@ const RecommendedRecipe = () => {
   // });
   return (
     <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
-      <div className="flex lg:flex-row flex-col w-full mt-8 h-[550px] lg:h-[680px]">
+      <div className="flex lg:gap-3 lg:flex-row flex-col w-full mt-8 h-[550px] lg:h-[680px]">
         {" "}
         <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4 pr-4 ">
           <span className="font-pretendard text-xl lg:text-3xl lg:mb-8 font-bold text-brandDark">
@@ -207,7 +280,7 @@ const RecommendedRecipe = () => {
                 )}
               </Swiper>
             ) : (
-              <div className="font-pretendard flex items-center text-center text-gray-400">
+              <div className="font-pretendard flex items-center h-full w-full text-center text-gray-400">
                 인기 레시피가 없습니다
               </div>
             )}
@@ -224,18 +297,18 @@ const RecommendedRecipe = () => {
         </p>
       </div>
 
-      <div className=" flex gap-10 overflow-x-auto no-scrollbar py-4">
-        {/* {youtubeList.map((video) => (
+      <div className="flex gap-10 overflow-x-auto no-scrollbar py-4">
+        {youtubeList.map((videoId, index) => (
           <div
-            key={video?.id?.videoId}
+            key={index}
             className="min-w-[100px] lg:min-w-[500px] h-[160px] lg:h-[300px]"
           >
             <YouTube
-              videoId={video?.id?.videoId}
+              videoId={videoId}
               opts={{ width: "100%", height: "160" }}
             />
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );
