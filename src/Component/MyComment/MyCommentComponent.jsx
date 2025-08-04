@@ -40,13 +40,13 @@ const MyCommentComponent = () => {
             key={comment.comment_id}
             className="border border-gray-200 p-4 rounded-xl shadow-sm hover:scale-105 transition-all duration-300 bg-white"
           >
-            <div className="text-sm text-gray-500 mb-1">
+            <div className="text-base text-gray-500 mb-1">
               🗓 {formatTimestamp(comment.data_created)}
             </div>
-            <div className="text-md text-gray-700 font-medium mb-1">
-              🍴 {comment.nick_name || "레시피 제목 없음"}
+            <div className="text-base text-gray-700 font-medium mb-1">
+              {comment.nick_name || "레시피 제목 없음"}
             </div>
-            <div className="text-base text-gray-900">
+            <div className="text-lg text-gray-900">
               💬 {comment.comment_content}
             </div>
           </div>
