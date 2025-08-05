@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import RecipeCard from "../../Component/RecipeCard/RecipeCard";
 import SearchIcon from "./img/SearchIconComponent.jsx";
+import { motion } from "framer-motion";
+
 const Recipepage = () => {
   const navigate = useNavigate();
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
@@ -110,7 +112,7 @@ const Recipepage = () => {
             />
             <div
               onClick={() => searchKeyword(keyword)}
-              className=" text-xs lg:text-xl cursor-pointer flex pl-4 lg:pl-8 gap-2 lg:gap-4 items-center relative rounded-r-[10rem] rounded-l-none w-[100px] lg:w-[150px] bg-brand text-white "
+              className=" text-xs lg:text-xl cursor-pointer flex pl-4 lg:pl-8 gap-2 lg:gap-4 items-center relative rounded-r-[10rem] rounded-l-none w-[100px] lg:w-[150px] bg-brand text-white hover:scale-[1.05] "
             >
               {" "}
               검색
@@ -148,10 +150,17 @@ const Recipepage = () => {
             <div></div>
             <div className="border-t pt-4 lg:px-8  grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-10 w-full lg:max-w-[1700px]  lg:pb-[80px]">
               {displayData.length > 0 ? (
-                displayData.map((recipe) => (
-                  <div key={recipe.recipe_id} className="w-full">
+                displayData.map((recipe, i) => (
+                  <motion.div
+                    key={recipe.recipe_id}
+                    className="w-full"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                  >
                     <RecipeCard recipe={recipe} />
-                  </div>
+                  </motion.div>
                 ))
               ) : (
                 <div className="col-span-2 text-center text-gray-500 text-lg mt-10">

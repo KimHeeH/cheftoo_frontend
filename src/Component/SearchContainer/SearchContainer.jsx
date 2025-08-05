@@ -136,7 +136,11 @@ const SearchContainer = () => {
                 >
                   레시피 등록
                 </div>
-                <div className="absolute right-3 top-3">
+                <div
+                  className="absolute right-3 top-3"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
                   {isHovered ? <UpArrowIcon /> : <DownArrowIcon />}
                 </div>
               </div>

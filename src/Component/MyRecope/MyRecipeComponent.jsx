@@ -56,7 +56,7 @@ const MyRecipeComponent = () => {
   return (
     <div className="font-pretendard max-w-[1000px] mx-auto">
       <div className="text-2xl font-semibold">나의 레시피</div>
-      <div className="flex  sm:flex-row sm:items-center justify-between mt-6 gap-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
         <div className="flex items-center gap-2">
           <div className="cursor-pointer" onClick={toggleAllBox}>
             {isAllSelected ? <SelectedBoxIcon /> : <BoxIcon />}
@@ -66,31 +66,31 @@ const MyRecipeComponent = () => {
           </div>
         </div>
         <div
-          className="cursor-pointer border w-20 lg:w-32 flex items-center gap-1 justify-center bg-brand rounded-md h-8 lg:h-12 hover:bg-brandDark"
+          className="cursor-pointer border w-fit px-4 flex items-center gap-2 bg-brand rounded-md h-10 lg:h-12 hover:bg-brandDark"
           onClick={deleteRecipe}
         >
           <DeleteIcon />
-          <span className="text-sm lg:text-xl text-white ">삭제</span>
+          <span className="text-sm lg:text-base text-white">삭제</span>
         </div>
       </div>
 
       {/* 레시피 리스트 */}
-      <div className="mt-6 gap-12 mb-40 grid grid-cols-2 lg:w-full">
+      <div className="mt-6 gap-8 mb-40 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {myRecipe.map((recipe) => (
           <div
-            onClick={() => handleRecipeDetail(recipe.recipe_id)}
-            className="flex flex-col  gap-4 lg:gap-8 items-start lg:w-full cursor-pointer"
             key={recipe.recipe_id}
+            onClick={() => handleRecipeDetail(recipe.recipe_id)}
+            className="bg-white rounded-2xl rounded-tl-none shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col overflow-hidden"
           >
-            {/* 이미지 박스 */}
-            <div className="relative w-full hover:scale-[1.05] transition-all duration-300 aspect-[4/3] overflow-hidden rounded-3xl rounded-tl-none">
+            {/* 이미지 */}
+            <div className="relative w-full aspect-[4/3] overflow-hidden">
               <img
                 src={recipe.img_path}
-                className="lg:w-full h-[180px] lg:h-full object-cover rounded-md"
                 alt="recipe"
+                className="w-full h-full object-cover"
               />
               <div
-                className="absolute top-0 left-0 cursor-pointer"
+                className="absolute top-0 left-0"
                 onClick={(e) => {
                   toggleBox(recipe.recipe_id);
                   e.stopPropagation();
@@ -104,14 +104,14 @@ const MyRecipeComponent = () => {
               </div>
             </div>
 
-            {/* 텍스트 */}
-            <div className=" flex flex-col w-full">
-              <div className="text-xl lg:text-2xl font-semibold">
+            {/* 텍스트 영역 */}
+            <div className="p-4 flex flex-col gap-2">
+              <h3 className="text-lg lg:text-xl font-bold text-gray-800 truncate">
                 {recipe.recipe_title}
-              </div>
-              <div className="text-sm lg:text-lg text-gray-600 mt-1">
+              </h3>
+              <p className="text-sm lg:text-base text-gray-600 line-clamp-2">
                 {recipe.recipe_content}
-              </div>
+              </p>
             </div>
           </div>
         ))}

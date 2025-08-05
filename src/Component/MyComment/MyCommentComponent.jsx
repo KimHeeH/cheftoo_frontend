@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
-
+import { useNavigate } from "react-router-dom";
 const MyCommentComponent = () => {
   const [comments, setComments] = useState([]);
-
+  const navigate = useNavigate();
+  const handleRecipeDetail = (recipe_id) => {
+    navigate(`/recipes/${recipe_id}`);
+  };
   const fetchComment = async () => {
     try {
       const response = await axiosInstance.get("/member/comment");
-      setComments(response.data); // 댓글 리스트 저장
+      setComments(response.data);
+
+      console.log(response.data);
     } catch (error) {
       console.error("fetchComment 오류", error);
     }
@@ -33,21 +38,32 @@ const MyCommentComponent = () => {
 
   return (
     <div className="max-w-[700px] mx-auto px-4 py-6 font-pretendard">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">나의 댓글</h2>
-      <div className="space-y-5">
+      <h2 className="  text-2xl font-semibold mb-6 text-gray-800">나의 댓글</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {comments.map((comment) => (
           <div
             key={comment.comment_id}
-            className="border border-gray-200 p-4 rounded-xl shadow-sm hover:scale-105 transition-all duration-300 bg-white"
+            onClick={() => handleRecipeDetail(comment.recipe_id)}
+            className="cursor-pointer flex flex-col border border-gray-200 rounded-xl shadow-sm hover:scale-105 transition-all duration-300 bg-white overflow-hidden"
           >
-            <div className="text-base text-gray-500 mb-1">
-              🗓 {formatTimestamp(comment.data_created)}
+            <img
+              src={comment.img_path}
+              alt={comment.recipe_title}
+              className="w-full h-48 object-cover rounded-t-xl"
+            />
+            <div className="px-4 pt-3 text-lg font-bold text-gray-900 truncate">
+              {comment.recipe_title}
             </div>
-            <div className="text-base text-gray-700 font-medium mb-1">
-              {comment.nick_name || "레시피 제목 없음"}
-            </div>
-            <div className="text-lg text-gray-900">
-              💬 {comment.comment_content}
+            <div className="p-4 flex flex-col gap-1">
+              <div className="text-sm text-gray-500">
+                🗓 {formatTimestamp(comment.data_created)}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <span className="font-semibold">
+                  {comment.nick_name || "익명"}님
+                </span>
+                <span>💬 {comment.comment_content}</span>
+              </div>
             </div>
           </div>
         ))}

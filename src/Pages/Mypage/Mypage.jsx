@@ -154,35 +154,28 @@ const Mypage = () => {
         </p> */}
       </div>
 
-      <div className="flex flex-col items-center mt-8 lg:mt-16">
+      <div className="flex flex-col items-center mt-8 lg:mt-16 px-4 font-pretendard">
         {/* 프로필 영역 */}
-        <div className="flex justify-center gap-4 ">
-          {" "}
-          <div className="w-full flex  justify-center items-center gap-2  ">
-            <img src={MypageProfile} alt="프로필" className="w-24 lg:w-40" />
-          </div>
-          <div className="flex flex-col justify-center gap-2 ">
-            <div className="flex w-[300px] items-center gap-4">
-              {" "}
-              <div className="text-2xl lg:font-semibold ">
-                {nickname}님{" "}
-                <span className="lg:text-base text-gray-500">
-                  {" "}
-                  - 카카오 회원
-                </span>
-              </div>
+        <div className="flex flex-col lg:flex-row items-center gap-6 max-w-[1000px] w-full">
+          <img
+            src={MypageProfile}
+            alt="프로필"
+            className="w-24 lg:w-36 rounded-full"
+          />
+          <div className="flex flex-col gap-2 items-center lg:items-start">
+            <div className="text-xl lg:text-2xl font-semibold text-center lg:text-left">
+              {nickname}님{" "}
+              <span className="text-base text-gray-500">- 카카오 회원</span>
             </div>
-            <div className=""></div>
-
-            <div className="w-[300px] flex gap-2">
+            <div className="flex gap-3 mt-1">
               <button
-                className="rounded-xl w-32 border-2 h-8 text-darkText hover:bg-gray-100"
+                className="rounded-xl px-4 py-2 border border-gray-300 text-sm text-gray-800 hover:bg-gray-100"
                 onClick={() => setShowLogoutModal(true)}
               >
                 로그아웃
               </button>
               <button
-                className="rounded-xl w-32 border-2  h-8 text-darkText hover:bg-gray-100"
+                className="rounded-xl px-4 py-2 border border-gray-300 text-sm text-gray-800 hover:bg-gray-100"
                 onClick={goUpdateNickname}
               >
                 회원정보 수정
@@ -191,31 +184,37 @@ const Mypage = () => {
           </div>
         </div>
 
-        {/* 메뉴 리스트 */}
-        <div className="font-pretendard font-semibold p-4 lg:p-0 w-full flex max-w-[1000px] mx-auto mt-10  h-[130px] text-lg cursor-pointer">
+        {/* 메뉴 탭 */}
+        <div className="relative shadow-md flex mt-10 max-w-[1000px] w-full border border-gray-200 rounded-full overflow-hidden text-lg font-semibold">
+          {/* 애니메이션용 백그라운드 */}
+          <div
+            className={`absolute top-0 left-0 w-1/2 h-full bg-brand rounded-full transition-transform duration-300 ease-in-out z-0`}
+            style={{
+              transform:
+                selected === "comment" ? "translateX(100%) " : "translateX(0%)",
+            }}
+          />
+          {/* 탭 버튼들 */}
           <div
             onClick={() => setSelected("scrap")}
-            className={`gap-3 w-1/2 rounded-r-none rounded-l-[10rem]  border-2 border-gray-200 h-full   flex justify-center items-center ${
-              selected === "scrap"
-                ? "bg-brand text-white"
-                : "bg-white border  text-gray-800"
+            className={`w-1/2 h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+              selected === "scrap" ? "text-white" : "text-gray-700"
             }`}
           >
             나의 레시피
           </div>
-
           <div
             onClick={() => setSelected("comment")}
-            className={`gap-3 w-1/2 rounded-l-none rounded-r-[10rem]  border-2 border-gray-200 h-full  hover:bg-brand hover:border-white  hover:text-white flex justify-center items-center ${
-              selected === "comment"
-                ? "bg-brand text-white"
-                : "bg-white border  text-black"
+            className={`w-1/2 h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+              selected === "comment" ? "text-white" : "text-gray-700"
             }`}
           >
             나의 댓글
           </div>
         </div>
-        <div className="w-full font-pretendard border-t max-w-[1000px] mx-auto pt-4">
+
+        {/* 콘텐츠 영역 */}
+        <div className="w-full max-w-[1000px] mt-6 border-t pt-6">
           {selected === "scrap" ? (
             <MyRecipeComponent />
           ) : (
@@ -223,6 +222,7 @@ const Mypage = () => {
           )}
         </div>
       </div>
+
       {showLogoutModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-xl shadow-lg w-[90%] max-w-sm">
