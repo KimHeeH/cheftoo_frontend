@@ -443,12 +443,6 @@ const RecipeDetailpage = () => {
                         >
                           삭제
                         </div>
-                        <div
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer "
-                          // onClick={() => updateComment(comment.comment_id)}
-                        >
-                          수정
-                        </div>
                       </div>
                     )}
                   </div>

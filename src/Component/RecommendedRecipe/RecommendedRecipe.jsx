@@ -306,7 +306,7 @@ const RecommendedRecipe = () => {
       </div>
 
       <div className="flex gap-10 overflow-x-auto no-scrollbar py-4">
-        {youtubeList.map((videoId, index) => (
+        {/* {youtubeList?.map((videoId, index) => (
           <div
             key={index}
             className="min-w-[100px] lg:min-w-[500px] h-[160px] lg:h-[300px]"
@@ -316,7 +316,7 @@ const RecommendedRecipe = () => {
               opts={{ width: "100%", height: "160" }}
             />
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

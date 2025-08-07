@@ -66,12 +66,9 @@ const MyRecipeComponent = () => {
           </div>
         </div>
         <div
-          className="cursor-pointer border w-fit px-4 flex items-center gap-2 bg-brand rounded-md h-10 lg:h-12 hover:bg-brandDark hover:scale-[1.05]"
+          className="cursor-pointer border w-fit px-4 flex items-center gap-2 bg-brand rounded-xl h-10 lg:h-12 hover:bg-brandDark hover:scale-[1.05]"
           onClick={deleteRecipe}
         >
-          <div className="hidden lg:block">
-            <DeleteIcon />
-          </div>
           <span className="text-sm lg:text-base text-white">삭제</span>
         </div>
       </div>

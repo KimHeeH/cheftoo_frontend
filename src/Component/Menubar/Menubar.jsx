@@ -12,7 +12,6 @@ const Menubar = () => {
     const pathMap = {
       "/": "home",
       "/recipe": "recipe",
-      "/scrap": "scrap",
       "/mypage": "mypage",
     };
     setMenu(pathMap[location.pathname] || "");
@@ -37,13 +36,7 @@ const Menubar = () => {
       Icon: Icon.PopularIcon,
       SelectedIcon: Icon.SelectedRecipeIcon,
     },
-    {
-      label: "스크랩",
-      path: "/scrap",
-      key: "scrap",
-      Icon: Icon.BookmarkIcon,
-      SelectedIcon: Icon.SelectedBookmarkIcon,
-    },
+
     {
       label: "MY",
       path: "/mypage",

@@ -41,7 +41,6 @@ const SearchContainer = () => {
   const navItems = [
     { label: "홈", path: "/" },
     { label: "레시피", path: "/recipe" },
-    { label: "스크랩", path: "/scrap" },
     { label: "MY", path: "/mypage" },
   ];
   const navigate = useNavigate();

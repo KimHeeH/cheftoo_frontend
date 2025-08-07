@@ -24,6 +24,7 @@ import MypageProfile from "./img/MypageProfile.png";
 import MyRecipepage from "./MyRecipepage/MyRecipepage";
 import MyRecipeComponent from "../../Component/MyRecope/MyRecipeComponent";
 import MyCommentComponent from "../../Component/MyComment/MyCommentComponent";
+import MyScrapComponent from "../../Component/MyScrap/MyScrapComponent";
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const [nickname, setNickname] = useRecoilState(nicknameState);
@@ -34,7 +35,7 @@ const Mypage = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const [selected, setSelected] = useState("scrap");
+  const [selected, setSelected] = useState("recipe");
   const isLoggedIn = !!localStorage.getItem("accessToken");
 
   const kakaoLogin = useKakaoLogin("/mypage", "");
@@ -185,27 +186,39 @@ const Mypage = () => {
         </div>
 
         {/* 메뉴 탭 */}
-        <div className="relative shadow-md flex mt-10 max-w-[1000px] w-full border border-gray-200 rounded-full overflow-hidden text-lg font-semibold">
+        <div className="relative shadow-md flex mt-10 max-w-[1200px] w-full border border-gray-200 rounded-full overflow-hidden text-base lg:text-lg font-semibold">
           {/* 애니메이션용 백그라운드 */}
           <div
-            className={`absolute top-0 left-0 w-1/2 h-full bg-brand rounded-full transition-transform duration-300 ease-in-out z-0`}
+            className={`absolute top-0 left-0 w-1/3 h-full bg-brand rounded-full transition-transform duration-300 ease-in-out z-0`}
             style={{
               transform:
-                selected === "comment" ? "translateX(100%) " : "translateX(0%)",
+                selected === "scrap"
+                  ? "translateX(100%)"
+                  : selected === "comment"
+                  ? "translateX(200%)"
+                  : "translateX(0%)",
             }}
           />
           {/* 탭 버튼들 */}
           <div
-            onClick={() => setSelected("scrap")}
-            className={`w-1/2 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
-              selected === "scrap" ? "text-white" : "text-gray-700"
+            onClick={() => setSelected("recipe")}
+            className={`w-1/3 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+              selected === "recipe" ? "text-white" : "text-gray-700"
             }`}
           >
             나의 레시피
           </div>
           <div
+            onClick={() => setSelected("scrap")}
+            className={`w-1/3 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+              selected === "scrap" ? "text-white" : "text-gray-700"
+            }`}
+          >
+            나의 스크랩
+          </div>
+          <div
             onClick={() => setSelected("comment")}
-            className={`w-1/2 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+            className={`w-1/3 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
               selected === "comment" ? "text-white" : "text-gray-700"
             }`}
           >
@@ -215,8 +228,10 @@ const Mypage = () => {
 
         {/* 콘텐츠 영역 */}
         <div className="w-full max-w-[1000px] mt-6 border-t pt-6">
-          {selected === "scrap" ? (
+          {selected === "recipe" ? (
             <MyRecipeComponent />
+          ) : selected === "scrap" ? (
+            <MyScrapComponent />
           ) : (
             <MyCommentComponent />
           )}
