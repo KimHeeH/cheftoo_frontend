@@ -5,7 +5,7 @@ const MyCommentComponent = () => {
   const [comments, setComments] = useState([]);
   const navigate = useNavigate();
   const handleRecipeDetail = (recipe_id) => {
-    navigate(`/recipes/${recipe_id}`);
+    navigate(`/recipes/${recipe_id}`, { state: { scrollToComment: true } });
   };
   const fetchComment = async () => {
     try {

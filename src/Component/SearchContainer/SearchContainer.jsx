@@ -125,24 +125,12 @@ const SearchContainer = () => {
             </div>
             {isLoggedIn && (
               <div
-                className="relative"
+                onClick={() => goAddRecipe()}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
+                className="w-36 flex items-center justify-center font-pretendard border-1 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white  rounded-3xl h-12  text-lg"
               >
-                {" "}
-                <div
-                  onClick={goAddRecipe}
-                  className="font-pretendard border-1 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white w-40 rounded-3xl h-12 flex items-center pl-5 text-lg"
-                >
-                  레시피 등록
-                </div>
-                <div
-                  className="absolute right-3 top-3"
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  {isHovered ? <UpArrowIcon /> : <DownArrowIcon />}
-                </div>
+                레시피 등록
               </div>
             )}
           </div>

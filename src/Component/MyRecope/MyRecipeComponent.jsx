@@ -56,8 +56,8 @@ const MyRecipeComponent = () => {
   return (
     <div className="font-pretendard max-w-[1000px] mx-auto">
       <div className="text-2xl font-semibold">나의 레시피</div>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
+        <div className="flex items-center h-10 gap-2">
           <div className="cursor-pointer" onClick={toggleAllBox}>
             {isAllSelected ? <SelectedBoxIcon /> : <BoxIcon />}
           </div>
@@ -66,10 +66,12 @@ const MyRecipeComponent = () => {
           </div>
         </div>
         <div
-          className="cursor-pointer border w-fit px-4 flex items-center gap-2 bg-brand rounded-md h-10 lg:h-12 hover:bg-brandDark"
+          className="cursor-pointer border w-fit px-4 flex items-center gap-2 bg-brand rounded-md h-10 lg:h-12 hover:bg-brandDark hover:scale-[1.05]"
           onClick={deleteRecipe}
         >
-          <DeleteIcon />
+          <div className="hidden lg:block">
+            <DeleteIcon />
+          </div>
           <span className="text-sm lg:text-base text-white">삭제</span>
         </div>
       </div>

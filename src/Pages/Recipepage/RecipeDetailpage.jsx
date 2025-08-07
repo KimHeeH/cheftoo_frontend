@@ -1,6 +1,6 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import {
   BackIcon,
@@ -21,6 +21,15 @@ import axiosInstance from "../../api/axiosInstance";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
+  const location = useLocation();
+  const commentRef = useRef(null);
+  useEffect(() => {
+    if (location.state?.scrollToComment && commentRef.current) {
+      setTimeout(() => {
+        commentRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  }, [location.key]);
   const [recipe, setRecipe] = useState(null);
   const [bookmark, setBookmark] = useState(false);
   const [commentIds, setCommnetIds] = useState("");
@@ -396,60 +405,62 @@ const RecipeDetailpage = () => {
               </button>
             </div>
           </div>
+          <div ref={commentRef} id="comments">
+            {" "}
+            {commentList.map((comment) => (
+              <div
+                key={comment.comment_id}
+                className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 px-4 py-3 mb-4 mt-4"
+              >
+                {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex items-center gap-3">
+                    <CommentUserIcon />
+                    <span className="text-lg font-semibold text-gray-800">
+                      {comment.nick_name}
+                    </span>
+                    <span className="text-base text-gray-400">
+                      {" "}
+                      {comment.data_created
+                        ? formatTimestamp(comment?.data_created)
+                        : "날짜 없음"}
+                    </span>
+                  </div>
 
-          {commentList.map((comment) => (
-            <div
-              key={comment.comment_id}
-              className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 px-4 py-3 mb-4 mt-4"
-            >
-              {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
-              <div className="flex justify-between items-center mb-2">
-                <div className="flex items-center gap-3">
-                  <CommentUserIcon />
-                  <span className="text-lg font-semibold text-gray-800">
-                    {comment.nick_name}
-                  </span>
-                  <span className="text-base text-gray-400">
-                    {" "}
-                    {comment.data_created
-                      ? formatTimestamp(comment?.data_created)
-                      : "날짜 없음"}
-                  </span>
-                </div>
-
-                <div className="relative">
-                  <button onClick={() => openMenuBar(comment.comment_id)}>
-                    {commentIds === comment.comment_id ? (
-                      <XIcon />
-                    ) : (
-                      <DotMenuIcon />
+                  <div className="relative">
+                    <button onClick={() => openMenuBar(comment.comment_id)}>
+                      {commentIds === comment.comment_id ? (
+                        <XIcon />
+                      ) : (
+                        <DotMenuIcon />
+                      )}
+                    </button>
+                    {commentIds === comment.comment_id && (
+                      <div className="absolute right-0 top-8 w-28 bg-white border border-gray-300 rounded-lg shadow-md z-10">
+                        <div
+                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => deleteComment(comment.comment_id)}
+                        >
+                          삭제
+                        </div>
+                        <div
+                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer "
+                          // onClick={() => updateComment(comment.comment_id)}
+                        >
+                          수정
+                        </div>
+                      </div>
                     )}
-                  </button>
-                  {commentIds === comment.comment_id && (
-                    <div className="absolute right-0 top-8 w-28 bg-white border border-gray-300 rounded-lg shadow-md z-10">
-                      <div
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => deleteComment(comment.comment_id)}
-                      >
-                        삭제
-                      </div>
-                      <div
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer "
-                        // onClick={() => updateComment(comment.comment_id)}
-                      >
-                        수정
-                      </div>
-                    </div>
-                  )}
+                  </div>
+                </div>
+
+                {/* 본문 */}
+                <div className="text-gray-700 text-lg">
+                  {comment.comment_content}
                 </div>
               </div>
-
-              {/* 본문 */}
-              <div className="text-gray-700 text-lg">
-                {comment.comment_content}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       {isScrapModalOpen && bookmark && (

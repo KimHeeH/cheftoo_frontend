@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import "./RecommendedRecipe.style.css";
 import { useNavigate } from "react-router-dom";
-import RecipeSlider from "../Slider/RecipeSlider";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import { useEffect } from "react";
 import axios from "axios";
@@ -14,6 +13,8 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css/navigation";
 import { DotEmpty, DotFilled } from "../Slider/Icon/Icon";
 import firstImg from "./img/firstImg.png";
+import { motion } from "framer-motion";
+
 const RecommendedRecipe = () => {
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
   const [popularRecipeList, setPopularRecipeList] = useState([]);
@@ -202,7 +203,7 @@ const RecommendedRecipe = () => {
                 onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
                 loop={false}
                 autoplay={{
-                  delay: 3500,
+                  delay: 2000,
                   disableOnInteraction: false,
                 }}
                 breakpoints={{
@@ -212,13 +213,11 @@ const RecommendedRecipe = () => {
                     centeredSlides: true,
                   },
                   640: {
-                    slidesPerView: 1,
                     spaceBetween: 50,
                     slidesPerView: 1.2,
                     centeredSlides: false,
                   },
                   1024: {
-                    slidesPerView: 1,
                     spaceBetween: 10,
                     slidesPerView: 1.3,
                     centeredSlides: false,
@@ -233,22 +232,31 @@ const RecommendedRecipe = () => {
                   >
                     <div className="flex flex-col gap-4  lg:gap-0 h-full">
                       {" "}
-                      <div
-                        onClick={() => handleRecipeDetail(recipe.recipe_id)}
-                        className="p-2 h-[250px] lg:h-[600px] rounded-3xl"
-                        onMouseEnter={() => setHoveredIndex(index)}
-                        onMouseLeave={() => setHoveredIndex(null)}
+                      <motion.div
+                        key={recipe.recipe_id}
+                        className="w-full"
+                        initial={{ opacity: 0, y: 0 }}
+                        whileInView={{ opacity: 1, y: 30 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 1, delay: index * 0.1 }}
                       >
-                        <img
-                          src={recipe?.img_path || firstImg} // img_path가 없을 경우 기본 이미지
-                          alt={`slide-${index}`}
-                          className={`h-full w-full lg:w-full lg:h-full object-cover rounded-3xl transition-all duration-300 ${
-                            hoveredIndex === index
-                              ? "scale-105 hover:rounded-[2.5rem] "
-                              : "rounded-3xl"
-                          }`}
-                        />
-                      </div>
+                        <div
+                          onClick={() => handleRecipeDetail(recipe.recipe_id)}
+                          className="p-2 h-[250px] lg:h-[600px] rounded-3xl"
+                          onMouseEnter={() => setHoveredIndex(index)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                        >
+                          <img
+                            src={recipe?.img_path || firstImg} // img_path가 없을 경우 기본 이미지
+                            alt={`slide-${index}`}
+                            className={`h-full w-full lg:w-full lg:h-full object-cover rounded-3xl transition-all duration-300 ${
+                              hoveredIndex === index
+                                ? "scale-105 hover:rounded-[2.5rem] "
+                                : "rounded-3xl"
+                            }`}
+                          />
+                        </div>{" "}
+                      </motion.div>
                       <div className="px-4  flex flex-col">
                         {" "}
                         <div className=" lg:p-2 z-10">

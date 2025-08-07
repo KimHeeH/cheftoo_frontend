@@ -112,7 +112,7 @@ const Recipepage = () => {
             />
             <div
               onClick={() => searchKeyword(keyword)}
-              className=" text-xs lg:text-xl cursor-pointer flex pl-4 lg:pl-8 gap-2 lg:gap-4 items-center relative rounded-r-[10rem] rounded-l-none w-[100px] lg:w-[150px] bg-brand text-white hover:scale-[1.05] "
+              className="transition-all duration-300 text-xs lg:text-xl cursor-pointer flex pl-4 lg:pl-8 gap-2 lg:gap-4 items-center relative rounded-r-[10rem] rounded-l-none w-[100px] lg:w-[150px] bg-brand text-white hover:scale-[1.05] "
             >
               {" "}
               검색

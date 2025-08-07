@@ -197,7 +197,7 @@ const Mypage = () => {
           {/* 탭 버튼들 */}
           <div
             onClick={() => setSelected("scrap")}
-            className={`w-1/2 h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+            className={`w-1/2 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
               selected === "scrap" ? "text-white" : "text-gray-700"
             }`}
           >
@@ -205,7 +205,7 @@ const Mypage = () => {
           </div>
           <div
             onClick={() => setSelected("comment")}
-            className={`w-1/2 h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+            className={`w-1/2 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
               selected === "comment" ? "text-white" : "text-gray-700"
             }`}
           >
