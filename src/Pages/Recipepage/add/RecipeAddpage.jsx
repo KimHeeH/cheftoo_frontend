@@ -277,7 +277,7 @@ const RecipeAddpage = () => {
             레시피 제목
           </label>
           <input
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-xl"
+            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 text-sm lg:text-xl"
             placeholder="예) 토마토 파스타 레시피"
             value={recipeTitleInputValue}
             onChange={(e) => setRecipeTitleInputValue(e.target.value)}
@@ -294,7 +294,7 @@ const RecipeAddpage = () => {
             rows="3"
             value={recipeContentValue}
             onChange={(e) => setRecipeContentValue(e.target.value)}
-            className="w-full resize-none p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+            className="w-full resize-none p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 text-sm lg:text-base"
           />
         </div>
 
@@ -304,7 +304,7 @@ const RecipeAddpage = () => {
             요리 사진
           </label>
           <div
-            className="w-full min-h-[200px] lg:h-[300px] border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center hover:border-blue-400 cursor-pointer"
+            className="w-full min-h-[200px] lg:h-[300px] border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center hover:border-brand cursor-pointer"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleMainImageDrop}
             onClick={handleMainImageUpload}
@@ -347,7 +347,7 @@ const RecipeAddpage = () => {
           {ingredients.map((ingredient, index) => (
             <div key={index} className="flex gap-4 mb-4">
               <input
-                className="w-full lg:w-1/2 p-2 border rounded-md text-sm lg:text-base"
+                className="w-full lg:w-1/2 p-2 border focus:outline-none focus:ring-2 focus:ring-gray-300  rounded-md text-sm lg:text-base"
                 placeholder="예) 토마토"
                 value={ingredient.ingredientsName}
                 onChange={(e) =>
@@ -359,7 +359,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                className="w-1/3 p-2 border rounded-md text-sm lg:text-base"
+                className="w-1/3 p-2 border focus:outline-none focus:ring-2 focus:ring-gray-300  rounded-md text-sm lg:text-base"
                 placeholder="예) 1개"
                 value={ingredient.ingredientsNum}
                 onChange={(e) =>
@@ -394,7 +394,7 @@ const RecipeAddpage = () => {
           {seasonings.map((seasoning, index) => (
             <div key={index} className="flex gap-4 mb-4">
               <input
-                className="w-full lg:w-1/2 p-2 border rounded-md text-sm lg:text-base"
+                className="w-full lg:w-1/2 p-2 focus:outline-none focus:ring-2 focus:ring-gray-300  border rounded-md text-sm lg:text-base"
                 placeholder="예) 간장"
                 value={seasoning.sauceName}
                 onChange={(e) =>
@@ -402,7 +402,7 @@ const RecipeAddpage = () => {
                 }
               />
               <input
-                className="w-1/3 p-2 border rounded-md text-sm lg:text-base"
+                className="w-1/3 p-2 border focus:outline-none focus:ring-2 focus:ring-gray-300  rounded-md text-sm lg:text-base"
                 placeholder="예) 1스푼"
                 value={seasoning.quantity}
                 onChange={(e) =>
@@ -436,7 +436,7 @@ const RecipeAddpage = () => {
                 {index + 1}
               </div>
               <textarea
-                className="w-full lg:w-2/3 p-2 border rounded-lg resize-none text-sm lg:text-base"
+                className="w-full lg:w-2/3 p-2 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-300  text-sm lg:text-base"
                 placeholder="예) 토마토를 잘라주세요."
                 value={order.content}
                 onChange={(e) =>
@@ -448,7 +448,7 @@ const RecipeAddpage = () => {
                 }
               />
               <div
-                className="w-full lg:w-[120px] h-[100px] border-2 border-dashed border-gray-300 hover:border-blue-300 flex flex-col justify-center items-center cursor-pointer"
+                className="w-full lg:w-[120px] h-[100px] border-2 border-dashed border-gray-300 hover:border-brand flex flex-col justify-center items-center cursor-pointer"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => handleStepImageDrop(e, index)}
                 onClick={() => handleStepImageUpload(index)}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import "./RecommendedRecipe.style.css";
+
 import { useNavigate } from "react-router-dom";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import { useEffect } from "react";
@@ -14,7 +14,8 @@ import "swiper/css/navigation";
 import { DotEmpty, DotFilled } from "../Slider/Icon/Icon";
 import firstImg from "./img/firstImg.png";
 import { motion } from "framer-motion";
-
+import { CircleXIcon } from "../Menubar/Icon/Icon";
+import axiosInstance from "../../api/axiosInstance";
 const RecommendedRecipe = () => {
   const kakaoLoginHandler = useKakaoLogin("/recipe", "/add");
   const [popularRecipeList, setPopularRecipeList] = useState([]);
@@ -26,104 +27,74 @@ const RecommendedRecipe = () => {
   const handleRecipeDetail = (recipe_id) => {
     navigate(`/recipes/${recipe_id}`);
   };
-  // useEffect(() => {
-  //   const fetchYoutubeVideo = async () => {
-  //     const apiKey = `${process.env.REACT_APP_YOUTUBE_API_KEY}`;
-  //     const query = "백종원 레시피";
-  //     const maxResults = 5;
 
-  //     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=간단 요리 레시피&type=video&videoDuration=medium&order=viewCount&maxResults=5&key=${apiKey}`;
-
-  //     const response = await fetch(url);
-  //     const data = await response.json();
-  //     setYoutubeList(data?.items ?? []);
-  //     console.log("유투브 리스트", youtubeList);
-  //   };
-  //   fetchYoutubeVideo();
-  // }, []);
-
-  // const handleClick = async () => {
-  //   try {
-  //     const status = await checkAuthGuard();
-  //     if (status === 200) {
-  //       navigate("/add");
-  //     } else {
-  //       alert("로그인이 필요합니다.");
-  //       kakaoLoginHandler();
-  //     }
-  //   } catch (error) {
-  //     console.error("인증 오류:", error);
-  //     alert("로그인이 필요합니다.");
-  //     kakaoLoginHandler();
-  //   }
-  // };
   const renderVideos = (videoIds) => {
     videoIds.forEach((id) => {
       console.log("렌더링할 비디오 ID:", id);
       // 실제 렌더링 작업
     });
   };
+
   useEffect(() => {
     const loadYoutubeVideos = async () => {
       const cached = localStorage.getItem("youtubeVideos");
-
-      // 캐시가 없으면 → 무조건 API 2개 호출해서 저장
+      // const response = await axios.get("/youtube/home-videos");
+      // console.log(response.data);
+      // 캐시 없음 → 버전 + 영상 목록 호출 후 저장
       if (!cached) {
         try {
-          const versionRes = await fetch(
-            "http://localhost:8080/api/youtube/version"
-          );
-          const version = await versionRes.text();
+          const [versionRes, videosRes] = await Promise.all([
+            axiosInstance.get("/youtube/version", { responseType: "text" }),
+            axiosInstance.get("/youtube/home-videos"),
+          ]);
 
-          const videosRes = await fetch(
-            "http://localhost:8080/api/youtube/home-videos"
-          );
-          const data = await videosRes.json();
+          const version = versionRes.data; // 문자열
+          const ids = Array.isArray(videosRes.data?.video_id_list)
+            ? videosRes.data.video_id_list
+            : [];
 
           localStorage.setItem(
             "youtubeVideos",
-            JSON.stringify({
-              version,
-              videoIds: data.video_id_list,
-            })
+            JSON.stringify({ version, videoIds: ids })
           );
-          setYoutubeList(data.video_id_list);
+          setYoutubeList(ids);
         } catch (error) {
           console.error("유튜브 영상 로드 실패 (초기)", error);
         }
         return;
       }
 
-      // 캐시가 있을 경우 → 버전 비교
+      // 캐시 있음 → 버전 비교
       try {
         const { version: cachedVersion, videoIds } = JSON.parse(cached);
 
-        const versionRes = await fetch(
-          "http://localhost:8080/api/youtube/version"
-        );
-        const version = await versionRes.text();
+        const versionRes = await axiosInstance.get("/youtube/version", {
+          responseType: "text",
+        });
+        const version = versionRes.data;
 
         if (version !== cachedVersion) {
-          const videosRes = await fetch(
-            "http://localhost:8080/api/youtube/home-videos"
-          );
-          const data = await videosRes.json();
+          const videosRes = await axiosInstance.get("/youtube/home-videos");
+          const ids = Array.isArray(videosRes.data?.video_id_list)
+            ? videosRes.data.video_id_list
+            : [];
 
           localStorage.setItem(
             "youtubeVideos",
-            JSON.stringify({
-              version,
-              videoIds: data.video_id_list,
-            })
+            JSON.stringify({ version, videoIds: ids })
           );
-          setYoutubeList(data.video_id_list);
+          setYoutubeList(ids);
         } else {
-          setYoutubeList(videoIds); // 버전 같으면 캐시 사용
+          setYoutubeList(Array.isArray(videoIds) ? videoIds : []);
         }
       } catch (error) {
         console.error("유튜브 영상 로드 실패", error);
-        const { videoIds } = JSON.parse(cached);
-        setYoutubeList(videoIds); // fallback
+        try {
+          const { videoIds } = JSON.parse(cached);
+          setYoutubeList(Array.isArray(videoIds) ? videoIds : []);
+        } catch {
+          // 캐시 파싱도 실패할 경우 무시
+        }
       }
     };
 
@@ -186,13 +157,13 @@ const RecommendedRecipe = () => {
             {" "}
             <button
               onClick={() => goRecipePage()}
-              className="lg:flex lg:gap-3 justify-center items-center mt-2 lg:mt-4 bg-brand rounded-3xl text-white text-sm lg:text-2xl h-8 lg:h-16 w-20 lg:w-80 hover:scale-105 duration-300 font-bold"
+              className="hidden lg:blocklg:flex lg:gap-3 justify-center items-center mt-2 lg:mt-4 bg-brand rounded-3xl text-white text-sm lg:text-2xl h-8 lg:h-16 w-20 lg:w-80 hover:scale-105 duration-300 font-bold"
             >
               <span className="hidden lg:block">레시피</span> 더보기
             </button>
           </div>
         </div>
-        <div className="lg:w-2/3 h-full">
+        <div className="lg:w-2/3 h-full  flex items-center justify-center border mt-4 mb-4 lg:mb-0 lg:mt-0">
           <div className="relative ">
             {popularRecipeList.length > 0 ? (
               <Swiper
@@ -288,8 +259,9 @@ const RecommendedRecipe = () => {
                 )}
               </Swiper>
             ) : (
-              <div className="font-pretendard flex items-center h-full w-full text-center text-gray-400">
-                인기 레시피가 없습니다
+              <div className="font-pretendard flex flex-col gap-3 items-center h-full w-full text-center text-gray-400">
+                <CircleXIcon />
+                <div> 인기 레시피가 없습니다</div>
               </div>
             )}
           </div>{" "}
@@ -306,7 +278,7 @@ const RecommendedRecipe = () => {
       </div>
 
       <div className="flex gap-10 overflow-x-auto no-scrollbar py-4">
-        {/* {youtubeList?.map((videoId, index) => (
+        {youtubeList?.map((videoId, index) => (
           <div
             key={index}
             className="min-w-[100px] lg:min-w-[500px] h-[160px] lg:h-[300px]"
@@ -316,7 +288,7 @@ const RecommendedRecipe = () => {
               opts={{ width: "100%", height: "160" }}
             />
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );

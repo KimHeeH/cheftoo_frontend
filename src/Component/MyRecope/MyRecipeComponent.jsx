@@ -54,8 +54,26 @@ const MyRecipeComponent = () => {
     fetchMyRecipe();
   }, []);
   return (
-    <div className="font-pretendard max-w-[1000px] mx-auto">
-      <div className="text-2xl font-semibold">나의 레시피</div>
+    <div className="font-pretendard ">
+      <div className="flex">
+        {" "}
+        <div className="flex flex-col w-full gap-2   text-lg lg:text-2xl font-semibold ">
+          <div> 나의 레시피 </div>{" "}
+          <span className="text-xs lg:text-sm text-gray-400 font-medium">
+            내가 등록한 레시피를 확인해보세요
+          </span>
+        </div>
+        <div className="w-full flex justify-end ">
+          {" "}
+          <div
+            onClick={deleteRecipe}
+            className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
+          >
+            삭제{" "}
+          </div>{" "}
+        </div>
+      </div>
+
       <div className="flex flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
         <div className="flex items-center h-10 gap-2">
           <div className="cursor-pointer" onClick={toggleAllBox}>
@@ -65,16 +83,10 @@ const MyRecipeComponent = () => {
             {isAllSelected ? "전체해제" : "전체선택"}
           </div>
         </div>
-        <div
-          className="cursor-pointer border w-fit px-4 flex items-center gap-2 bg-brand rounded-xl h-10 lg:h-12 hover:bg-brandDark hover:scale-[1.05]"
-          onClick={deleteRecipe}
-        >
-          <span className="text-sm lg:text-base text-white">삭제</span>
-        </div>
       </div>
 
       {/* 레시피 리스트 */}
-      <div className="mt-6 gap-8 mb-40 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-6 gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {myRecipe.map((recipe) => (
           <div
             key={recipe.recipe_id}
@@ -115,6 +127,13 @@ const MyRecipeComponent = () => {
           </div>
         ))}
       </div>
+      {myRecipe.length === 0 && (
+        <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[200px] lg:w-full lg:h-[200px] lg:border-1 ">
+          아직 등록한 레시피가 없습니다.
+          <br />
+          당신만의 레시피를 등록해보세요.
+        </div>
+      )}
     </div>
   );
 };

@@ -21,8 +21,6 @@ const MyScrapComponent = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-
     fetchRecipeScrap();
   }, []);
   const fetchRecipeScrap = async () => {
@@ -347,7 +345,7 @@ const MyScrapComponent = () => {
         </div>
       )}
       {folders.length === 0 && (
-        <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[500px] lg:w-full lg:h-[200px] lg:border-1 ">
+        <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[200px] lg:w-full lg:h-[200px] lg:border-1 ">
           아직 스크랩한 레시피가 없습니다.
           <br />
           마음에 드는 레시피를 폴더에 저장해보세요!

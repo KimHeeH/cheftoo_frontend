@@ -10,7 +10,7 @@ const useKakaoLogin = (prevPage, nextPage = null) => {
       JSON.stringify({ prevPage: prevPage, nextPage: nextPage })
     );
     if (CLIENT_ID && REDIRECT_URI) {
-      const url = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${state}`;
+      const url = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&prompt=login&response_type=code&state=${state}`;
       setKakaoURL(url);
     }
   }, [prevPage, nextPage]);

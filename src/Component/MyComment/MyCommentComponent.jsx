@@ -37,9 +37,27 @@ const MyCommentComponent = () => {
   };
 
   return (
-    <div className="max-w-[700px] mx-auto px-4 py-6 font-pretendard">
-      <h2 className="  text-2xl font-semibold mb-6 text-gray-800">나의 댓글</h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div className=" lg:px-4 lg:py-6 font-pretendard">
+      <div className="flex">
+        {" "}
+        <div className="flex flex-col w-full gap-2   text-lg lg:text-2xl font-semibold ">
+          <div> 나의 댓글 </div>{" "}
+          <span className="text-xs lg:text-sm text-gray-400 font-medium">
+            나의 댓글 활동 내역을 확인할 수 있어요!
+          </span>
+        </div>
+        <div className="w-full flex justify-end ">
+          {" "}
+          <div
+            // onClick={deleteRecipe}
+            className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
+          >
+            삭제{" "}
+          </div>{" "}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {comments.map((comment) => (
           <div
             key={comment.comment_id}

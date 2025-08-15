@@ -163,10 +163,12 @@ const Recipepage = () => {
                   </motion.div>
                 ))
               ) : (
-                <div className="col-span-2 text-center text-gray-500 text-lg mt-10">
-                  {isSearching
-                    ? "검색 결과가 없습니다."
-                    : "등록된 레시피가 없습니다."}
+                <div className="col-span-full flex items-center justify-center py-16 md:py-24">
+                  <p className="text-gray-500 text-lg">
+                    {isSearching
+                      ? "검색 결과가 없습니다."
+                      : "등록된 레시피가 없습니다."}
+                  </p>
                 </div>
               )}
             </div>
