@@ -117,7 +117,7 @@ const SearchContainer = () => {
                   <CommentUserIcon />{" "}
                 </div>
               ) : (
-                <div className="mr-4 min-w-[140px] whitespace-nowrap font-pretendard border-gray-400 border-2 hover:bg-gray-100 text-black text-sm lg:text-base px-4 py-2 h-12 rounded-3xl font-black">
+                <div className="mr-4 min-w-[140px] whitespace-nowrap font-pretendard border-gray-400 border-2 hover:bg-[#F8F8F8] text-black text-sm lg:text-base px-4 py-2 h-12 rounded-3xl font-black">
                   로그인 / 회원가입
                 </div>
               )}

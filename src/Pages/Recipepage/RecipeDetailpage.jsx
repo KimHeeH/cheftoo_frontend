@@ -175,13 +175,20 @@ const RecipeDetailpage = () => {
         `${process.env.REACT_APP_API_BASE_URL}/recipe/${recipeId}/comment/`,
         { withCredentials: true }
       );
-      setCommentList(response.data);
+
+      const sortedComment = response.data.sort((a, b) => {
+        return (
+          new Date(a.data_created).getTime() -
+          new Date(b.data_created).getTime()
+        );
+      });
+      setCommentList(sortedComment);
       console.log(response.data);
     } catch (error) {
       console.error("레시피 댓글 가져오기 실패", error);
     }
   };
-  // const updateComment = async (comment_id,comment) => {
+
   //   try {
   //     const response = await axiosInstance.put(
   //       "/comment",

@@ -25,7 +25,7 @@ const NicknamePage = () => {
   };
   const updateNickname = async (nickname) => {
     try {
-      const res = await axiosInstance.put("/auth/nickname", null, {
+      const res = await axiosInstance.put("/member/nickname", null, {
         params: { nickname },
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -34,7 +34,7 @@ const NicknamePage = () => {
       });
       alert("닉네임이 변경되었습니다.");
       const response = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/auth/nickname`,
+        `${process.env.REACT_APP_API_BASE_URL}/member/nickname`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

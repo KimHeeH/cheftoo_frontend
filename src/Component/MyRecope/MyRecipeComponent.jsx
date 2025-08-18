@@ -44,7 +44,9 @@ const MyRecipeComponent = () => {
   const fetchMyRecipe = async () => {
     try {
       const response = await axiosInstance.get("/recipe/member");
-      setMyRecipe(response.data);
+      console.log("myRecipe response:", response.data); // 👈 이거 추가
+
+      setMyRecipe(response.data.content);
     } catch (error) {
       console.error("fetchMyRecipe 실패");
     }
@@ -87,7 +89,7 @@ const MyRecipeComponent = () => {
 
       {/* 레시피 리스트 */}
       <div className="mt-6 gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-        {myRecipe.map((recipe) => (
+        {myRecipe?.map((recipe) => (
           <div
             key={recipe.recipe_id}
             onClick={() => handleRecipeDetail(recipe.recipe_id)}

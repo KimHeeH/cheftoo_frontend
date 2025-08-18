@@ -205,7 +205,7 @@ const NicknamePage = () => {
                 </button>
               </li>
               {openTerm === "privacy" && (
-                <div className="mt-2 p-3 bg-gray-50 rounded-md text-sm text-gray-700">
+                <div className="lg:h-64 overflow-y-auto mt-2 p-3 bg-gray-50 rounded-md text-sm text-gray-700">
                   [Cheftoo] 개인정보 처리방침 Cheftoo(이하 ‘서비스’)는
                   「개인정보 보호법」 등 관련 법령을 준수하며, 이용자의
                   개인정보를 안전하게 보호하기 위해 다음과 같은 방침을
@@ -268,7 +268,7 @@ const NicknamePage = () => {
                 </button>
               </li>
               {openTerm === "tos" && (
-                <div className="mt-2 p-3 bg-gray-50 rounded-md text-sm text-gray-700">
+                <div className="lg:h-64 overflow-y-auto mt-2 p-3 bg-gray-50 rounded-md text-sm text-gray-700">
                   제 1 장 총칙 제 1 조 (목적) 본 약관은 웹 사이트
                   (https://www.cheftoo.co.kr)의 제반 서비스의 이용조건 및 절차에
                   관한 사항 및 기타 필요한 사항을 규정함을 목적으로 한다. 제 2

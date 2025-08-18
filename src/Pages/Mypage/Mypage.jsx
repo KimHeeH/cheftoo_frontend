@@ -164,9 +164,21 @@ const Mypage = () => {
 
             <div className="flex gap-3 mt-1" onClick={() => openEditMenu()}>
               {!isEditMenuOpen && (
-                <button className="rounded-xl px-4 py-2 border border-gray-300 text-sm text-gray-800 hover:bg-gray-100">
-                  회원정보 수정
-                </button>
+                <div className="flex gap-3">
+                  {" "}
+                  <button className="font-semibold rounded-xl px-4 py-2 border border-gray-300 text-sm text-gray-800 hover:bg-gray-100">
+                    회원정보 수정
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowLogoutModal(true);
+                    }}
+                    className="font-semibold rounded-xl px-4 py-2 border border-gray-300 text-sm text-gray-800 hover:bg-gray-100"
+                  >
+                    로그아웃
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -256,23 +268,6 @@ const Mypage = () => {
                 </span>
                 <div className="text-left">
                   <div className="font-semibold">닉네임 변경</div>
-                </div>
-              </div>
-              <span className="opacity-0 group-hover:opacity-100 transition">
-                ›
-              </span>
-            </button>
-
-            <button
-              onClick={() => setShowLogoutModal(true)}
-              className="group flex items-center justify-between rounded-2xl border border-gray-200 px-4 py-4 hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 transition"
-            >
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200">
-                  🚪
-                </span>
-                <div className="text-left">
-                  <div className="font-semibold">로그아웃</div>
                 </div>
               </div>
               <span className="opacity-0 group-hover:opacity-100 transition">

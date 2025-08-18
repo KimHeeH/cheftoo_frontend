@@ -1,6 +1,5 @@
 import React from "react";
-import { useState } from "react";
-
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
 import { useEffect } from "react";
@@ -28,18 +27,74 @@ const RecommendedRecipe = () => {
     navigate(`/recipes/${recipe_id}`);
   };
 
-  const renderVideos = (videoIds) => {
-    videoIds.forEach((id) => {
-      console.log("렌더링할 비디오 ID:", id);
-      // 실제 렌더링 작업
-    });
+  const railRef = useRef(null);
+  const [playingId, setPlayingId] = useState(null);
+  const VideoCard = ({ id, isPlaying, onPlay }) => {
+    return (
+      <div className="group relative w-[260px] lg:w-[500px] h-[160px] lg:h-[300px] flex-shrink-0 snap-start rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+        {!isPlaying ? (
+          <button
+            type="button"
+            onClick={onPlay}
+            className="w-full h-full text-left"
+          >
+            <img
+              src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+              alt="youtube thumbnail"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition" />
+            <div className="absolute inset-0 grid place-items-center">
+              <div className="rounded-full bg-white/90 p-3 shadow group-hover:scale-105 transition">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+          </button>
+        ) : (
+          <div className="w-full h-full">
+            <YouTube
+              videoId={id}
+              className="w-full h-full"
+              opts={{
+                width: "100%",
+                height: "100%",
+                playerVars: { autoplay: 1, rel: 0, modestbranding: 1 },
+              }}
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // 좌우 스크롤
+  const scrollRail = (dir = 1) => {
+    const el = railRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * (el.clientWidth * 0.9), behavior: "smooth" });
+  };
+
+  const extractYoutubeIds = (payload) => {
+    const text = Array.isArray(payload?.video_id_list)
+      ? String(payload.video_id_list[0] ?? "")
+      : String(payload ?? "");
+    const ids = text.match(/[A-Za-z0-9_-]{11}/g) || [];
+    return Array.from(new Set(ids));
   };
 
   useEffect(() => {
     const loadYoutubeVideos = async () => {
       const cached = localStorage.getItem("youtubeVideos");
-      // const response = await axios.get("/youtube/home-videos");
-      // console.log(response.data);
+      console.log(cached);
+
       // 캐시 없음 → 버전 + 영상 목록 호출 후 저장
       if (!cached) {
         try {
@@ -48,10 +103,9 @@ const RecommendedRecipe = () => {
             axiosInstance.get("/youtube/home-videos"),
           ]);
 
-          const version = versionRes.data; // 문자열
-          const ids = Array.isArray(videosRes.data?.video_id_list)
-            ? videosRes.data.video_id_list
-            : [];
+          const version = versionRes.data;
+
+          const ids = extractYoutubeIds(videosRes.data);
 
           localStorage.setItem(
             "youtubeVideos",
@@ -72,12 +126,15 @@ const RecommendedRecipe = () => {
           responseType: "text",
         });
         const version = versionRes.data;
-
+        console.log(versionRes.data);
         if (version !== cachedVersion) {
           const videosRes = await axiosInstance.get("/youtube/home-videos");
-          const ids = Array.isArray(videosRes.data?.video_id_list)
-            ? videosRes.data.video_id_list
-            : [];
+          console.log(
+            "videosRes.data?.video_id_list",
+            videosRes.data?.video_id_list
+          );
+
+          const ids = extractYoutubeIds(videosRes.data);
 
           localStorage.setItem(
             "youtubeVideos",
@@ -92,9 +149,7 @@ const RecommendedRecipe = () => {
         try {
           const { videoIds } = JSON.parse(cached);
           setYoutubeList(Array.isArray(videoIds) ? videoIds : []);
-        } catch {
-          // 캐시 파싱도 실패할 경우 무시
-        }
+        } catch {}
       }
     };
 
@@ -107,7 +162,6 @@ const RecommendedRecipe = () => {
         `${process.env.REACT_APP_API_BASE_URL}/recipe/popular-top10`
       );
       setPopularRecipeList(response.data);
-      // console.log(response.data);
     } catch (error) {
       console.error("인기 레시피 불러오기 오류");
     }
@@ -119,16 +173,6 @@ const RecommendedRecipe = () => {
     fetchPopularRecipe();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchYoutubeVideo = async () => {
-  //     const response = await axios.get(
-  //       "http://localhost:8080/api/youtube/home-videos"
-  //     );
-  //     setYoutubeList(response.data);
-  //     console.log(response.data);
-  //   };
-  //   fetchYoutubeVideo();
-  // });
   return (
     <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
       <div className="flex lg:gap-3 lg:flex-row flex-col w-full mt-8 h-[550px] lg:h-[680px]">
@@ -163,20 +207,17 @@ const RecommendedRecipe = () => {
             </button>
           </div>
         </div>
-        <div className="lg:w-2/3 h-full  flex items-center justify-center border mt-4 mb-4 lg:mb-0 lg:mt-0">
-          <div className="relative ">
+        <div className="lg:w-2/3 flex items-center justify-center mt-4 mb-4 lg:mb-0 lg:mt-0">
+          <div className="relative w-full">
             {popularRecipeList.length > 0 ? (
               <Swiper
+                className="h-[600px] lg:h-[680px]"
                 slidesPerView={1.3}
-                grabCursor={true}
+                grabCursor
                 spaceBetween={20}
                 modules={[Autoplay]}
-                onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
                 loop={false}
-                autoplay={{
-                  delay: 2000,
-                  disableOnInteraction: false,
-                }}
+                autoplay={{ delay: 2000, disableOnInteraction: false }}
                 breakpoints={{
                   0: {
                     slidesPerView: 1,
@@ -184,59 +225,53 @@ const RecommendedRecipe = () => {
                     centeredSlides: true,
                   },
                   640: {
-                    spaceBetween: 50,
                     slidesPerView: 1.2,
+                    spaceBetween: 50,
                     centeredSlides: false,
                   },
                   1024: {
-                    spaceBetween: 10,
                     slidesPerView: 1.3,
+                    spaceBetween: 15,
                     centeredSlides: false,
                   },
                 }}
               >
                 {popularRecipeList.map((recipe, index) => (
-                  <SwiperSlide
-                    className="!h-auto"
-                    autoHeight={true}
-                    key={recipe.recipe_id}
-                  >
-                    <div className="flex flex-col gap-4  lg:gap-0 h-full">
-                      {" "}
-                      <motion.div
+                  <SwiperSlide key={recipe.recipe_id} className="h-full">
+                    {" "}
+                    {/* ✅ slide 높이 고정 */}
+                    <div className="flex flex-col gap-4 h-full">
+                      <div
                         key={recipe.recipe_id}
-                        className="w-full"
-                        initial={{ opacity: 0, y: 0 }}
-                        whileInView={{ opacity: 1, y: 30 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 1, delay: index * 0.1 }}
+                        className="h-[250px] lg:h-[600px]"
                       >
                         <div
                           onClick={() => handleRecipeDetail(recipe.recipe_id)}
-                          className="p-2 h-[250px] lg:h-[600px] rounded-3xl"
+                          className="p-2 h-full rounded-3xl w-full"
                           onMouseEnter={() => setHoveredIndex(index)}
                           onMouseLeave={() => setHoveredIndex(null)}
                         >
                           <img
-                            src={recipe?.img_path || firstImg} // img_path가 없을 경우 기본 이미지
+                            src={recipe?.img_path || firstImg}
                             alt={`slide-${index}`}
-                            className={`h-full w-full lg:w-full lg:h-full object-cover rounded-3xl transition-all duration-300 ${
+                            className={`h-full w-full object-cover rounded-3xl transition-all duration-300 ${
                               hoveredIndex === index
-                                ? "scale-105 hover:rounded-[2.5rem] "
+                                ? "scale-105 hover:rounded-[2.5rem]"
                                 : "rounded-3xl"
                             }`}
                           />
-                        </div>{" "}
-                      </motion.div>
-                      <div className="px-4  flex flex-col">
-                        {" "}
-                        <div className=" lg:p-2 z-10">
-                          <span className=" font-pretendard text-darkText text-base lg:text-3xl font-bold ">
+                        </div>
+                      </div>
+
+                      {/* 텍스트 영역 */}
+                      <div className="px-4 flex flex-col">
+                        <div className="lg:p-2 z-10">
+                          <span className="font-pretendard text-darkText text-base lg:text-3xl font-bold">
                             {recipe.recipe_title}
                           </span>
                         </div>
-                        <div className=" lg:p-2 z-10">
-                          <span className=" font-pretendard text-subText text-sm  lg:text-2xl font-bold ">
+                        <div className="lg:p-2 z-10">
+                          <span className="font-pretendard text-subText text-sm lg:text-2xl font-bold">
                             {recipe.recipe_content}
                           </span>
                         </div>
@@ -244,27 +279,14 @@ const RecommendedRecipe = () => {
                     </div>
                   </SwiperSlide>
                 ))}
-                {popularRecipeList.length > 1 && (
-                  <div className="flex justify-center mt-4 gap-2">
-                    {popularRecipeList.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => swiperRef?.slideToLoop(index)}
-                        className="focus:outline-none"
-                      >
-                        {activeIndex === index ? <DotFilled /> : <DotEmpty />}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </Swiper>
             ) : (
-              <div className="font-pretendard flex flex-col gap-3 items-center h-full w-full text-center text-gray-400">
+              <div className="font-pretendard flex flex-col gap-3 items-center justify-center h-[600px] w-full text-center text-gray-400">
                 <CircleXIcon />
-                <div> 인기 레시피가 없습니다</div>
+                <div>인기 레시피가 없습니다</div>
               </div>
             )}
-          </div>{" "}
+          </div>
         </div>
       </div>
 
@@ -277,18 +299,47 @@ const RecommendedRecipe = () => {
         </p>
       </div>
 
-      <div className="flex gap-10 overflow-x-auto no-scrollbar py-4">
-        {youtubeList?.map((videoId, index) => (
-          <div
-            key={index}
-            className="min-w-[100px] lg:min-w-[500px] h-[160px] lg:h-[300px]"
-          >
-            <YouTube
-              videoId={videoId}
-              opts={{ width: "100%", height: "160" }}
+      <div className="relative">
+        {/* 좌측/우측 페이드 그라데이션 */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-white lg:from-[#f9fafb] to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-white lg:from-[#f9fafb] to-transparent" />
+
+        {/* 좌/우 버튼 (모바일에서는 숨김) */}
+        <button
+          type="button"
+          aria-label="왼쪽으로 이동"
+          onClick={() => scrollRail(-1)}
+          className="hidden lg:grid place-items-center absolute -left-3 top-1/2 -translate-y-1/2 size-10 rounded-full bg-white shadow ring-1 ring-black/5 hover:scale-105 transition"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          aria-label="오른쪽으로 이동"
+          onClick={() => scrollRail(1)}
+          className="hidden lg:grid place-items-center absolute -right-3 top-1/2 -translate-y-1/2 size-10 rounded-full bg-white shadow ring-1 ring-black/5 hover:scale-105 transition"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+        </button>
+
+        {/* 비디오레일 */}
+        <div
+          ref={railRef}
+          className="flex gap-4 lg:gap-6 overflow-x-auto no-scrollbar py-4 px-1 scroll-smooth snap-x snap-mandatory"
+        >
+          {youtubeList?.map((videoId) => (
+            <VideoCard
+              key={videoId}
+              id={videoId}
+              isPlaying={playingId === videoId}
+              onPlay={() => setPlayingId(videoId)}
             />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
