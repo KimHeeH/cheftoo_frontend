@@ -23,6 +23,8 @@ const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const location = useLocation();
   const commentRef = useRef(null);
+  const [isNoFolderModalOpen, setIsNoFolderModalOpen] = useState(false);
+
   useEffect(() => {
     if (location.state?.scrollToComment && commentRef.current) {
       setTimeout(() => {
@@ -63,7 +65,6 @@ const RecipeDetailpage = () => {
     const [year, month, day] = datePart.split("-").map((v) => parseInt(v, 10));
     const [hours, minutes] = timePart.split(":").map((v) => parseInt(v, 10));
 
-    // 2자리로 맞추기
     const yy = String(year).padStart(2, "0");
     const mm = String(month).padStart(2, "0");
     const dd = String(day).padStart(2, "0");
@@ -83,25 +84,54 @@ const RecipeDetailpage = () => {
       navigate("/mypage");
       return;
     }
-    setBookmark(!bookmark);
-    setSelectedRecipeId(recipeId);
+
     if (bookmark) {
       try {
-        const response = await axiosInstance.delete(`member/scrap/recipe`, {
-          headers: { "Content-type": "application/json" },
-          data: {
-            scrapId: selectedScrapId,
-            recipeIdList: [recipeId],
-          },
+        if (!selectedScrapId) {
+          alert(
+            "스크랩 정보를 찾을 수 없습니다. 스크랩 페이지에서 삭제해주세요"
+          );
+          return;
+        }
+        await axiosInstance.delete(`member/scrap/recipe`, {
+          headers: { "Content-Type": "application/json" },
+          data: { scrapId: selectedScrapId, recipeIdList: [recipeId] },
         });
+        setBookmark(false);
+        setSelectedScrapId(null);
         await fetchRecipe();
         setSelectedScrapId(null);
       } catch (err) {
-        console.error("북마크 ");
+        console.error("북마크 해제 실패", err);
+        alert("북마크 해제에 실패했습니다. 잠시 후 다시 시도해주세요.");
       }
+      return;
     }
+    if (!folders || folders.length === 0) {
+      setIsNoFolderModalOpen(true);
+      return;
+    }
+    setSelectedRecipeId(recipeId);
+
     setIsScrapModalOpen(true);
+    const latestFolders = await fetchFolders();
+    if (!latestFolders || latestFolders.length === 0) {
+      setIsNoFolderModalOpen(true); // 폴더 없음 전용 모달
+      return; // 선택 모달 열지 않고 종료
+    }
+    setSelectedRecipeId(recipeId);
+    setIsScrapModalOpen(true); // 폴더 선택 모달 열기
+  }; // 컴포넌트 내부 어딘가 (fetchRecipe 등과 같은 레벨)
+  const fetchFolders = async () => {
+    const res = await axiosInstance.get("/member/scrap");
+    const mapped = res.data.map((folder, index) => ({
+      ...folder,
+      index: index + 1,
+    }));
+    setFolders(mapped);
+    return mapped; // ← 최신값을 즉시 사용하기 위해 반환
   };
+
   const uploadComment = async () => {
     console.log("setCommnet", comment);
     try {
@@ -464,7 +494,35 @@ const RecipeDetailpage = () => {
           </div>
         </div>
       </div>
-      {isScrapModalOpen && bookmark && (
+      {isNoFolderModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="w-[90%] max-w-[420px] bg-white p-6 rounded-2xl shadow-lg">
+            <h3 className="text-xl font-semibold mb-2">스크랩 폴더가 없어요</h3>
+            <p className="text-gray-600 mb-6">
+              레시피를 스크랩하려면 먼저 폴더를 만들어야 해요.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setIsNoFolderModalOpen(false)}
+                className="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"
+              >
+                취소
+              </button>
+              <button
+                onClick={() => {
+                  setIsNoFolderModalOpen(false);
+                  navigate("/mypage");
+                }}
+                className="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brandDark"
+              >
+                폴더 만들러 가기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isScrapModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="w-[90%] max-w-[480px] bg-white p-6 rounded-2xl shadow-lg">
             {/* 모달 헤더 */}

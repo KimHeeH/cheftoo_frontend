@@ -57,25 +57,24 @@ const MyRecipeComponent = () => {
   }, []);
   return (
     <div className="font-pretendard ">
-      <div className="flex">
+      {" "}
+      <div className="flex items-start">
         {" "}
-        <div className="flex flex-col w-full gap-2   text-lg lg:text-2xl font-semibold ">
-          <div> 나의 레시피 </div>{" "}
-          <span className="text-xs lg:text-sm text-gray-400 font-medium">
+        <div className="flex-1 min-w-0 flex flex-col gap-2 text-lg lg:text-2xl font-semibold">
+          <div> 나의 레시피 </div>
+          <span className="text-sm lg:text-lg text-gray-400 font-medium">
             내가 등록한 레시피를 확인해보세요
           </span>
         </div>
-        <div className="w-full flex justify-end ">
-          {" "}
+        <div className="shrink-0 ml-auto">
           <div
             onClick={deleteRecipe}
             className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
           >
-            삭제{" "}
-          </div>{" "}
+            삭제
+          </div>
         </div>
       </div>
-
       <div className="flex flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
         <div className="flex items-center h-10 gap-2">
           <div className="cursor-pointer" onClick={toggleAllBox}>
@@ -86,7 +85,6 @@ const MyRecipeComponent = () => {
           </div>
         </div>
       </div>
-
       {/* 레시피 리스트 */}
       <div className="mt-6 gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {myRecipe?.map((recipe) => (

@@ -35,7 +35,7 @@ const Mypage = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isEditMenuOpen, setIsEditMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const [selected, setSelected] = useState("recipe");
+  const [selected, setSelected] = useState("scrap");
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const kakaoLogin = useKakaoLogin("/mypage", "");
@@ -194,7 +194,7 @@ const Mypage = () => {
                 className={`absolute top-0 left-0 w-1/3 h-full bg-brand rounded-full transition-transform duration-300 ease-in-out z-0`}
                 style={{
                   transform:
-                    selected === "scrap"
+                    selected === "recipe"
                       ? "translateX(100%)"
                       : selected === "comment"
                       ? "translateX(200%)"
@@ -202,14 +202,7 @@ const Mypage = () => {
                 }}
               />
               {/* 탭 버튼들 */}
-              <div
-                onClick={() => setSelected("recipe")}
-                className={`w-1/3 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
-                  selected === "recipe" ? "text-white" : "text-gray-700"
-                }`}
-              >
-                나의 레시피
-              </div>
+
               <div
                 onClick={() => setSelected("scrap")}
                 className={`w-1/3 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
@@ -217,6 +210,14 @@ const Mypage = () => {
                 }`}
               >
                 나의 스크랩
+              </div>
+              <div
+                onClick={() => setSelected("recipe")}
+                className={`w-1/3 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
+                  selected === "recipe" ? "text-white" : "text-gray-700"
+                }`}
+              >
+                나의 레시피
               </div>
               <div
                 onClick={() => setSelected("comment")}

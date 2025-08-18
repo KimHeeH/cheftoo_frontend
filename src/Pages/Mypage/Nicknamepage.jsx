@@ -113,15 +113,12 @@ const NicknamePage = () => {
   };
 
   return (
-    <div className="font-pretendard">
-      <div className="py-3 border-b border-gray-200 lg:border-0">
-        <SearchContainer />
-      </div>
-      <Menubar />
+    <div className="font-pretendard pb-20">
+      <SearchContainer />
 
       <div className="container ">
         {/* 상단 이미지/타이틀 */}
-        <div className="h-1/2 flex flex-col items-center mt-24 lg:mt-4 px-4">
+        <div className="h-1/2 flex flex-col items-center lg:mt-4 px-4">
           {" "}
           <div className="flex">
             <img src={img} width={150} alt="welcome" />
@@ -139,17 +136,17 @@ const NicknamePage = () => {
               }}
               value={nickname}
               placeholder="닉네임을 입력하세요"
-              className="flex-1 border  sm:w-20 md:w-60 border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand"
+              className="flex-1 border w-16  sm:w-20 md:w-60 border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand"
             />
             <button
               type="button"
               onClick={() => handleCheckUsername(nickname)}
-              className="bg-[#EEEEEE] text-darkText rounded-xl w-24 lg:w-28  px-4 py-3 hover:bg-gray-200"
+              className="bg-[#EEEEEE] text-darkText rounded-xl w-auto lg:w-28  px-4 py-3 hover:bg-gray-200"
             >
               중복확인
             </button>
           </div>
-          <div className="w-full  max-w-[640px] mx-auto text-sm mt-2">
+          <div className="w-full  max-w-[640px] mx-auto text-sm mt-8 lg:mt-2">
             {" "}
             {checking ? (
               <p className="text-gray-500">중복 확인 중...</p>
@@ -158,7 +155,7 @@ const NicknamePage = () => {
                 이미 사용 중인 닉네임입니다.
               </p>
             ) : (
-              <p className="text-green-600 font-semibold">
+              <p className="text-green-600 text-lg font-semibold">
                 사용 가능한 닉네임입니다.
               </p>
             )}
@@ -166,11 +163,11 @@ const NicknamePage = () => {
         </div>
 
         {/* 동의 섹션 */}
-        <div className="w-full max-w-[640px] mx-auto">
+        <div className="w-full px-4 lg:px-0 lg:max-w-[640px] mx-auto lg:text-lg">
           <div className="rounded-xl border border-gray-200 overflow-hidden bg-white">
             {/* 전체동의 */}
             <div className="flex items-center justify-between px-4 py-3 border-b">
-              <label className="flex items-center gap-3 text-[15px] font-semibold">
+              <label className="flex items-center gap-3  font-semibold">
                 <input
                   type="checkbox"
                   checked={allChecked}
@@ -191,7 +188,7 @@ const NicknamePage = () => {
                     onChange={() => toggle("privacy")}
                     className="h-4 w-4 accent-green-600"
                   />
-                  <div className="text-[14px]">
+                  <div>
                     <span className="font-medium">개인정보 처리방침</span>{" "}
                     <span className="text-gray-500">(필수)</span>
                   </div>
@@ -254,7 +251,7 @@ const NicknamePage = () => {
                     onChange={() => toggle("tos")}
                     className="h-4 w-4 accent-green-600"
                   />
-                  <div className="text-[14px]">
+                  <div>
                     <span className="font-medium">서비스 이용약관</span>{" "}
                     <span className="text-gray-500">(필수)</span>
                   </div>
