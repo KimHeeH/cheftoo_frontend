@@ -5,6 +5,7 @@ import {
   FolderIcon,
   FolderNameIcon,
   PencilIcon,
+  SelectedXIcon,
   XIcon,
 } from "../Menubar/Icon/Icon";
 import { useState } from "react";
@@ -18,6 +19,10 @@ const MyScrapComponent = () => {
   const [editableFolderId, setEditableFolderId] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
   const [isReadOnly, setIsReadOnly] = useState(true);
+  const [hover, setHover] = useState(false);
+  const PAGE_SIZE = 12;
+  const [page, setPage] = useState(0);
+
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
@@ -152,8 +157,7 @@ const MyScrapComponent = () => {
         <div className="flex-1 min-w-0 flex flex-col gap-2 text-lg lg:text-2xl font-semibold">
           <div>나의 스크랩 폴더</div>{" "}
           <span className="text-sm lg:text-lg text-gray-400 font-medium">
-            폴더 상단에 있는 엑스 버튼과 폴더명 좌측과 있는 연필버튼을 누르시면
-            폴더 삭제와 이름 변경 가능합니다.
+            엑스 버튼과 폴더명 연필버튼을 통해 폴더 삭제와 이름 변경 가능합니다.
           </span>
         </div>
         <div className="shrink-0 ml-auto">
@@ -166,28 +170,31 @@ const MyScrapComponent = () => {
         </div>
       </div>
       <div className="lg:w-full flex justify-center mt-4 ">
-        <div className=" w-full  lg:grid lg:grid-cols-3 lg:gap-x-24 lg:gap-y-10">
+        <div className=" w-full grid gap-4 grid-cols-2  lg:grid-cols-3 lg:gap-x-24 lg:gap-y-10">
           {/* 폴더*/}
           {folders.map((folder, key, index) => (
-            <div className="relative w-full py-4">
-              <button
-                type="button"
-                aria-label="폴더 삭제"
-                className="absolute top-5 right-[-30px] p-1 rounded hover:bg-white/60"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteScrap(folder.scrap_id);
-                }}
-              >
-                <XIcon />
-              </button>
+            <div className=" w-full py-4" key={folder.scrap_id}>
               <div
-                className=" w-full h-60 rounded-[2rem]  border hover:bg-gray-100 cursor-pointer"
+                className="relative w-full h-28 lg:h-60 border cursor-pointer"
                 onClick={() =>
                   handleFolderClick(folder.scrap_id, folder.scrap_name)
                 }
                 key={folder.scrap_id}
               >
+                {" "}
+                <button
+                  type="button"
+                  onMouseEnter={() => setHover(true)}
+                  onMouseLeave={() => setHover(false)}
+                  aria-label="폴더 삭제"
+                  className="absolute top-2 right-2 inline-flex items-center justify-center w-8 h-8 "
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteScrap(folder.scrap_id);
+                  }}
+                >
+                  {hover ? <SelectedXIcon /> : <XIcon />}
+                </button>
                 <div className="w-full flex justify-center h-full items-center">
                   {" "}
                   <FolderNameIcon />

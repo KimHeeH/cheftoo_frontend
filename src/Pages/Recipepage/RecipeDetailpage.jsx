@@ -23,8 +23,20 @@ const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const location = useLocation();
   const commentRef = useRef(null);
+  const [memberId, setMemberId] = useState();
   const [isNoFolderModalOpen, setIsNoFolderModalOpen] = useState(false);
-
+  useEffect(() => {
+    const fetchMemberId = async () => {
+      try {
+        const response = await axiosInstance.get("/member/me");
+        setMemberId(response.data);
+        console.log(memberId);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchMemberId();
+  }, []);
   useEffect(() => {
     if (location.state?.scrollToComment && commentRef.current) {
       setTimeout(() => {

@@ -12,7 +12,7 @@ const MyCommentComponent = () => {
       const response = await axiosInstance.get("/member/comment");
       setComments(response.data);
 
-      console.log(response.data);
+      console.log(response.data.content);
     } catch (error) {
       console.error("fetchComment 오류", error);
     }
@@ -53,12 +53,12 @@ const MyCommentComponent = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:mt-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:mt-5 pb-24 lg:pb-0 px-3">
         {comments.map((comment) => (
           <div
             key={comment.comment_id}
             onClick={() => handleRecipeDetail(comment.recipe_id)}
-            className="cursor-pointer flex flex-col border border-gray-200 rounded-xl shadow-sm hover:scale-105 transition-all duration-300 bg-white overflow-hidden"
+            className="cursor-pointer mt-8 lg:mt-0 flex flex-col border border-gray-200 rounded-xl shadow-sm hover:scale-105 transition-all duration-300 bg-white overflow-hidden"
           >
             <img
               src={comment.img_path}
@@ -68,11 +68,11 @@ const MyCommentComponent = () => {
             <div className="px-4 pt-3 text-lg font-bold text-gray-900 truncate">
               {comment.recipe_title}
             </div>
-            <div className="p-4 flex flex-col gap-1">
+            <div className="px-4 flex flex-col gap-1">
               <div className="text-sm text-gray-500">
                 🗓 {formatTimestamp(comment.data_created)}
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="flex items-center gap-2 mb-2 text-sm text-gray-700">
                 <span className="font-semibold">
                   {comment.nick_name || "익명"}님
                 </span>

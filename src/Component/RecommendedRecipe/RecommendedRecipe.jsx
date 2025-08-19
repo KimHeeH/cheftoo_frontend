@@ -175,7 +175,7 @@ const RecommendedRecipe = () => {
 
   return (
     <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
-      <div className="flex lg:gap-3 lg:flex-row flex-col w-full mt-8 h-[550px] lg:h-[680px]">
+      <div className="flex lg:gap-3 lg:flex-row flex-col w-full mt-8 h-[500px] lg:h-[680px]">
         {" "}
         <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4 pr-4 ">
           <span className="font-pretendard text-xl lg:text-3xl lg:mb-8 font-bold text-brandDark">
@@ -207,11 +207,11 @@ const RecommendedRecipe = () => {
             </button>
           </div>
         </div>
-        <div className="lg:w-2/3 flex items-center justify-center mt-4 mb-4 lg:mb-0 lg:mt-0">
+        <div className="lg:w-2/3 flex items-center justify-center mt-4  lg:mb-0 lg:mt-0">
           <div className="relative w-full">
             {popularRecipeList.length > 0 ? (
               <Swiper
-                className="h-[600px] lg:h-[680px]"
+                className="h-[310px] lg:h-[680px]"
                 slidesPerView={1.3}
                 grabCursor
                 spaceBetween={20}
@@ -299,9 +299,8 @@ const RecommendedRecipe = () => {
         </p>
       </div>
 
-      <div className="relative">
+      <div className="relative px-20">
         {/* 좌측/우측 페이드 그라데이션 */}
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-white lg:from-[#f9fafb] to-transparent" />
         <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-white lg:from-[#f9fafb] to-transparent" />
 
         {/* 좌/우 버튼 (모바일에서는 숨김) */}
@@ -309,9 +308,9 @@ const RecommendedRecipe = () => {
           type="button"
           aria-label="왼쪽으로 이동"
           onClick={() => scrollRail(-1)}
-          className="hidden lg:grid place-items-center absolute -left-3 top-1/2 -translate-y-1/2 size-10 rounded-full bg-white shadow ring-1 ring-black/5 hover:scale-105 transition"
+          className="z-[99] hidden lg:grid place-items-center absolute -left-1 top-1/2 -translate-y-1/2 size-10 rounded-full bg-white shadow ring-1 ring-black/5 hover:scale-105 transition"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
@@ -319,9 +318,9 @@ const RecommendedRecipe = () => {
           type="button"
           aria-label="오른쪽으로 이동"
           onClick={() => scrollRail(1)}
-          className="hidden lg:grid place-items-center absolute -right-3 top-1/2 -translate-y-1/2 size-10 rounded-full bg-white shadow ring-1 ring-black/5 hover:scale-105 transition"
+          className="z-[99] hidden lg:grid place-items-center absolute -right-1 top-1/2 -translate-y-1/2 size-10 rounded-full bg-white shadow ring-1 ring-black/5 hover:scale-105 transition"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
             <path d="M9 6l6 6-6 6" />
           </svg>
         </button>

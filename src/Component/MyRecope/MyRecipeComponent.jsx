@@ -86,7 +86,7 @@ const MyRecipeComponent = () => {
         </div>
       </div>
       {/* 레시피 리스트 */}
-      <div className="mt-6 gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-6 gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 px-3 pb-24 lg:pb-0">
         {myRecipe?.map((recipe) => (
           <div
             key={recipe.recipe_id}
@@ -116,7 +116,7 @@ const MyRecipeComponent = () => {
             </div>
 
             {/* 텍스트 영역 */}
-            <div className="p-4 flex flex-col gap-2">
+            <div className="px-4 py-2 flex flex-col">
               <h3 className="text-lg lg:text-xl font-bold text-gray-800 truncate">
                 {recipe.recipe_title}
               </h3>

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import todaysIcon from "../img/Today’s.svg";
-import recipeIcon from "../img/Recipe.svg";
+import todaysIcon from "./logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./SearchContainer.style.css";
 import { useNavigate } from "react-router-dom";
@@ -73,17 +72,12 @@ const SearchContainer = () => {
           {/* 로고 */}
           <div
             onClick={goHomePage}
-            className="ml-20 mr-40 flex w-[280px] items-center cursor-pointer h-12"
+            className="ml-20 mr-40 flex w-[280px] items-center cursor-pointer h-12  "
           >
             <img
-              className="w-32 min-w-32 max-w-32"
+              className="w-[100px] min-w-[200px] max-w-[200px]"
               src={todaysIcon}
-              alt="Today’s Icon"
-            />
-            <img
-              className="w-32 min-w-32 max-w-32"
-              src={recipeIcon}
-              alt="Recipe Icon"
+              alt="logo"
             />
           </div>
           <div className="flex-1">
@@ -98,7 +92,7 @@ const SearchContainer = () => {
                       location.pathname === path
                         ? "text-brand"
                         : "text-subText hover:text-brand"
-                    }  cursor-pointer text-xl font-pretendard font-bold whitespace-nowrap`}
+                    }  cursor-pointer text-2xl font-pretendard font-bold whitespace-nowrap`}
                   >
                     {label}
                   </span>
@@ -147,8 +141,7 @@ const SearchContainer = () => {
               onClick={goHomePage}
               className="flex items-center cursor-pointer h-12"
             >
-              <img className="w-20 mr-2" src={todaysIcon} alt="Today’s Icon" />
-              <img className="w-20" src={recipeIcon} alt="Recipe Icon" />
+              <img className="w-40 mr-2" src={todaysIcon} alt="Today’s Icon" />
             </div>
             {/* 로그인 */}
             <div>
