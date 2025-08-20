@@ -132,7 +132,7 @@ const Recipepage = () => {
           </div>
 
           {keyword && (
-            <div className="  mt-4 text-lg flex justify-between items-center mt-3 text-gray-600 text-base">
+            <div className="  mt-4 text-lg flex justify-between items-center mt-3 text-gray-600 text-base  ">
               <span>
                 <span className=" font-semibold text-orange-600">
                   "{keyword}"
@@ -153,24 +153,16 @@ const Recipepage = () => {
           )}
         </div>
         <div>
-          <div className="mx-auto max-w-[1700px] flex lg:pt-5 flex-col  justify-center w-full px-8  ">
+          <div className="mx-auto max-w-[1700px] flex lg:pt-16 flex-col  justify-center w-full px-8 ">
             {!keyword && (
               <div className="w-full flex justify-center  lg:text-2xl text-subText font-bold pb-4">
                 찾으시는 레시피가 있으신가요?
               </div>
             )}
-            <div></div>
-            <div className="border-t pt-4 lg:px-8  grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-10 w-full lg:max-w-[1700px]  lg:pb-[20px]">
+            <div className="border-t lg:pt-8                                lg:px-8  grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-10 w-full lg:max-w-[1700px]  lg:pb-[20px]">
               {displayData.length > 0 ? (
                 displayData.map((recipe, i) => (
-                  <div
-                    key={recipe.recipe_id}
-                    className="w-full"
-                    // initial={{ opacity: 0, y: 30 }}
-                    // whileInView={{ opacity: 1, y: 0 }}
-                    // viewport={{ once: true, amount: 0.3 }}
-                    // transition={{ duration: 0.5, delay: i * 0.1 }}
-                  >
+                  <div key={recipe.recipe_id} className="w-full">
                     <RecipeCard recipe={recipe} />
                   </div>
                 ))

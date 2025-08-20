@@ -74,7 +74,7 @@ const Mypage = () => {
   };
   const handleMemberDelete = async () => {
     try {
-      const response = await axiosInstance.delete("/auth/member/me");
+      const response = await axiosInstance.delete("/member/me");
       if (response.status === 200) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("nickname");

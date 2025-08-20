@@ -19,31 +19,13 @@ import { DotMenuIcon } from "../../Component/Menubar/Icon/Icon";
 import { XIcon } from "../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../api/axiosInstance";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
+import { useMe } from "../../contexts/MeContext";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const location = useLocation();
   const commentRef = useRef(null);
-  const [memberId, setMemberId] = useState();
+  const { me } = useMe();
   const [isNoFolderModalOpen, setIsNoFolderModalOpen] = useState(false);
-  useEffect(() => {
-    const fetchMemberId = async () => {
-      try {
-        const response = await axiosInstance.get("/member/me");
-        setMemberId(response.data);
-        console.log(memberId);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchMemberId();
-  }, []);
-  useEffect(() => {
-    if (location.state?.scrollToComment && commentRef.current) {
-      setTimeout(() => {
-        commentRef.current.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    }
-  }, [location.key]);
   const [recipe, setRecipe] = useState(null);
   const [bookmark, setBookmark] = useState(false);
   const [commentIds, setCommnetIds] = useState("");
@@ -56,6 +38,7 @@ const RecipeDetailpage = () => {
   const [scrapList, setScrapList] = useState([]);
   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
   const [selectedScrapId, setSelectedScrapId] = useState(null);
+
   const navigate = useNavigate();
   const sortedCookingOrder = recipe?.cooking_order
     ? [...recipe.cooking_order].sort((a, b) => a.order - b.order)
@@ -68,6 +51,7 @@ const RecipeDetailpage = () => {
   const closeModal = () => {
     setIsScrapModalOpen(false);
   };
+
   function formatTimestamp(timestamp) {
     if (!timestamp) return "";
 
@@ -128,12 +112,12 @@ const RecipeDetailpage = () => {
     setIsScrapModalOpen(true);
     const latestFolders = await fetchFolders();
     if (!latestFolders || latestFolders.length === 0) {
-      setIsNoFolderModalOpen(true); // 폴더 없음 전용 모달
-      return; // 선택 모달 열지 않고 종료
+      setIsNoFolderModalOpen(true);
+      return;
     }
     setSelectedRecipeId(recipeId);
-    setIsScrapModalOpen(true); // 폴더 선택 모달 열기
-  }; // 컴포넌트 내부 어딘가 (fetchRecipe 등과 같은 레벨)
+    setIsScrapModalOpen(true);
+  };
   const fetchFolders = async () => {
     const res = await axiosInstance.get("/member/scrap");
     const mapped = res.data.map((folder, index) => ({
@@ -141,7 +125,7 @@ const RecipeDetailpage = () => {
       index: index + 1,
     }));
     setFolders(mapped);
-    return mapped; // ← 최신값을 즉시 사용하기 위해 반환
+    return mapped;
   };
 
   const uploadComment = async () => {
@@ -205,6 +189,14 @@ const RecipeDetailpage = () => {
       console.error("레시피 가져오기 실패", error);
     }
   };
+
+  useEffect(() => {
+    if (location.state?.scrollToComment && commentRef.current) {
+      setTimeout(() => {
+        commentRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  }, [location.key]);
   useEffect(() => {
     if (!recipeId) return;
 
@@ -455,54 +447,58 @@ const RecipeDetailpage = () => {
             </div>
           </div>
           <div ref={commentRef} id="comments">
-            {" "}
-            {commentList.map((comment) => (
-              <div
-                key={comment.comment_id}
-                className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 px-4 py-3 mb-4 mt-4"
-              >
-                {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
-                <div className="flex justify-between items-center mb-2">
-                  <div className="flex items-center gap-3">
-                    <CommentUserIcon />
-                    <span className="text-lg font-semibold text-gray-800">
-                      {comment.nick_name}
-                    </span>
-                    <span className="text-base text-gray-400">
-                      {" "}
-                      {comment.data_created
-                        ? formatTimestamp(comment?.data_created)
-                        : "날짜 없음"}
-                    </span>
-                  </div>
-
-                  <div className="relative">
-                    <button onClick={() => openMenuBar(comment.comment_id)}>
-                      {commentIds === comment.comment_id ? (
-                        <XIcon />
-                      ) : (
-                        <DotMenuIcon />
-                      )}
-                    </button>
-                    {commentIds === comment.comment_id && (
-                      <div className="absolute right-0 top-8 w-28 bg-white border border-gray-300 rounded-lg shadow-md z-10">
-                        <div
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => deleteComment(comment.comment_id)}
-                        >
-                          삭제
-                        </div>
+            {commentList.map((comment) => {
+              const myId = me;
+              const canDelete = myId === comment.member_id;
+              return (
+                <div
+                  key={comment.comment_id}
+                  className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 px-4 py-3 mb-4 mt-4"
+                >
+                  {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="flex items-center gap-3">
+                      <CommentUserIcon />
+                      <span className="text-lg font-semibold text-gray-800">
+                        {comment.nick_name}
+                      </span>
+                      <span className="text-base text-gray-400">
+                        {" "}
+                        {comment.data_created
+                          ? formatTimestamp(comment?.data_created)
+                          : "날짜 없음"}
+                      </span>
+                    </div>
+                    {canDelete && (
+                      <div className="relative">
+                        <button onClick={() => openMenuBar(comment.comment_id)}>
+                          {commentIds === comment.comment_id ? (
+                            <XIcon />
+                          ) : (
+                            <DotMenuIcon />
+                          )}
+                        </button>
+                        {commentIds === comment.comment_id && (
+                          <div className="absolute right-0 top-8 w-28 bg-white border border-gray-300 rounded-lg shadow-md z-10">
+                            <div
+                              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                              onClick={() => deleteComment(comment.comment_id)}
+                            >
+                              삭제
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                </div>
 
-                {/* 본문 */}
-                <div className="text-gray-700 text-lg">
-                  {comment.comment_content}
+                  {/* 본문 */}
+                  <div className="text-gray-700 text-lg">
+                    {comment.comment_content}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -554,7 +550,7 @@ const RecipeDetailpage = () => {
                 <div
                   key={folder.scrap_id}
                   onClick={() => handleScrapToFolder(folder.scrap_id)}
-                  className="flex items-center gap-3 px-4 py-3 border rounded-lg cursor-pointer hover:bg-orange-50 transition"
+                  className="flex items-center gap-3 px-4 py-3 border rounded-lg cursor-pointer hover:bg-[#EAF6F2] transition"
                 >
                   <FolderNameIcon fill="#10B981" />
                   <span className="text-base font-medium text-gray-800">
