@@ -1,74 +1,78 @@
+// src/Pages/Mypage/KakaoRedirect.js
 import { useEffect } from "react";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import axiosInstance from "../../api/axiosInstance";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../Component/Loader";
+
 function KakaoRedirect() {
   const setNickname = useSetRecoilState(nicknameState);
-  const accessToken = localStorage.getItem("accessToken");
-  const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from || "/";
-  const selectedRecipeId = location.state?.selectedRecipeId || null;
-  console.log("Redirect from:", from);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const authorizationCode = urlParams.get("code");
-      const state = urlParams.get("state");
-
-      if (!authorizationCode) {
-        console.error("Authorization code not found.");
-        return;
-      }
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const state = params.get("state") || "";
+      if (!code) return;
 
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_KAKAO_REDIRECT_URL_BACK}`,
-          {
-            params: { code: authorizationCode, state: state },
-            withCredentials: true,
-          }
+        // 백엔드 콜백 호출
+        const res = await axios.get(
+          process.env.REACT_APP_KAKAO_REDIRECT_URL_BACK,
+          { params: { code, state }, withCredentials: true }
         );
 
-        const accessToken = response.data.accessToken;
-        if (accessToken) {
-          // 로컬 스토리지에 액세스토큰 저장
-          localStorage.setItem("accessToken", accessToken);
-
-          // 응답받은 redirectURL로 페이지 이동
-
-          try {
-            const nicknameRes = await axiosInstance.get("/auth/nickname", {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            });
-            console.log(nicknameRes.data);
-            setNickname(nicknameRes.data); // recoil에 저장
-            localStorage.setItem("nickname", nicknameRes.data);
-          } catch (e) {
-            console.error("닉네임 요청 실패", e);
-          }
-
-          const redirectTo = response.data.redirectTo;
-          if (typeof redirectTo === "string" && redirectTo.startsWith("/")) {
-            window.location.href = redirectTo;
-          } else {
-            console.warn("redirectTo 값이 없거나 잘못됨:", redirectTo);
-            window.location.href = "/";
-          }
+        const data = res.data;
+        console.log(data);
+        // --- 신규 유저: "/terms"
+        if (typeof data === "string") {
+          const to = data.startsWith("/") ? data : `/${data}`;
+          navigate(to, { replace: true });
+          return;
         }
-      } catch (error) {
-        console.error("카카오 로그인 중 에러 발생");
-      }
-    };
-    fetchData();
-  }, []);
 
-  return <div>로그인 중...</div>;
+        // --- 기존 유저: JSON 응답 ---
+        const accessToken = data && data.accessToken;
+        const redirectTo = data && data.redirectTo;
+
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken);
+        }
+
+        // 닉네임 로드
+        try {
+          const nickRes = await axiosInstance.get("/member/nickname", {
+            headers: accessToken
+              ? { Authorization: `Bearer ${accessToken}` }
+              : {},
+          });
+          if (nickRes?.data) {
+            setNickname(nickRes.data);
+            localStorage.setItem("nickname", nickRes.data);
+          }
+        } catch (e) {
+          console.warn("닉네임 요청 실패", e);
+        }
+
+        const to =
+          typeof redirectTo === "string" && redirectTo.length > 0
+            ? redirectTo.startsWith("/")
+              ? redirectTo
+              : `/${redirectTo}`
+            : "/";
+
+        navigate(to, { replace: true });
+      } catch (e) {
+        console.error("카카오 로그인 에러", e);
+        navigate("/", { replace: true });
+      }
+    })();
+  }, [navigate, setNickname]);
+
+  return <Loader />;
 }
 
 export default KakaoRedirect;

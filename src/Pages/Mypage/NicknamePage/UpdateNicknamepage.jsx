@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import todayIcon from "../img/Today.svg";
 import recipeIcon from "../img/Recipe.svg";
@@ -14,14 +14,18 @@ import { useRecoilState } from "recoil";
 import { nicknameState } from "../../../recoil/nicknameAtom";
 const NicknamePage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   const searchParams = new URLSearchParams(location.search);
   const isNewUser = searchParams.get("isNewUser") === "true";
   const [nextNickname, setNextNickname] = useState("");
   const [nickname, setNickname] = useRecoilState(nicknameState);
+  const goBackPage = () => {
+    navigate(-1);
+  };
   const updateNickname = async (nickname) => {
     try {
-      const res = await axiosInstance.put("/auth/nickname", null, {
+      const res = await axiosInstance.put("/member/nickname", null, {
         params: { nickname },
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -30,7 +34,7 @@ const NicknamePage = () => {
       });
       alert("닉네임이 변경되었습니다.");
       const response = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/auth/nickname`,
+        `${process.env.REACT_APP_API_BASE_URL}/member/nickname`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -57,25 +61,13 @@ const NicknamePage = () => {
   }, [nickname]);
 
   return (
-    <div>
+    <div className="font-pretendard">
       <div className="py-3 border-b border-gray-200 lg:border-0">
         <SearchContainer />
       </div>
-      <Menubar />
-      <div className="container flex flex-col items-center mt-44 lg:mt-16">
-        <div className="flex gap-2">
-          <div className="w-[100px] lg:w-[150px]">
-            <img className="w-full" src={todayIcon} alt="Today" />
-          </div>
-          <div className="w-[100px] lg:w-[150px]">
-            <img className="w-full" src={recipeIcon} alt="Recipe" />
-          </div>
-        </div>
-      </div>
 
-      {/* 로그인 입력 필드 */}
       <div className="flex  flex-col justify-center items-center container">
-        <div className="mt-8 font-bold text-center text-[#3B3A36] text-lg lg:text-md ">
+        <div className="mt-8 font-semibold text-center text-[#3B3A36] text-lg lg:text-2xl ">
           변경할 닉네임을 입력해주세요{" "}
         </div>
       </div>
@@ -85,14 +77,20 @@ const NicknamePage = () => {
           onChange={(e) => setNextNickname(e.target.value)}
           value={nextNickname}
           placeholder={nickname}
-          className="border w-[700px] border-gray-300 rounded-lg px-4 py-2  h-[100%] focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-500 "
+          className="border w-[700px] border-gray-300 rounded-xl px-4 py-2  h-[100%] focus:outline-none focus:ring-2 focus:ring-brand text-gray-500 "
         />{" "}
       </div>
-      <div className="flex container justify-center">
-        {" "}
+      <div className="flex  justify-between max-w-[400px] mx-auto">
         <div
           // onClick={() => insertNickname(nickname)}
-          className="w-1/3 h-[38px] lg:h-[40px] font-bold text-lg  cursor-pointer flex justify-center items-center rounded-md lg:w-[160px] lg:mt-8 bg-orange-500  hover:bg-orange-600 text-white "
+          className="w-1/3 h-10 lg:h-12 font-bold text-lg  cursor-pointer flex justify-center items-center rounded-md lg:w-40 lg:mt-8 bg-gray-100 hover:bg-gray-200 "
+          onClick={() => goBackPage()}
+        >
+          나가기
+        </div>{" "}
+        <div
+          // onClick={() => insertNickname(nickname)}
+          className="w-1/3 h-10 lg:h-12 font-bold text-lg  cursor-pointer flex justify-center items-center rounded-md lg:w-40 lg:mt-8 bg-brand  hover:bg-brandDark text-white "
           onClick={() => updateNickname(nextNickname)}
         >
           변경

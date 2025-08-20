@@ -2,24 +2,57 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 const MyCommentComponent = () => {
-  const [comments, setComments] = useState([]);
+  const PAGE_SIZE = 12;
+  const [page, setPage] = useState(0);
+
+  const [comments, setComments] = useState({
+    content: [],
+    number: 0,
+    size: PAGE_SIZE,
+    has_next: false,
+  });
+  const currentPage = comments.number || 0;
+  const hasNext = !!comments.has_next;
+
+  const goPage = (next) => {
+    if (next < 0) return;
+
+    if (next > currentPage && !hasNext) return;
+    fetchComment(next);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const navigate = useNavigate();
   const handleRecipeDetail = (recipe_id) => {
     navigate(`/recipes/${recipe_id}`, { state: { scrollToComment: true } });
   };
-  const fetchComment = async () => {
+  const fetchComment = async (p = 0) => {
     try {
-      const response = await axiosInstance.get("/member/comment");
-      setComments(response.data);
+      const { data } = await axiosInstance.get("/member/comment", {
+        params: { page: p, size: PAGE_SIZE },
+        withCredentials: true,
+      });
 
-      console.log(response.data);
-    } catch (error) {
-      console.error("fetchComment 오류", error);
+      const normalized = {
+        content: Array.isArray(data.content) ? data.content : [],
+        number: typeof data.number === "number" ? data.number : p,
+        size: typeof data.size === "number" ? data.size : PAGE_SIZE,
+        has_next: !!data.has_next,
+      };
+      setComments(normalized);
+      console.log(comments);
+    } catch (e) {
+      console.error("fetchComment 오류", e);
     }
   };
 
+  const getVisiblePages = (current, total) => {
+    if (total <= 5) return Array.from({ length: total }, (_, i) => i);
+    const start = Math.max(0, Math.min(current - 2, total - 5));
+    return Array.from({ length: 5 }, (_, i) => start + i);
+  };
   useEffect(() => {
-    fetchComment();
+    fetchComment(0);
   }, []);
 
   const formatTimestamp = (timestamp) => {
@@ -37,14 +70,28 @@ const MyCommentComponent = () => {
   };
 
   return (
-    <div className="max-w-[700px] mx-auto px-4 py-6 font-pretendard">
-      <h2 className="  text-2xl font-semibold mb-6 text-gray-800">나의 댓글</h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {comments.map((comment) => (
+    <div className="  font-pretendard">
+      <div className="flex items-start">
+        {" "}
+        <div className="flex-1 min-w-0 flex flex-col gap-2 text-lg lg:text-2xl font-semibold">
+          <div> 나의 댓글 </div>{" "}
+          <span className="text-sm lg:text-lg text-gray-400 font-medium">
+            나의 댓글 활동을 확인해봐요!
+          </span>
+        </div>
+        <div className="shrink-0 ml-auto">
+          <div className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12">
+            삭제{" "}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:mt-5 pb-24 lg:pb-0 px-3">
+        {comments.content.map((comment) => (
           <div
             key={comment.comment_id}
             onClick={() => handleRecipeDetail(comment.recipe_id)}
-            className="cursor-pointer flex flex-col border border-gray-200 rounded-xl shadow-sm hover:scale-105 transition-all duration-300 bg-white overflow-hidden"
+            className="cursor-pointer mt-8 lg:mt-0 flex flex-col border border-gray-200 rounded-xl shadow-sm hover:scale-105 transition-all duration-300 bg-white overflow-hidden"
           >
             <img
               src={comment.img_path}
@@ -54,11 +101,11 @@ const MyCommentComponent = () => {
             <div className="px-4 pt-3 text-lg font-bold text-gray-900 truncate">
               {comment.recipe_title}
             </div>
-            <div className="p-4 flex flex-col gap-1">
+            <div className="px-4 flex flex-col gap-1">
               <div className="text-sm text-gray-500">
                 🗓 {formatTimestamp(comment.data_created)}
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="flex items-center gap-2 mb-2 text-sm text-gray-700">
                 <span className="font-semibold">
                   {comment.nick_name || "익명"}님
                 </span>
@@ -68,6 +115,36 @@ const MyCommentComponent = () => {
           </div>
         ))}
       </div>
+      {comments.content.length > 0 && (
+        <div className="mt-6 flex items-center justify-center gap-2">
+          <button
+            onClick={() => goPage(0)}
+            disabled={currentPage === 0}
+            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+          >
+            처음
+          </button>
+          <button
+            onClick={() => goPage(currentPage - 1)}
+            disabled={currentPage === 0}
+            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+          >
+            이전
+          </button>
+
+          <span className="px-3 h-9 inline-flex items-center rounded-lg border text-sm">
+            {currentPage + 1} 페이지
+          </span>
+
+          <button
+            onClick={() => goPage(currentPage + 1)}
+            disabled={!hasNext}
+            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+          >
+            다음
+          </button>
+        </div>
+      )}
     </div>
   );
 };

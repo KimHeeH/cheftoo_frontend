@@ -19,17 +19,13 @@ import { DotMenuIcon } from "../../Component/Menubar/Icon/Icon";
 import { XIcon } from "../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../api/axiosInstance";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
+import { useMe } from "../../contexts/MeContext";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const location = useLocation();
   const commentRef = useRef(null);
-  useEffect(() => {
-    if (location.state?.scrollToComment && commentRef.current) {
-      setTimeout(() => {
-        commentRef.current.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    }
-  }, [location.key]);
+  const { me } = useMe();
+  const [isNoFolderModalOpen, setIsNoFolderModalOpen] = useState(false);
   const [recipe, setRecipe] = useState(null);
   const [bookmark, setBookmark] = useState(false);
   const [commentIds, setCommnetIds] = useState("");
@@ -42,6 +38,7 @@ const RecipeDetailpage = () => {
   const [scrapList, setScrapList] = useState([]);
   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
   const [selectedScrapId, setSelectedScrapId] = useState(null);
+
   const navigate = useNavigate();
   const sortedCookingOrder = recipe?.cooking_order
     ? [...recipe.cooking_order].sort((a, b) => a.order - b.order)
@@ -54,6 +51,7 @@ const RecipeDetailpage = () => {
   const closeModal = () => {
     setIsScrapModalOpen(false);
   };
+
   function formatTimestamp(timestamp) {
     if (!timestamp) return "";
 
@@ -63,7 +61,6 @@ const RecipeDetailpage = () => {
     const [year, month, day] = datePart.split("-").map((v) => parseInt(v, 10));
     const [hours, minutes] = timePart.split(":").map((v) => parseInt(v, 10));
 
-    // 2자리로 맞추기
     const yy = String(year).padStart(2, "0");
     const mm = String(month).padStart(2, "0");
     const dd = String(day).padStart(2, "0");
@@ -83,25 +80,54 @@ const RecipeDetailpage = () => {
       navigate("/mypage");
       return;
     }
-    setBookmark(!bookmark);
-    setSelectedRecipeId(recipeId);
+
     if (bookmark) {
       try {
-        const response = await axiosInstance.delete(`member/scrap/recipe`, {
-          headers: { "Content-type": "application/json" },
-          data: {
-            scrapId: selectedScrapId,
-            recipeIdList: [recipeId],
-          },
+        if (!selectedScrapId) {
+          alert(
+            "스크랩 정보를 찾을 수 없습니다. 스크랩 페이지에서 삭제해주세요"
+          );
+          return;
+        }
+        await axiosInstance.delete(`member/scrap/recipe`, {
+          headers: { "Content-Type": "application/json" },
+          data: { scrapId: selectedScrapId, recipeIdList: [recipeId] },
         });
+        setBookmark(false);
+        setSelectedScrapId(null);
         await fetchRecipe();
         setSelectedScrapId(null);
       } catch (err) {
-        console.error("북마크 ");
+        console.error("북마크 해제 실패", err);
+        alert("북마크 해제에 실패했습니다. 잠시 후 다시 시도해주세요.");
       }
+      return;
     }
+    if (!folders || folders.length === 0) {
+      setIsNoFolderModalOpen(true);
+      return;
+    }
+    setSelectedRecipeId(recipeId);
+
+    setIsScrapModalOpen(true);
+    const latestFolders = await fetchFolders();
+    if (!latestFolders || latestFolders.length === 0) {
+      setIsNoFolderModalOpen(true);
+      return;
+    }
+    setSelectedRecipeId(recipeId);
     setIsScrapModalOpen(true);
   };
+  const fetchFolders = async () => {
+    const res = await axiosInstance.get("/member/scrap");
+    const mapped = res.data.map((folder, index) => ({
+      ...folder,
+      index: index + 1,
+    }));
+    setFolders(mapped);
+    return mapped;
+  };
+
   const uploadComment = async () => {
     console.log("setCommnet", comment);
     try {
@@ -163,6 +189,14 @@ const RecipeDetailpage = () => {
       console.error("레시피 가져오기 실패", error);
     }
   };
+
+  useEffect(() => {
+    if (location.state?.scrollToComment && commentRef.current) {
+      setTimeout(() => {
+        commentRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  }, [location.key]);
   useEffect(() => {
     if (!recipeId) return;
 
@@ -175,13 +209,20 @@ const RecipeDetailpage = () => {
         `${process.env.REACT_APP_API_BASE_URL}/recipe/${recipeId}/comment/`,
         { withCredentials: true }
       );
-      setCommentList(response.data);
+
+      const sortedComment = response.data.sort((a, b) => {
+        return (
+          new Date(a.data_created).getTime() -
+          new Date(b.data_created).getTime()
+        );
+      });
+      setCommentList(sortedComment);
       console.log(response.data);
     } catch (error) {
       console.error("레시피 댓글 가져오기 실패", error);
     }
   };
-  // const updateComment = async (comment_id,comment) => {
+
   //   try {
   //     const response = await axiosInstance.put(
   //       "/comment",
@@ -406,58 +447,90 @@ const RecipeDetailpage = () => {
             </div>
           </div>
           <div ref={commentRef} id="comments">
-            {" "}
-            {commentList.map((comment) => (
-              <div
-                key={comment.comment_id}
-                className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 px-4 py-3 mb-4 mt-4"
-              >
-                {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
-                <div className="flex justify-between items-center mb-2">
-                  <div className="flex items-center gap-3">
-                    <CommentUserIcon />
-                    <span className="text-lg font-semibold text-gray-800">
-                      {comment.nick_name}
-                    </span>
-                    <span className="text-base text-gray-400">
-                      {" "}
-                      {comment.data_created
-                        ? formatTimestamp(comment?.data_created)
-                        : "날짜 없음"}
-                    </span>
-                  </div>
-
-                  <div className="relative">
-                    <button onClick={() => openMenuBar(comment.comment_id)}>
-                      {commentIds === comment.comment_id ? (
-                        <XIcon />
-                      ) : (
-                        <DotMenuIcon />
-                      )}
-                    </button>
-                    {commentIds === comment.comment_id && (
-                      <div className="absolute right-0 top-8 w-28 bg-white border border-gray-300 rounded-lg shadow-md z-10">
-                        <div
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => deleteComment(comment.comment_id)}
-                        >
-                          삭제
-                        </div>
+            {commentList.map((comment) => {
+              const myId = me;
+              const canDelete = myId === comment.member_id;
+              return (
+                <div
+                  key={comment.comment_id}
+                  className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 px-4 py-3 mb-4 mt-4"
+                >
+                  {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="flex items-center gap-3">
+                      <CommentUserIcon />
+                      <span className="text-lg font-semibold text-gray-800">
+                        {comment.nick_name}
+                      </span>
+                      <span className="text-base text-gray-400">
+                        {" "}
+                        {comment.data_created
+                          ? formatTimestamp(comment?.data_created)
+                          : "날짜 없음"}
+                      </span>
+                    </div>
+                    {canDelete && (
+                      <div className="relative">
+                        <button onClick={() => openMenuBar(comment.comment_id)}>
+                          {commentIds === comment.comment_id ? (
+                            <XIcon />
+                          ) : (
+                            <DotMenuIcon />
+                          )}
+                        </button>
+                        {commentIds === comment.comment_id && (
+                          <div className="absolute right-0 top-8 w-28 bg-white border border-gray-300 rounded-lg shadow-md z-10">
+                            <div
+                              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                              onClick={() => deleteComment(comment.comment_id)}
+                            >
+                              삭제
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                </div>
 
-                {/* 본문 */}
-                <div className="text-gray-700 text-lg">
-                  {comment.comment_content}
+                  {/* 본문 */}
+                  <div className="text-gray-700 text-lg">
+                    {comment.comment_content}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
-      {isScrapModalOpen && bookmark && (
+      {isNoFolderModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="w-[90%] max-w-[420px] bg-white p-6 rounded-2xl shadow-lg">
+            <h3 className="text-xl font-semibold mb-2">스크랩 폴더가 없어요</h3>
+            <p className="text-gray-600 mb-6">
+              레시피를 스크랩하려면 먼저 폴더를 만들어야 해요.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setIsNoFolderModalOpen(false)}
+                className="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"
+              >
+                취소
+              </button>
+              <button
+                onClick={() => {
+                  setIsNoFolderModalOpen(false);
+                  navigate("/mypage");
+                }}
+                className="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brandDark"
+              >
+                폴더 만들러 가기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isScrapModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="w-[90%] max-w-[480px] bg-white p-6 rounded-2xl shadow-lg">
             {/* 모달 헤더 */}
@@ -477,7 +550,7 @@ const RecipeDetailpage = () => {
                 <div
                   key={folder.scrap_id}
                   onClick={() => handleScrapToFolder(folder.scrap_id)}
-                  className="flex items-center gap-3 px-4 py-3 border rounded-lg cursor-pointer hover:bg-orange-50 transition"
+                  className="flex items-center gap-3 px-4 py-3 border rounded-lg cursor-pointer hover:bg-[#EAF6F2] transition"
                 >
                   <FolderNameIcon fill="#10B981" />
                   <span className="text-base font-medium text-gray-800">

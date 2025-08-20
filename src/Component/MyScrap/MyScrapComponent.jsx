@@ -5,6 +5,7 @@ import {
   FolderIcon,
   FolderNameIcon,
   PencilIcon,
+  SelectedXIcon,
   XIcon,
 } from "../Menubar/Icon/Icon";
 import { useState } from "react";
@@ -18,11 +19,13 @@ const MyScrapComponent = () => {
   const [editableFolderId, setEditableFolderId] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
   const [isReadOnly, setIsReadOnly] = useState(true);
+  const [hover, setHover] = useState(false);
+  const PAGE_SIZE = 12;
+  const [page, setPage] = useState(0);
+
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-
     fetchRecipeScrap();
   }, []);
   const fetchRecipeScrap = async () => {
@@ -66,6 +69,7 @@ const MyScrapComponent = () => {
       navigate("/mypage");
     }
   };
+
   const handleFolderClick = (scrapId, scrapName) => {
     navigate(`/scrap/${scrapId}`, { state: { scrap_name: scrapName } });
   };
@@ -117,13 +121,6 @@ const MyScrapComponent = () => {
         return;
       }
       console.log("newFolder", newFolder);
-      // setFolders((prev) => [
-      //   ...prev,
-      //   {
-      //     scrap_id: newFolder.scrap_id,
-      //     scrap_name: name,
-      //   },
-      // ]);
     } catch (error) {
       console.error("addRecipeScrap 실패", error);
     }
@@ -144,11 +141,6 @@ const MyScrapComponent = () => {
       });
       await fetchRecipeScrap();
 
-      // setFolders((prev) =>
-      //   prev.map((folder) =>
-      //     folder.scrap_id === id ? { ...folder, scrap_name: name } : folder
-      //   )
-      // );
       setIsReadOnly(true);
 
       alert("이름 변경 완료");
@@ -160,37 +152,49 @@ const MyScrapComponent = () => {
 
   return (
     <div className="">
-      <div className="flex">
+      <div className="flex items-start">
         {" "}
-        <div className="flex flex-col w-full gap-2   text-lg lg:text-2xl font-semibold ">
+        <div className="flex-1 min-w-0 flex flex-col gap-2 text-lg lg:text-2xl font-semibold">
           <div>나의 스크랩 폴더</div>{" "}
-          <span className="text-xs lg:text-sm text-gray-400 font-medium">
-            폴더명 좌측에 있는 연필버튼을 누르시면 폴더명 수정 가능합니다.
+          <span className="text-sm lg:text-lg text-gray-400 font-medium">
+            엑스 버튼과 폴더명 연필버튼을 통해 폴더 삭제와 이름 변경 가능합니다.
           </span>
         </div>
-        <div className="w-full flex justify-end mt-4">
-          {" "}
+        <div className="shrink-0 ml-auto">
           <div
             onClick={() => setIsModalOpen(true)}
             className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
           >
             폴더 추가
-          </div>{" "}
+          </div>
         </div>
       </div>
       <div className="lg:w-full flex justify-center mt-4 ">
-        <div className=" w-full  lg:grid lg:grid-cols-3 lg:gap-x-8 lg:gap-y-10">
+        <div className=" w-full grid gap-4 grid-cols-2  lg:grid-cols-3 lg:gap-x-24 lg:gap-y-10">
           {/* 폴더*/}
           {folders.map((folder, key, index) => (
-            <div className="w-full py-4">
-              {" "}
+            <div className=" w-full py-4" key={folder.scrap_id}>
               <div
-                className="w-full h-64 rounded-[3rem]  border hover:bg-gray-100 cursor-pointer"
+                className="relative w-full h-28 lg:h-60 border cursor-pointer"
                 onClick={() =>
                   handleFolderClick(folder.scrap_id, folder.scrap_name)
                 }
                 key={folder.scrap_id}
               >
+                {" "}
+                <button
+                  type="button"
+                  onMouseEnter={() => setHover(true)}
+                  onMouseLeave={() => setHover(false)}
+                  aria-label="폴더 삭제"
+                  className="absolute top-2 right-2 inline-flex items-center justify-center w-8 h-8 "
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteScrap(folder.scrap_id);
+                  }}
+                >
+                  {hover ? <SelectedXIcon /> : <XIcon />}
+                </button>
                 <div className="w-full flex justify-center h-full items-center">
                   {" "}
                   <FolderNameIcon />
@@ -204,13 +208,13 @@ const MyScrapComponent = () => {
                   onChange={(e) =>
                     handleNameChange(folder.scrap_id, e.target.value)
                   }
-                  className={`mt-2 border px-3 py-2 rounded w-[85%] h-full text-xl font-medium ${
+                  className={`mt-2 border px-3 py-2 rounded w-[80%] h-full text-xl font-medium ${
                     isReadOnly ? "bg-[#F8F8F8] text-gray-600" : "bg-white"
                   }`}
                   value={folder.scrap_name}
                 />
                 <div
-                  className="  absolute right-1.5 top-3.5 cursor-pointer "
+                  className="  absolute right-2 top-4 cursor-pointer "
                   onClick={() => setIsReadOnly(false)}
                 >
                   {isReadOnly ? (
@@ -316,7 +320,7 @@ const MyScrapComponent = () => {
             <input
               type="text"
               placeholder="폴더 이름"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand focus:outline-none"
               value={newFolderName}
               onChange={(e) => setNewFolderName(e.target.value)}
             />
@@ -347,7 +351,7 @@ const MyScrapComponent = () => {
         </div>
       )}
       {folders.length === 0 && (
-        <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[500px] lg:w-full lg:h-[200px] lg:border-1 ">
+        <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[200px] lg:w-full lg:h-[200px] lg:border-1 ">
           아직 스크랩한 레시피가 없습니다.
           <br />
           마음에 드는 레시피를 폴더에 저장해보세요!

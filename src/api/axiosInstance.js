@@ -15,7 +15,6 @@ const refreshAccessToken = async (navigate) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(res.data);
     const newAccessToken = res.data.accessToken;
     localStorage.setItem("accessToken", newAccessToken);
     return newAccessToken;
