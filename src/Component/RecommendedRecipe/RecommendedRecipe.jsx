@@ -175,10 +175,10 @@ const RecommendedRecipe = () => {
 
   return (
     <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
-      <div className="flex lg:gap-3 lg:flex-row flex-col w-full mt-8 h-[500px] lg:h-[680px]">
+      <div className="flex lg:gap-3 lg:flex-row flex-col w-full lg:mt-8 h-[470px] lg:h-[680px] border-b lg:pb-20">
         {" "}
         <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4 pr-4 ">
-          <span className="font-pretendard text-xl lg:text-3xl lg:mb-8 font-bold text-brandDark">
+          <span className="font-pretendard text-xl lg:text-[40px] lg:mb-8 font-bold text-brandDark">
             오늘도 수고했어요{" "}
           </span>
           <h2
@@ -186,13 +186,13 @@ const RecommendedRecipe = () => {
 "
           >
             {" "}
-            <span className="lg:text-[40px] font-pretendard text-darkText">
+            <span className="lg:text-[50px] font-pretendard text-darkText">
               따뜻한 한 끼, <br />
               인기 레시피로 함께해요{" "}
             </span>{" "}
           </h2>
           <p
-            className="hidden lg:block font-pretendard lg:mt-3 text-subText text-base lg:text-xl font-semibold leading-snug
+            className="hidden lg:block font-pretendard lg:mt-6 text-subText text-base lg:text-3xl font-semibold leading-snug
 "
           >
             지금 가장 인기있는 레시피들을 만나보세요!
@@ -270,11 +270,6 @@ const RecommendedRecipe = () => {
                             {recipe.recipe_title}
                           </span>
                         </div>
-                        <div className="lg:p-2 z-10">
-                          <span className="font-pretendard text-subText text-sm lg:text-2xl font-bold">
-                            {recipe.recipe_content}
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </SwiperSlide>
@@ -290,16 +285,16 @@ const RecommendedRecipe = () => {
         </div>
       </div>
 
-      <div className=" lg:mt-8">
-        <h2 className="text-lg lg:text-3xl font-pretendard font-semibold text-darkText">
+      <div className=" lg:mt-8 pt-4">
+        <h2 className="text-2xl lg:text-4xl font-pretendard font-semibold text-darkText">
           <span className="text-brand mr-1 font-pretendard">핫이슈</span> 레시피
         </h2>
-        <p className="text-[subText] font-pretendard mt-2 text-base lg:text-xl">
+        <p className="text-[subText] font-pretendard mt-2 text-lg lg:text-2xl">
           요즘 유튜브에서 핫한 요리 영상들을 모았어요!
         </p>
       </div>
 
-      <div className="relative px-20">
+      <div className="relative lg:px-20">
         {/* 좌측/우측 페이드 그라데이션 */}
         <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-white lg:from-[#f9fafb] to-transparent" />
 

@@ -153,9 +153,6 @@ const SearchContainer = () => {
                   <div onClick={handleLoginPage}>
                     <CommentUserIcon />
                   </div>
-                  <div>
-                    <MenuIcon />
-                  </div>
                 </div>
               ) : (
                 <div

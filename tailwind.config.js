@@ -23,8 +23,7 @@ module.exports = {
         subText: "#6b7280", // gray-500
       },
     },
+    plugins: [require("@tailwindcss/line-clamp")],
   },
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
-
-  plugins: [],
 };

@@ -19,11 +19,8 @@ const RecipeCard = ({ recipe }) => {
           alt="recipeImg"
         />
       </div>
-      <div className="w-full font-semibold  mt-2  text-sm lg:text-xl">
+      <div className="w-full font-semibold  mt-2 lg:mt-4  text-base lg:text-3xl">
         {recipe.recipe_title}
-      </div>
-      <div className="w-full lg:mt-1  text-xs lg:text-lg ">
-        {recipe.recipe_content}
       </div>
     </div>
   );

@@ -160,7 +160,7 @@ const ScrapFolderDetail = () => {
                     src={recipe.img_path}
                     alt="img"
                     onClick={() => handleRecipeDetail(recipe?.recipe_id)}
-                    className="w-full h-[120px] lg:h-[190px] object-cover rounded-md"
+                    className="w-full h-[120px] lg:h-[240px] object-cover rounded-md"
                   />
                   <div
                     className="absolute top-2 left-2 z-10"
@@ -177,9 +177,6 @@ const ScrapFolderDetail = () => {
               <div className="px-4 pb-4 flex flex-col gap-1">
                 <div className="text-sm lg:text-2xl font-semibold">
                   {recipe?.recipe_title}
-                </div>
-                <div className="text-xs lg:text-lg text-gray-600">
-                  {recipe?.recipe_content}
                 </div>
               </div>
             </div>

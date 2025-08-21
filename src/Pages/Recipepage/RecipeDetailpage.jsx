@@ -304,7 +304,7 @@ const RecipeDetailpage = () => {
               {recipe.recipe_title}
             </h2>
             <button
-              className={`w-8 h-8 lg:w-12 lg:h-12 border rounded-lg flex justify-center items-center cursor-pointer
+              className={`w-8 h-8 lg:w-14 lg:h-16 border rounded-lg flex justify-center items-center cursor-pointer
           transition-transform duration-150 active:scale-95 hover:shadow-md
           ${bookmark ? "bg-[#FDFDFD]" : "bg-white border-gray-300"}`}
               onClick={() => handleActiveBookmark(recipe.recipe_id)}
@@ -388,7 +388,7 @@ const RecipeDetailpage = () => {
 
           {/* 모바일: 세로 스택 / 데스크탑: 가로 레이아웃 */}
           <div className="flex flex-col lg:flex-row gap-4">
-            <div className="w-full lg:w-1/2">
+            <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto">
               {sortedCookingOrder.map((order, i) => (
                 <div
                   key={i}

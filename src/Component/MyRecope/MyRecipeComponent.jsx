@@ -147,9 +147,6 @@ const MyRecipeComponent = () => {
               <h3 className="text-lg lg:text-xl font-bold text-gray-800 truncate">
                 {recipe.recipe_title}
               </h3>
-              <p className="text-sm lg:text-base text-gray-600 line-clamp-2">
-                {recipe.recipe_content}
-              </p>
             </div>
           </div>
         ))}

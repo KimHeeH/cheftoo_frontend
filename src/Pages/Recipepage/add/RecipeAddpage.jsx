@@ -26,8 +26,8 @@ const RecipeAddpage = () => {
   const mainFileInputRef = useRef(null);
   const stepFileInputRefs = useRef([]);
   const maxImageUpload = 3 * 1024 * 1024;
-  if (recipeTitleInputValue.length > 100) {
-    alert("레시피 제목을 100자 이내로 써주세요");
+  if (recipeTitleInputValue.length > 20) {
+    alert("레시피 제목을 20자 이내로 써주세요");
   }
   /**  메인 요리 사진 추가 (여러 개) */
   const handleMainImageDrop = (event) => {

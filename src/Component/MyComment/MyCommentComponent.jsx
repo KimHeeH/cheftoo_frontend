@@ -79,11 +79,6 @@ const MyCommentComponent = () => {
             나의 댓글 활동을 확인해봐요!
           </span>
         </div>
-        <div className="shrink-0 ml-auto">
-          <div className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12">
-            삭제{" "}
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:mt-5 pb-24 lg:pb-0 px-3">
@@ -105,11 +100,15 @@ const MyCommentComponent = () => {
               <div className="text-sm text-gray-500">
                 🗓 {formatTimestamp(comment.data_created)}
               </div>
-              <div className="flex items-center gap-2 mb-2 text-sm text-gray-700">
-                <span className="font-semibold">
+              <div className="flex items-start gap-2 mb-2 text-sm text-gray-700">
+                <span className="font-semibold min-w-[60px] max-w-[100px] truncate">
                   {comment.nick_name || "익명"}님
                 </span>
-                <span>💬 {comment.comment_content}</span>
+                <span className="flex-1 overflow-hidden">
+                  <span className="line-clamp-2 break-words">
+                    💬 {comment.comment_content}
+                  </span>
+                </span>
               </div>
             </div>
           </div>
@@ -132,8 +131,8 @@ const MyCommentComponent = () => {
             이전
           </button>
 
-          <span className="px-3 h-9 inline-flex items-center rounded-lg border text-sm">
-            {currentPage + 1} 페이지
+          <span className="px-3 h-9 inline-flex items-center rounded-lg border bg-brand text-white text-sm">
+            {currentPage + 1}
           </span>
 
           <button
