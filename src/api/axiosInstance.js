@@ -1,6 +1,5 @@
 // axiosInstance.js
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_BASE_URL}`,
   withCredentials: true,

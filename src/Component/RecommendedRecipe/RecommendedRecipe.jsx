@@ -10,9 +10,7 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
 import "swiper/css/navigation";
-import { DotEmpty, DotFilled } from "../Slider/Icon/Icon";
 import firstImg from "./img/firstImg.png";
-import { motion } from "framer-motion";
 import { CircleXIcon } from "../Menubar/Icon/Icon";
 import axiosInstance from "../../api/axiosInstance";
 const RecommendedRecipe = () => {
@@ -21,8 +19,7 @@ const RecommendedRecipe = () => {
   const [youtubeList, setYoutubeList] = useState([]);
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [swiperRef, setSwiperRef] = useState(null);
+
   const handleRecipeDetail = (recipe_id) => {
     navigate(`/recipes/${recipe_id}`);
   };

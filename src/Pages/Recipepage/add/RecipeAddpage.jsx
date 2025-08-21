@@ -1,12 +1,10 @@
 import React, { useRef, useState } from "react";
 import SearchContainer from "../../../Component/SearchContainer/SearchContainer";
 import axios from "axios";
-import { BackIcon } from "../../../Component/Menubar/Icon/Icon";
 import { PictureIcon } from "../../../Component/Menubar/Icon/Icon";
 import { MiniPictureIcon } from "../../../Component/Menubar/Icon/Icon";
 import { useNavigate } from "react-router-dom";
 import Menubar from "../../../Component/Menubar/Menubar";
-import checkAuthGuard from "../../../hooks/checkAuthGuard";
 import { SquareIconComponent } from "../../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../../api/axiosInstance";
 const RecipeAddpage = () => {
@@ -26,8 +24,46 @@ const RecipeAddpage = () => {
   const mainFileInputRef = useRef(null);
   const stepFileInputRefs = useRef([]);
   const maxImageUpload = 3 * 1024 * 1024;
+  let errorMessages = [];
+  // 레시피 제목
   if (recipeTitleInputValue.length > 20) {
-    alert("레시피 제목을 20자 이내로 써주세요");
+    errorMessages.push("레시피 제목을 20자 이내로 써주세요");
+  }
+
+  // 레시피 설명
+  if (recipeContentValue.length > 100) {
+    errorMessages.push("레시피 설명을 100자 이내로 써주세요");
+  }
+
+  // 재료
+  if (ingredients.length > 10) {
+    errorMessages.push("재료는 최대 10개까지만 입력할 수 있습니다");
+  }
+  ingredients.forEach((item) => {
+    if (item.ingredientsName.length > 100) {
+      errorMessages.push("재료명은 100자 이내로 써주세요");
+    }
+  });
+
+  // 양념
+  seasonings.forEach((item) => {
+    if (item.sauceName.length > 100) {
+      errorMessages.push("양념 이름은 100자 이내로 써주세요");
+    }
+    if (item.quantity.length > 30) {
+      errorMessages.push("양념 수량은 30자 이내로 써주세요");
+    }
+  });
+
+  // 조리순서
+  orders.forEach((item) => {
+    if (item.content.length > 200) {
+      errorMessages.push("조리순서 내용은 200자 이내로 써주세요");
+    }
+  });
+
+  if (errorMessages.length > 0) {
+    alert(errorMessages.join("\n")); // 한 번만 alert
   }
   /**  메인 요리 사진 추가 (여러 개) */
   const handleMainImageDrop = (event) => {
@@ -273,10 +309,18 @@ const RecipeAddpage = () => {
 
         {/* 제목 */}
         <div className="mt-8">
-          <label className="block text-gray-700 font-semibold text-sm lg:text-xl mb-2">
-            레시피 제목
-          </label>
+          <div className="flex items-center h-10 gap-2 mb-2">
+            {" "}
+            <label className="text-gray-700 font-semibold text-sm lg:text-xl ">
+              레시피 제목
+            </label>
+            <span className="text-sm text-gray-500 ml-2">
+              {recipeTitleInputValue.length} / 20
+            </span>
+          </div>
+
           <input
+            maxLength={20}
             className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 text-sm lg:text-xl"
             placeholder="예) 토마토 파스타 레시피"
             value={recipeTitleInputValue}
@@ -286,9 +330,16 @@ const RecipeAddpage = () => {
 
         {/* 설명 */}
         <div className="mt-8">
-          <label className="block text-gray-700 font-semibold text-sm lg:text-xl mb-2">
-            요리 설명
-          </label>
+          <div className="flex items-center h-10 gap-2 mb-2">
+            {" "}
+            <label className="text-gray-700 font-semibold text-sm lg:text-xl ">
+              요리 설명
+            </label>{" "}
+            <span className="text-sm text-gray-500 ml-2">
+              {recipeTitleInputValue.length} / 100
+            </span>
+          </div>
+
           <textarea
             placeholder="토마토소스를 이용한 파스타 레시피"
             rows="3"
@@ -435,18 +486,26 @@ const RecipeAddpage = () => {
               <div className="flex items-start text-gray-600 font-semibold">
                 {index + 1}
               </div>
-              <textarea
-                className="w-full lg:w-2/3 p-2 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-300  text-sm lg:text-base"
-                placeholder="예) 토마토를 잘라주세요."
-                value={order.content}
-                onChange={(e) =>
-                  setOrders((prev) =>
-                    prev.map((o, i) =>
-                      i === index ? { ...o, content: e.target.value } : o
+
+              <div className="flex flex-col w-full lg:w-2/3">
+                <textarea
+                  className="w-full p-2 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-300 text-sm lg:text-base"
+                  placeholder="예) 토마토를 잘라주세요."
+                  value={order.content}
+                  maxLength={200}
+                  onChange={(e) =>
+                    setOrders((prev) =>
+                      prev.map((o, i) =>
+                        i === index ? { ...o, content: e.target.value } : o
+                      )
                     )
-                  )
-                }
-              />
+                  }
+                />
+                <span className="text-xs text-gray-500 mt-1">
+                  {order.content.length} / 200
+                </span>
+              </div>
+
               <div
                 className="w-full lg:w-[120px] h-[100px] border-2 border-dashed border-gray-300 hover:border-brand flex flex-col justify-center items-center cursor-pointer"
                 onDragOver={(e) => e.preventDefault()}
@@ -464,6 +523,7 @@ const RecipeAddpage = () => {
                 />
                 <p className="text-xs">{order.image?.name}</p>
               </div>
+
               <div
                 className="flex items-center cursor-pointer"
                 onClick={() => handleRemoveOrder(index)}

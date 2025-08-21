@@ -1,15 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import todayIcon from "../img/Today.svg";
-import recipeIcon from "../img/Recipe.svg";
 import SearchContainer from "../../../Component/SearchContainer/SearchContainer";
-import Menubar from "../../../Component/Menubar/Menubar";
 import axios from "axios";
 import axiosInstance from "../../../api/axiosInstance";
-import useNickname from "../../../hooks/useNickname";
 import { useEffect } from "react";
-// import { setNickname } from "../../../store/userSlice";
-// import { useDispatch } from "react-redux";
 import { useRecoilState } from "recoil";
 import { nicknameState } from "../../../recoil/nicknameAtom";
 const NicknamePage = () => {

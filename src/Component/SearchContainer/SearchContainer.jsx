@@ -4,22 +4,11 @@ import todaysIcon from "./logo.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./SearchContainer.style.css";
 import { useNavigate } from "react-router-dom";
-import searchIcon from "./icon/searchIcon.svg";
-import userIcon from "./icon/user.svg";
-import { CommentUserIcon, LoginBtnIcon } from "../Menubar/Icon/Icon";
-import checkAuthGuard from "../../hooks/checkAuthGuard";
+import { CommentUserIcon } from "../Menubar/Icon/Icon";
 import { useState } from "react";
-import Icon, { CommentProfileIcon, ProfileIcon } from "../Menubar/Icon/Icon";
-import InputContainer from "./InputContainer";
-import { useRecoilValue } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
 import { useRecoilState } from "recoil";
 import Loader from "../Loader";
-import { ContainerUserIcon } from "../Menubar/Icon/Icon";
-import UserIcon from "./icon/Icon_my_page";
-import { DropDownIcon, DropUpIcon } from "../Menubar/Icon/Icon";
-import { UpArrowIcon, DownArrowIcon } from "../Menubar/Icon/Icon";
-import { MenuIcon } from "../Menubar/Icon/Icon";
 import Menubar from "../Menubar/Menubar";
 
 const SearchContainer = () => {
@@ -29,14 +18,7 @@ const SearchContainer = () => {
 
   const [isDropdown, setIsDropdown] = useState(false);
   const location = useLocation();
-  // const includeContainerRoutes = ["/", "/recipe"];
-  // const hideContainerRoutes = ["/mypage"];
-  // const shouldHideContainerRoutes = hideContainerRoutes.includes(
-  //   location.pathname
-  // );
-  // const shouldIncludeContainerRoutes = includeContainerRoutes.includes(
-  //   location.pathname
-  // );
+
   const navItems = [
     { label: "홈", path: "/" },
     { label: "레시피", path: "/recipe" },
@@ -49,9 +31,7 @@ const SearchContainer = () => {
   const goHomePage = () => {
     navigate("/");
   };
-  const dropdownMenu = () => {
-    setIsDropdown(!isDropdown);
-  };
+
   const goAddRecipe = () => {
     navigate("/add");
   };

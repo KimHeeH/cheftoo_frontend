@@ -11,7 +11,6 @@ import RecipeDetailpage from "./Pages/Recipepage/RecipeDetailpage";
 import UpdateNicknamepage from "./Pages/Mypage/NicknamePage/UpdateNicknamepage";
 import MyRecipepage from "./Pages/Mypage/MyRecipepage/MyRecipepage";
 import { useEffect } from "react";
-import axios from "axios";
 import ScrapFolderDetail from "./Pages/Scrappage/ScrapFolderDetail";
 import { useSetRecoilState } from "recoil";
 import { nicknameState } from "./recoil/nicknameAtom";

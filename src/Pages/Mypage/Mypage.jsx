@@ -1,62 +1,35 @@
 import React, { useState, useEffect } from "react";
-import todayIcon from "./img/Today.svg";
-import recipeIcon from "./img/Recipe.svg";
 import buttonImgLarge from "./img/kakao_login_medium_wide.png";
-import buttonImgSmall from "./img/kakao_login_medium_wide.png"; // 작은 화면용 이미지
-import { useNavigate } from "react-router-dom"; // useNavigate import
+import buttonImgSmall from "./img/kakao_login_medium_wide.png";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import SearchContainer from "../../Component/SearchContainer/SearchContainer";
 import Menubar from "../../Component/Menubar/Menubar";
 import useKakaoLogin from "../../hooks/useKakaoLogin";
-import checkAuthGuard from "../../hooks/checkAuthGuard";
-import {
-  BookmarkIcon,
-  CommentIcon,
-  NickNameProfileIcon,
-  SelectedRecipeIcon,
-} from "../../Component/Menubar/Icon/Icon";
 import Loader from "../../Component/Loader";
 import { useRecoilState } from "recoil";
 import { nicknameState } from "../../recoil/nicknameAtom";
-import cookImg from "./img/cook-book.png";
 import axiosInstance from "../../api/axiosInstance";
 import MypageProfile from "./img/MypageProfile.png";
-import MyRecipepage from "./MyRecipepage/MyRecipepage";
 import MyRecipeComponent from "../../Component/MyRecope/MyRecipeComponent";
 import MyCommentComponent from "../../Component/MyComment/MyCommentComponent";
 import MyScrapComponent from "../../Component/MyScrap/MyScrapComponent";
 const Mypage = () => {
   const [buttonImg, setButtonImg] = useState(buttonImgLarge);
   const [nickname, setNickname] = useRecoilState(nicknameState);
-
-  const location = useLocation();
-  const { item } = location.state || {};
-  const [isHovered, setIsHovered] = useState("");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isEditMenuOpen, setIsEditMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [selected, setSelected] = useState("scrap");
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const kakaoLogin = useKakaoLogin("/mypage", "");
 
-  const itemCheck = (item) => {
-    if (item == "my") {
-      setIsHovered("my");
-    }
-  };
-
   const navigate = useNavigate();
-  const handlePage = () => {
-    navigate("/");
-  };
 
   const openEditMenu = () => {
     setIsEditMenuOpen(true);
   };
-  const goMyRecipe = () => {
-    navigate("/myrecipe");
-  };
+
   const updateNickname = () => {
     navigate("/updateNickname");
   };

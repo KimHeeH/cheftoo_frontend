@@ -9,12 +9,10 @@ import {
 } from "../../Component/Menubar/Icon/Icon";
 import {
   BigBookmarkIcon,
-  CommentIcon,
   CookingOrderIcon,
   IngredientIcon,
   SelectedBigBookmarkIcon,
 } from "../../Component/Menubar/Icon/Icon";
-import { RecipeDetailProfileIcon } from "../../Component/Menubar/Icon/Icon";
 import { DotMenuIcon } from "../../Component/Menubar/Icon/Icon";
 import { XIcon } from "../../Component/Menubar/Icon/Icon";
 import axiosInstance from "../../api/axiosInstance";
