@@ -1,0 +1,40 @@
+name: Deploy Frontend (Development)
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build and Push Frontend Image
+        run: |
+          docker build \
+            --build-arg REACT_APP_REST_API_KEY=${{ secrets.REACT_APP_REST_API_KEY }} \
+            --build-arg REACT_APP_KAKAO_REDIRECT_URI=${{ secrets.REACT_APP_KAKAO_REDIRECT_URI_DEV }} \
+            --build-arg REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }} \
+            --build-arg REACT_APP_KAKAO_REDIRECT_URL_BACK=${{ secrets.REACT_APP_KAKAO_REDIRECT_URL_BACK_DEV }} \
+            --build-arg REACT_APP_YOUTUBE_API_KEY=${{ secrets.REACT_APP_YOUTUBE_API_KEY }} \
+            -t ${{ secrets.DOCKER_USERNAME }}/cheftoo-frontend:dev .
+          docker push ${{ secrets.DOCKER_USERNAME }}/cheftoo-frontend:dev
+      
+      - name: Deploy to Dev Server via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/cheftoo-frontend:dev
+
+          
+            
