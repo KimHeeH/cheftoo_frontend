@@ -173,20 +173,18 @@ const RecommendedRecipe = () => {
   return (
     <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
       <div className="flex lg:gap-3 lg:flex-row flex-col w-full lg:mt-8 h-[470px] lg:h-[680px] border-b lg:pb-20">
-        {" "}
         <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4 pr-4 ">
           <span className="font-pretendard text-xl lg:text-[40px] lg:mb-8 font-bold text-brandDark">
-            오늘도 수고했어요{" "}
+            오늘도 수고했어요
           </span>
           <h2
             className="text-2xl  font-pretendard lg:text-[45px] font-bold mt-2 lg:font-semibold text-[darkText] leading-tight
 "
           >
-            {" "}
             <span className="lg:text-[50px] font-pretendard text-darkText">
               따뜻한 한 끼, <br />
-              인기 레시피로 함께해요{" "}
-            </span>{" "}
+              인기 레시피로 함께해요
+            </span>
           </h2>
           <p
             className="hidden lg:block font-pretendard lg:mt-6 text-subText text-base lg:text-3xl font-semibold leading-snug
@@ -195,7 +193,6 @@ const RecommendedRecipe = () => {
             지금 가장 인기있는 레시피들을 만나보세요!
           </p>
           <div className="flex w-full justify-end lg:justify-start mb-2">
-            {" "}
             <button
               onClick={() => goRecipePage()}
               className="hidden lg:blocklg:flex lg:gap-3 justify-center items-center mt-2 lg:mt-4 bg-brand rounded-3xl text-white text-sm lg:text-2xl h-8 lg:h-16 w-20 lg:w-80 hover:scale-105 duration-300 font-bold"
@@ -206,7 +203,8 @@ const RecommendedRecipe = () => {
         </div>
         <div className="lg:w-2/3 flex items-center justify-center mt-4  lg:mb-0 lg:mt-0">
           <div className="relative w-full">
-            {popularRecipeList.length > 0 ? (
+            {Array.isArray(popularRecipeList) &&
+            popularRecipeList.length > 0 ? (
               <Swiper
                 className="h-[310px] lg:h-[680px]"
                 slidesPerView={1.3}
@@ -233,45 +231,41 @@ const RecommendedRecipe = () => {
                   },
                 }}
               >
-                {Array.isArray(popularRecipeList) &&
-                  popularRecipeList.map((recipe, index) => (
-                    <SwiperSlide key={recipe.recipe_id} className="h-full">
-                      {" "}
-                      {/* ✅ slide 높이 고정 */}
-                      <div className="flex flex-col gap-4 h-full">
+                {popularRecipeList.map((recipe, index) => (
+                  <SwiperSlide key={recipe.recipe_id} className="h-full">
+                    {" "}
+                    {/* ✅ slide 높이 고정 */}
+                    <div className="flex flex-col gap-4 h-full">
+                      <div className="h-[250px] lg:h-[600px]">
                         <div
-                          key={recipe.recipe_id}
-                          className="h-[250px] lg:h-[600px]"
+                          onClick={() => handleRecipeDetail(recipe.recipe_id)}
+                          className="p-2 h-full rounded-3xl w-full"
+                          onMouseEnter={() => setHoveredIndex(index)}
+                          onMouseLeave={() => setHoveredIndex(null)}
                         >
-                          <div
-                            onClick={() => handleRecipeDetail(recipe.recipe_id)}
-                            className="p-2 h-full rounded-3xl w-full"
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                          >
-                            <img
-                              src={recipe?.img_path || firstImg}
-                              alt={`slide-${index}`}
-                              className={`h-full w-full object-cover rounded-3xl transition-all duration-300 ${
-                                hoveredIndex === index
-                                  ? "scale-105 hover:rounded-[2.5rem]"
-                                  : "rounded-3xl"
-                              }`}
-                            />
-                          </div>
-                        </div>
-
-                        {/* 텍스트 영역 */}
-                        <div className="px-4 flex flex-col">
-                          <div className="lg:p-2 z-10">
-                            <span className="font-pretendard text-darkText text-base lg:text-3xl font-bold">
-                              {recipe.recipe_title}
-                            </span>
-                          </div>
+                          <img
+                            src={recipe?.img_path || firstImg}
+                            alt={`slide-${index}`}
+                            className={`h-full w-full object-cover rounded-3xl transition-all duration-300 ${
+                              hoveredIndex === index
+                                ? "scale-105 hover:rounded-[2.5rem]"
+                                : "rounded-3xl"
+                            }`}
+                          />
                         </div>
                       </div>
-                    </SwiperSlide>
-                  ))}
+
+                      {/* 텍스트 영역 */}
+                      <div className="px-4 flex flex-col">
+                        <div className="lg:p-2 z-10">
+                          <span className="font-pretendard text-darkText text-base lg:text-3xl font-bold">
+                            {recipe.recipe_title}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             ) : (
               <div className="font-pretendard flex flex-col gap-3 items-center justify-center h-[600px] w-full text-center text-gray-400">
