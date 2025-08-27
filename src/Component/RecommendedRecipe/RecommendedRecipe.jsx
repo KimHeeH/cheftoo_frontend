@@ -233,44 +233,45 @@ const RecommendedRecipe = () => {
                   },
                 }}
               >
-                {popularRecipeList.map((recipe, index) => (
-                  <SwiperSlide key={recipe.recipe_id} className="h-full">
-                    {" "}
-                    {/* ✅ slide 높이 고정 */}
-                    <div className="flex flex-col gap-4 h-full">
-                      <div
-                        key={recipe.recipe_id}
-                        className="h-[250px] lg:h-[600px]"
-                      >
+                {Array.isArray(popularRecipeList) &&
+                  popularRecipeList.map((recipe, index) => (
+                    <SwiperSlide key={recipe.recipe_id} className="h-full">
+                      {" "}
+                      {/* ✅ slide 높이 고정 */}
+                      <div className="flex flex-col gap-4 h-full">
                         <div
-                          onClick={() => handleRecipeDetail(recipe.recipe_id)}
-                          className="p-2 h-full rounded-3xl w-full"
-                          onMouseEnter={() => setHoveredIndex(index)}
-                          onMouseLeave={() => setHoveredIndex(null)}
+                          key={recipe.recipe_id}
+                          className="h-[250px] lg:h-[600px]"
                         >
-                          <img
-                            src={recipe?.img_path || firstImg}
-                            alt={`slide-${index}`}
-                            className={`h-full w-full object-cover rounded-3xl transition-all duration-300 ${
-                              hoveredIndex === index
-                                ? "scale-105 hover:rounded-[2.5rem]"
-                                : "rounded-3xl"
-                            }`}
-                          />
+                          <div
+                            onClick={() => handleRecipeDetail(recipe.recipe_id)}
+                            className="p-2 h-full rounded-3xl w-full"
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                          >
+                            <img
+                              src={recipe?.img_path || firstImg}
+                              alt={`slide-${index}`}
+                              className={`h-full w-full object-cover rounded-3xl transition-all duration-300 ${
+                                hoveredIndex === index
+                                  ? "scale-105 hover:rounded-[2.5rem]"
+                                  : "rounded-3xl"
+                              }`}
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      {/* 텍스트 영역 */}
-                      <div className="px-4 flex flex-col">
-                        <div className="lg:p-2 z-10">
-                          <span className="font-pretendard text-darkText text-base lg:text-3xl font-bold">
-                            {recipe.recipe_title}
-                          </span>
+                        {/* 텍스트 영역 */}
+                        <div className="px-4 flex flex-col">
+                          <div className="lg:p-2 z-10">
+                            <span className="font-pretendard text-darkText text-base lg:text-3xl font-bold">
+                              {recipe.recipe_title}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </SwiperSlide>
-                ))}
+                    </SwiperSlide>
+                  ))}
               </Swiper>
             ) : (
               <div className="font-pretendard flex flex-col gap-3 items-center justify-center h-[600px] w-full text-center text-gray-400">

@@ -63,14 +63,14 @@ const RecipeAddpage = () => {
   });
 
   if (errorMessages.length > 0) {
-    alert(errorMessages.join("\n")); // 한 번만 alert
+    alert(errorMessages.join("\n"));
   }
   /**  메인 요리 사진 추가 (여러 개) */
   const handleMainImageDrop = (event) => {
     event.preventDefault();
     setIsDragging(false);
-    const droppedFiles = Array.from(event.dataTransfer.files); // 여러 개 파일 처리
-    setMainImages((prev) => [...prev, ...droppedFiles]); // 기존 파일 유지하고 새로운 파일 추가
+    const droppedFiles = Array.from(event.dataTransfer.files);
+    setMainImages((prev) => [...prev, ...droppedFiles]);
   };
 
   const handleMainImageUpload = () => {

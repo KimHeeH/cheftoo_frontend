@@ -93,25 +93,29 @@ const MyRecipeComponent = () => {
             내가 등록한 레시피를 확인해보세요
           </span>
         </div>
-        <div className="shrink-0 ml-auto">
-          <div
-            onClick={deleteRecipe}
-            className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
-          >
-            삭제
+        {myRecipe.length > 0 && (
+          <div className="shrink-0 ml-auto">
+            <div
+              onClick={deleteRecipe}
+              className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
+            >
+              삭제
+            </div>
+          </div>
+        )}
+      </div>
+      {myRecipe.length > 0 && (
+        <div className="flex flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
+          <div className="flex items-center h-10 gap-2">
+            <div className="cursor-pointer" onClick={toggleAllBox}>
+              {isAllSelected ? <SelectedBoxIcon /> : <BoxIcon />}
+            </div>
+            <div className="text-sm lg:text-base">
+              {isAllSelected ? "전체해제" : "전체선택"}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
-        <div className="flex items-center h-10 gap-2">
-          <div className="cursor-pointer" onClick={toggleAllBox}>
-            {isAllSelected ? <SelectedBoxIcon /> : <BoxIcon />}
-          </div>
-          <div className="text-sm lg:text-base">
-            {isAllSelected ? "전체해제" : "전체선택"}
-          </div>
-        </div>
-      </div>
+      )}
       {/* 레시피 리스트 */}
       <div className="mt-6 gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 px-3 pb-24 lg:pb-0">
         {myRecipe?.content?.map((recipe) => (
