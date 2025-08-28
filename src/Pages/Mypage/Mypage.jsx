@@ -23,6 +23,14 @@ const Mypage = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const kakaoLogin = useKakaoLogin("/mypage", "");
+  console.log("카카오 로그인 훅 결과:", kakaoLogin);
+  const handleLogin = async () => {
+    try {
+      await kakaoLogin();
+    } catch (e) {
+      console.error("카카오 로그인 실행 중 오류:", e);
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -102,7 +110,13 @@ const Mypage = () => {
           </p>
 
           {/* 카카오 로그인 버튼 */}
-          <div className="cursor-pointer" onClick={kakaoLogin}>
+          <div
+            className="cursor-pointer"
+            onClick={() => {
+              console.log("카카오 로그인 버튼 클릭됨");
+              handleLogin();
+            }}
+          >
             <img
               className="w-60 lg:w-72 h-12 shadow-md hover:shadow-lg transition-transform hover:scale-105"
               src={buttonImg}
