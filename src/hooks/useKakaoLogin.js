@@ -12,6 +12,7 @@ const useKakaoLogin = (prevPage, nextPage = null) => {
     if (CLIENT_ID && REDIRECT_URI) {
       const url = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&prompt=login&response_type=code&state=${state}`;
       setKakaoURL(url);
+      console.log("카카오 로그인 URL 생성됨:", url);
     }
   }, [prevPage, nextPage]);
 
