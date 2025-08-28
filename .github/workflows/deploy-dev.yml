@@ -18,7 +18,7 @@ jobs:
 
       - name: Build and Push Frontend Image
         run: |
-          docker build \
+          docker build --no-cache \
             --build-arg REACT_APP_REST_API_KEY=${{ secrets.REACT_APP_REST_API_KEY }} \
             --build-arg REACT_APP_KAKAO_REDIRECT_URI=${{ secrets.REACT_APP_KAKAO_REDIRECT_URI_DEV }} \
             --build-arg REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }} \
