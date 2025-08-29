@@ -38,9 +38,9 @@ jobs:
         run: |
           docker build --no-cache \
             --build-arg REACT_APP_REST_API_KEY=${{ secrets.REACT_APP_REST_API_KEY }} \
-            --build-arg REACT_APP_KAKAO_REDIRECT_URI=${{ secrets.REACT_APP_KAKAO_REDIRECT_URI_DEV }} \
+            --build-arg REACT_APP_KAKAO_REDIRECT_URI=${{ secrets.REACT_APP_KAKAO_REDIRECT_URI }} \
             --build-arg REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }} \
-            --build-arg REACT_APP_KAKAO_REDIRECT_URL_BACK=${{ secrets.REACT_APP_KAKAO_REDIRECT_URL_BACK_DEV }} \
+            --build-arg REACT_APP_KAKAO_REDIRECT_URL_BACK=${{ secrets.REACT_APP_KAKAO_REDIRECT_URL_BACK }} \
             --build-arg REACT_APP_YOUTUBE_API_KEY=${{ secrets.REACT_APP_YOUTUBE_API_KEY }} \
             -t ${{ secrets.DOCKER_USERNAME }}/cheftoo-frontend:${{ steps.check_stack.outputs.target_stack }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/cheftoo-frontend:${{ steps.check_stack.outputs.target_stack }}
