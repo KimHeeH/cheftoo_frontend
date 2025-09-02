@@ -174,7 +174,7 @@ const RecipeDetailpage = () => {
   const fetchRecipe = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/recipe/${recipeId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/recipe/${recipeId}`,
 
         {
           withCredentials: true,
