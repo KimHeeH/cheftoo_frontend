@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        
+      - name: Debug Build Args
+        run: |
+          echo "KAKAO REDIRECT URI: ${{ secrets.REACT_APP_KAKAO_REDIRECT_URI }}"
 
       - name: Decode EC2 SSH Key
         run: |
