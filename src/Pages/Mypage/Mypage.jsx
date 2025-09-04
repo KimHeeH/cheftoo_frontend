@@ -91,21 +91,22 @@ const Mypage = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="h-screen font-pretendard">
+      <div className="h-screen font-pretendard flex flex-col">
+        {/* 상단바 ) */}
         <SearchContainer />
         <Menubar />
 
         {/* 로그인 화면 */}
-        <div className="flex flex-col justify-center items-center text-center h-[80vh] px-4">
+        <div className="flex-1 flex flex-col justify-center items-center text-center px-4 overflow-hidden">
           {/* 타이틀 */}
-          <h1 className="text-xl lg:text-3xl font-bold mb-4">
+          <h1 className="text-2xl lg:text-3xl font-bold mb-4">
             카카오로 로그인 해주세요!
           </h1>
 
           {/* 설명 문구 */}
           <p className="text-subText text-base lg:text-xl leading-relaxed mb-8">
             카카오 계정으로 로그인하고
-            <br></br>
+            <br />
             모든 기능을 바로 사용해보세요
           </p>
 
@@ -118,7 +119,7 @@ const Mypage = () => {
             }}
           >
             <img
-              className="w-56 lg:w-72 h-12 shadow-md hover:shadow-lg transition-transform hover:scale-105"
+              className="w-60 lg:w-72 h-12 shadow-md hover:shadow-lg transition-transform hover:scale-105"
               src={buttonImg}
               alt="카카오 로그인"
             />
@@ -127,6 +128,7 @@ const Mypage = () => {
       </div>
     );
   }
+
   return (
     <div className="font-pretendard">
       <SearchContainer />
