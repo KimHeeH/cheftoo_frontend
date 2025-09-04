@@ -174,14 +174,14 @@ const RecommendedRecipe = () => {
     <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 pb-24">
       <div className="flex lg:gap-3 lg:flex-row flex-col w-full lg:mt-8 h-[470px] lg:h-[680px] border-b lg:pb-20">
         <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4 pr-4 ">
-          <span className="font-pretendard text-2xl lg:text-[40px] lg:mb-8 font-bold text-brandDark">
+          <span className="font-pretendard text-2xl lg:text-[36px] lg:mb-8 font-bold text-brandDark">
             오늘도 수고했어요
           </span>
           <h2
-            className=" font-pretendard lg:text-[45px] font-bold mt-2 lg:font-semibold text-[darkText] leading-tight
+            className=" font-pretendard lg:text-[40px] font-bold mt-2 lg:font-semibold text-[darkText] leading-tight
 "
           >
-            <span className="text-[24px] lg:text-[50px] font-pretendard text-darkText">
+            <span className="text-[24px] lg:text-[40px] font-pretendard text-darkText">
               따뜻한 한 끼, <br />
               인기 레시피로 함께해요
             </span>
