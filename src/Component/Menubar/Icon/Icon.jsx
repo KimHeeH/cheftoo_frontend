@@ -599,10 +599,9 @@ export const FolderIcon = () => {
 export const FolderNameIcon = ({ fill = "#10B981" }) => {
   return (
     <svg
-      width="60"
-      height="60"
       viewBox="0 0 52 52"
       fill="none"
+      className="w-4 h-4 lg:w-16 lg:h-16"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

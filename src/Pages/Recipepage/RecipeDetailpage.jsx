@@ -385,8 +385,8 @@ const RecipeDetailpage = () => {
           </div>
 
           {/* 모바일: 세로 스택 / 데스크탑: 가로 레이아웃 */}
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div className="w-full lg:w-1/2 h-[600px] overflow-y-auto">
+          <div className="flex flex-col lg:flex-row lg:gap-4">
+            <div className="w-full lg:w-1/2 lg:h-[600px] overflow-y-auto">
               {sortedCookingOrder.map((order, i) => (
                 <div
                   key={i}
@@ -429,7 +429,7 @@ const RecipeDetailpage = () => {
           {/* 댓글 작성 */}
           <div className="bg-[#EAF6F2] border rounded-xl p-3 shadow-sm">
             <textarea
-              className="w-full rounded-lg text-sm lg:text-lg resize-none p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full rounded-lg text-sm lg:text-lg resize-none p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brandDark"
               placeholder="댓글을 남겨주세요"
               value={comment}
               onChange={(e) => setComment(e.target.value)}

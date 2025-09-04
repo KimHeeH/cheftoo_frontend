@@ -217,7 +217,7 @@ const Mypage = () => {
             </div>
 
             {/* 콘텐츠 영역 */}
-            <div className="w-full mt-6 border-t pt-6 px-4 lg:px-0">
+            <div className="w-full mt-6 border-t pt-6 px-4 pb-24 lg:pb-0 lg:px-0">
               <div className="mx-auto w-full max-w-[1000px]">
                 {selected === "recipe" ? (
                   <MyRecipeComponent />

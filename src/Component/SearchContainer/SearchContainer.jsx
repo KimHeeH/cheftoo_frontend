@@ -127,7 +127,17 @@ const SearchContainer = () => {
             <div>
               <Menubar />
             </div>
-            <div className="flex w-auto lg:w-38 items-center cursor-pointer h-12  hover:opacity-80">
+            <div className="flex w-auto lg:w-38 items-center cursor-pointer h-12 gap-3  hover:opacity-80">
+              {isLoggedIn && (
+                <div
+                  onClick={() => goAddRecipe()}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  className="text-[15px] w-24 flex items-center justify-center font-pretendard border-2 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white  rounded-3xl h-10  text-lg"
+                >
+                  레시피 등록
+                </div>
+              )}
               {nickname ? (
                 <div className="flex items-center gap-4">
                   <div onClick={handleLoginPage}>
