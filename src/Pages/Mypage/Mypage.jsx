@@ -98,14 +98,14 @@ const Mypage = () => {
         {/* 로그인 화면 */}
         <div className="flex flex-col justify-center items-center text-center h-[80vh] px-4">
           {/* 타이틀 */}
-          <h1 className="text-2xl lg:text-3xl font-bold mb-4">
+          <h1 className="text-xl lg:text-3xl font-bold mb-4">
             카카오로 로그인 해주세요!
           </h1>
 
           {/* 설명 문구 */}
           <p className="text-subText text-base lg:text-xl leading-relaxed mb-8">
             카카오 계정으로 로그인하고
-            <br className="hidden lg:block" />
+            <br></br>
             모든 기능을 바로 사용해보세요
           </p>
 
@@ -118,7 +118,7 @@ const Mypage = () => {
             }}
           >
             <img
-              className="w-60 lg:w-72 h-12 shadow-md hover:shadow-lg transition-transform hover:scale-105"
+              className="w-56 lg:w-72 h-12 shadow-md hover:shadow-lg transition-transform hover:scale-105"
               src={buttonImg}
               alt="카카오 로그인"
             />
@@ -173,9 +173,8 @@ const Mypage = () => {
 
         {/* 메뉴 탭 */}
         {!isEditMenuOpen ? (
-          <div className="max-w-[1200px]">
-            {" "}
-            <div className="min-w-[400px] lg:min-w-[1200px] relative shadow-md flex mt-10 max-w-[1200px] w-full border border-gray-200 rounded-full overflow-hidden text-base lg:text-lg font-semibold">
+          <div className="w-full max-w-[1200px] lg:px-0">
+            <div className="relative shadow-md flex mt-10 w-full border border-gray-200 rounded-full overflow-hidden text-base lg:text-lg font-semibold">
               {/* 애니메이션용 백그라운드 */}
               <div
                 className={`absolute top-0 left-0 w-1/3 h-full bg-brand rounded-full transition-transform duration-300 ease-in-out z-0`}
@@ -189,7 +188,6 @@ const Mypage = () => {
                 }}
               />
               {/* 탭 버튼들 */}
-
               <div
                 onClick={() => setSelected("scrap")}
                 className={`w-1/3 h-12 lg:h-20 flex items-center justify-center cursor-pointer relative z-10 transition-colors duration-300 ${
@@ -215,7 +213,9 @@ const Mypage = () => {
                 나의 댓글
               </div>
             </div>
-            <div className="w-full mt-6 border-t pt-6 px-3 lg:px-0">
+
+            {/* 콘텐츠 영역 */}
+            <div className="w-full mt-6 border-t pt-6 px-4 lg:px-0">
               <div className="mx-auto w-full max-w-[1000px]">
                 {selected === "recipe" ? (
                   <MyRecipeComponent />

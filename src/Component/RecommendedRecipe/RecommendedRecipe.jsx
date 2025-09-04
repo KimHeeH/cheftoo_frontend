@@ -171,17 +171,17 @@ const RecommendedRecipe = () => {
   }, []);
 
   return (
-    <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 ">
+    <div className=" flex flex-col lg:flex-col w-full mt-8 lg:px-28 relative lg:bg-[#f9fafb] px-6 lg:mt-0 lg:mb-24 pb-24">
       <div className="flex lg:gap-3 lg:flex-row flex-col w-full lg:mt-8 h-[470px] lg:h-[680px] border-b lg:pb-20">
         <div className="flex flex-col lg:h-2/3 w-full justify-center lg:w-1/3 lg:pl-0  lg:mt-12 lg:mb-6 lg:mb-0 lg:pt-4 pr-4 ">
-          <span className="font-pretendard text-xl lg:text-[40px] lg:mb-8 font-bold text-brandDark">
+          <span className="font-pretendard text-2xl lg:text-[40px] lg:mb-8 font-bold text-brandDark">
             오늘도 수고했어요
           </span>
           <h2
-            className="text-2xl  font-pretendard lg:text-[45px] font-bold mt-2 lg:font-semibold text-[darkText] leading-tight
+            className=" font-pretendard lg:text-[45px] font-bold mt-2 lg:font-semibold text-[darkText] leading-tight
 "
           >
-            <span className="lg:text-[50px] font-pretendard text-darkText">
+            <span className="text-[24px] lg:text-[50px] font-pretendard text-darkText">
               따뜻한 한 끼, <br />
               인기 레시피로 함께해요
             </span>
@@ -268,7 +268,7 @@ const RecommendedRecipe = () => {
                 ))}
               </Swiper>
             ) : (
-              <div className="font-pretendard flex flex-col gap-3 items-center justify-center h-[600px] w-full text-center text-gray-400">
+              <div className="font-pretendard flex flex-col gap-3 items-center border justify-center h-[300px] lg:h-[600px] w-full text-center text-gray-400">
                 <CircleXIcon />
                 <div>인기 레시피가 없습니다</div>
               </div>
@@ -281,7 +281,7 @@ const RecommendedRecipe = () => {
         <h2 className="text-2xl lg:text-4xl font-pretendard font-semibold text-darkText">
           <span className="text-brand mr-1 font-pretendard">핫이슈</span> 레시피
         </h2>
-        <p className="text-[subText] font-pretendard mt-2 text-lg lg:text-2xl">
+        <p className="text-[subText] font-pretendard mt-2 text-base lg:text-2xl">
           요즘 유튜브에서 핫한 요리 영상들을 모았어요!
         </p>
       </div>

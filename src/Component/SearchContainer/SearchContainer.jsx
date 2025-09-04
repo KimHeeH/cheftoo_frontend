@@ -47,7 +47,7 @@ const SearchContainer = () => {
   }, [nickname, setNickname]);
   return (
     <div className="lg:mt-8 w-screen border-b-2 border-brand mb-8 lg:mb-0 bg-white">
-      <div className="relative px-10 w-full py-4 lg:py-4  lg:h-[80px]  ">
+      <div className="relative px-4 lg:px-10 w-full py-3 lg:py-4  lg:h-[80px]  ">
         <div className="hidden lg:flex items-center w-full h-full">
           {/* 로고 */}
           <div
@@ -121,7 +121,7 @@ const SearchContainer = () => {
               onClick={goHomePage}
               className="flex items-center cursor-pointer h-12"
             >
-              <img className="w-40 mr-2" src={todaysIcon} alt="Today’s Icon" />
+              <img className="w-40 mr-2" src={todaysIcon} alt="cheftoo" />
             </div>
             {/* 로그인 */}
             <div>

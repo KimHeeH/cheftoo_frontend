@@ -112,7 +112,7 @@ const Recipepage = () => {
           <div className="flex gap-2 lg:gap-4 mt-4 w-full lg:mt-0  h-[48px] lg:h-[70px] mb-8 ">
             {" "}
             <input
-              className=" lg:text-xl  w-full rounded-l-[10rem] h-[48px] lg:h-full rounded-md bg-white pl-8 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
+              className=" text-sm lg:text-xl  w-full rounded-l-[10rem] h-[48px] lg:h-full rounded-md bg-white pl-8 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
               placeholder="궁금한 레시피를 찾아보세요"
               onChange={(e) => setKeyword(e.target.value)}
               value={keyword}

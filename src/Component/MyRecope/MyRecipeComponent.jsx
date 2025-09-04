@@ -87,7 +87,7 @@ const MyRecipeComponent = () => {
       {" "}
       <div className="flex items-start">
         {" "}
-        <div className="flex-1 min-w-0 flex flex-col gap-2 text-lg lg:text-2xl font-semibold">
+        <div className="flex-1 min-w-0 flex flex-col lg:gap-2 text-lg lg:text-2xl font-semibold">
           <div> 나의 레시피 </div>
           <span className="text-sm lg:text-lg text-gray-400 font-medium">
             내가 등록한 레시피를 확인해보세요
