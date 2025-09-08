@@ -394,7 +394,7 @@ const RecipeDetailpage = () => {
                 </div>
               ))}
             </div>
-            <div className="w-full mt-4 lg:mt-0 h-[250px] lg:h-auto     lg:w-1/2 flex justify-center items-center border-1">
+            <div className="w-full mt-4 lg:mt-0 h-[250px] lg:h-auto   overflow-hidden     lg:w-1/2 flex justify-center items-center border-1">
               {sortedCookingOrder?.[selectedStepIndex]?.img_path ? (
                 <img
                   src={sortedCookingOrder[selectedStepIndex].img_path}
