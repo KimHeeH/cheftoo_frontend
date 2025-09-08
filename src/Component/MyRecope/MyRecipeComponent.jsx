@@ -15,12 +15,33 @@ const MyRecipeComponent = () => {
   const [page, setPage] = useState(0);
   const meta = myRecipe;
 
-  const displayData = meta?.content || [];
+  // const displayData = meta?.content || [];
   const currentPage = meta?.number ?? 0;
 
   const totalPages = meta?.total_pages ?? 0;
+  // 기존
+  // const isAllSelected = myRecipe.length > 0 && selectedIds.length === myRecipe.length;
+  // {myRecipe.length > 0 && ( ...삭제 버튼... )}
+  // {myRecipe.length > 0 && ( ...전체선택/해제 UI... )}
+  // {myRecipe.length === 0 && ( ...빈 상태... )}
+  // toggleAllBox 안의 myRecipe.map(...)
+
+  // 변경
+  const displayData = meta?.content || [];
+
   const isAllSelected =
-    myRecipe.length > 0 && selectedIds.length === myRecipe.length;
+    displayData.length > 0 && selectedIds.length === displayData.length;
+
+  const toggleAllBox = () => {
+    if (selectedIds.length === displayData.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(displayData.map((recipe) => recipe.recipe_id));
+    }
+  };
+
+  // const isAllSelected =
+  //   myRecipe.length > 0 && selectedIds.length === myRecipe.length;
   const handleRecipeDetail = (recipe_id) => {
     navigate(`/recipes/${recipe_id}`);
   };
@@ -43,13 +64,13 @@ const MyRecipeComponent = () => {
     );
   };
 
-  const toggleAllBox = () => {
-    if (selectedIds.length === myRecipe.length) {
-      setSelectedIds([]);
-    } else {
-      setSelectedIds(myRecipe.map((recipe) => recipe.recipe_id));
-    }
-  };
+  // const toggleAllBox = () => {
+  //   if (selectedIds.length === myRecipe.length) {
+  //     setSelectedIds([]);
+  //   } else {
+  //     setSelectedIds(myRecipe.map((recipe) => recipe.recipe_id));
+  //   }
+  // };
 
   const deleteRecipe = async () => {
     try {
@@ -93,7 +114,7 @@ const MyRecipeComponent = () => {
             내가 등록한 레시피를 확인해보세요
           </span>
         </div>
-        {myRecipe.length > 0 && (
+        {displayData.length > 0 && (
           <div className="shrink-0 ml-auto">
             <div
               onClick={deleteRecipe}
@@ -104,7 +125,7 @@ const MyRecipeComponent = () => {
           </div>
         )}
       </div>
-      {myRecipe.length > 0 && (
+      {displayData.length > 0 && (
         <div className="flex flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
           <div className="flex items-center h-10 gap-2">
             <div className="cursor-pointer" onClick={toggleAllBox}>
@@ -202,7 +223,7 @@ const MyRecipeComponent = () => {
           </button>
         </div>
       )}
-      {myRecipe.length === 0 && (
+      {displayData.length === 0 && (
         <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[200px] lg:w-full lg:h-[200px] lg:border-1 ">
           아직 등록한 레시피가 없습니다.
           <br />

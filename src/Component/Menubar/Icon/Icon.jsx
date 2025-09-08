@@ -356,14 +356,13 @@ export const DeleteIcon = () => {
     </svg>
   );
 };
-export const CommentUserIcon = () => {
+export const CommentUserIcon = ({ className = "w-6 h-6" }) => {
   return (
     <svg
-      width="42"
-      height="42"
       viewBox="0 0 42 42"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className} // ← 사이즈를 부모에서 조절
     >
       <path
         d="M20.9999 40.5999C31.8247 40.5999 40.5999 31.8247 40.5999 20.9999C40.5999 10.1751 31.8247 1.3999 20.9999 1.3999C10.1751 1.3999 1.3999 10.1751 1.3999 20.9999C1.3999 31.8247 10.1751 40.5999 20.9999 40.5999Z"
@@ -395,6 +394,7 @@ export const CommentUserIcon = () => {
     </svg>
   );
 };
+
 export const CommentIcon = () => {
   return (
     <svg

@@ -21,7 +21,6 @@ import { useMe } from "../../contexts/MeContext";
 const RecipeDetailpage = () => {
   const { recipeId } = useParams();
   const location = useLocation();
-  const commentRef = useRef(null);
   const { me } = useMe();
   const [isNoFolderModalOpen, setIsNoFolderModalOpen] = useState(false);
   const [recipe, setRecipe] = useState(null);
@@ -188,13 +187,6 @@ const RecipeDetailpage = () => {
     }
   };
 
-  useEffect(() => {
-    if (location.state?.scrollToComment && commentRef.current) {
-      setTimeout(() => {
-        commentRef.current.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    }
-  }, [location.key]);
   useEffect(() => {
     if (!recipeId) return;
 
@@ -386,7 +378,7 @@ const RecipeDetailpage = () => {
 
           {/* 모바일: 세로 스택 / 데스크탑: 가로 레이아웃 */}
           <div className="flex flex-col lg:flex-row lg:gap-4">
-            <div className="w-full lg:w-1/2 lg:h-[600px] overflow-y-auto">
+            <div className="w-full lg:w-1/2 lg:h-[500px] overflow-y-auto">
               {sortedCookingOrder.map((order, i) => (
                 <div
                   key={i}
@@ -402,7 +394,7 @@ const RecipeDetailpage = () => {
                 </div>
               ))}
             </div>
-            <div className="w-full lg:w-1/2 flex justify-center items-center border-1">
+            <div className="w-full mt-4 lg:mt-0 h-[250px] lg:h-auto  lg:w-1/2 flex justify-center items-center border-1">
               {sortedCookingOrder?.[selectedStepIndex]?.img_path ? (
                 <img
                   src={sortedCookingOrder[selectedStepIndex].img_path}
@@ -444,10 +436,10 @@ const RecipeDetailpage = () => {
               </button>
             </div>
           </div>
-          <div ref={commentRef} id="comments">
+          <div>
             {commentList.map((comment) => {
               const myId = me;
-              const canDelete = myId === comment.member_id;
+              const canDelete = String(myId) === String(comment.member_id);
               return (
                 <div
                   key={comment.comment_id}
@@ -456,7 +448,7 @@ const RecipeDetailpage = () => {
                   {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
                   <div className="flex justify-between items-center mb-2">
                     <div className="flex items-center gap-3">
-                      <CommentUserIcon />
+                      <CommentUserIcon className="w-8 h-8 lg:w-10 lg:h-10" />
                       <span className="text-lg font-semibold text-gray-800">
                         {comment.nick_name}
                       </span>

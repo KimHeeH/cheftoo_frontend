@@ -15,6 +15,7 @@ export function MeProvider({ children }) {
         },
       });
       setMe(res.data);
+      console.log(res.data);
     } catch (e) {
       setMe(null); // 401 등
     } finally {

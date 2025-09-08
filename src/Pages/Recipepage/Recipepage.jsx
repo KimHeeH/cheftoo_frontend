@@ -103,7 +103,7 @@ const Recipepage = () => {
   };
 
   return (
-    <div>
+    <div className="pb-28 lg:pb-0">
       <SearchContainer />
       <Menubar />
       {/* 검색 + 결과 안내 */}
