@@ -118,7 +118,7 @@ const MyRecipeComponent = () => {
           <div className="shrink-0 ml-auto">
             <div
               onClick={deleteRecipe}
-              className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
+              className="flex justify-center items-center border rounded-xl w-[70px] lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-10"
             >
               삭제
             </div>
@@ -177,18 +177,18 @@ const MyRecipeComponent = () => {
         ))}
       </div>
       {totalPages >= 1 && (
-        <div className="mt-6 flex items-center justify-center gap-2">
+        <div className="mt-6 flex items-center justify-center gap-3 ">
           <button
             onClick={() => goPage(0)}
             disabled={currentPage === 0}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             처음
           </button>
           <button
             onClick={() => goPage(currentPage - 1)}
             disabled={currentPage === 0}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             이전
           </button>
@@ -210,14 +210,14 @@ const MyRecipeComponent = () => {
           <button
             onClick={() => goPage(currentPage + 1)}
             disabled={currentPage + 1 >= totalPages}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             다음
           </button>
           <button
             onClick={() => goPage(totalPages - 1)}
             disabled={currentPage + 1 >= totalPages}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             마지막
           </button>

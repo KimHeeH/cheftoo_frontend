@@ -133,7 +133,7 @@ const SearchContainer = () => {
                   onClick={() => goAddRecipe()}
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
-                  className="text-[13px] w-20 flex items-center justify-center font-pretendard border-2 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white  rounded-3xl h-10  text-lg"
+                  className="text-[13px] w-24 flex items-center justify-center font-pretendard border-2 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white  rounded-3xl h-10  text-lg"
                 >
                   레시피 등록
                 </div>
@@ -141,7 +141,7 @@ const SearchContainer = () => {
               {nickname ? (
                 <div className="flex items-center gap-4">
                   <div onClick={handleLoginPage}>
-                    <CommentUserIcon />
+                    <CommentUserIcon className="w-8 h-8" />
                   </div>
                 </div>
               ) : (
