@@ -35,3 +35,13 @@ CHEF,TOO는 "나도 요리사"라는 뜻을 담아, 누구나 손쉽게 자신�
 ⚡ Redis 캐시를 활용한 인기 레시피 조회 성능 향상과 인기 레시피 관련 YouTube 영상을 효율적으로 제공
 
 🐳 Docker Compose 기반으로 백엔드, DB, 캐시 서버 컨테이너 실행
+
+👥 팀원 소개
+이름	역할	담당 업무	깃허브 주소
+김지우	백엔드 개발 / 인프라 구축 / 전체 설계	- API 설계 및 개발
+- DB 모델링
+- CI/CD 구축
+- 서버 아키텍처 설계 및 인프라 구축	https://github.com/jiubuntu
+김희수	프론트엔드 개발 / UI/UX설계	- React 화면 및 기능 개발
+- Figma 디자인 및 UI/UX 설계
+- 사용자 기능 구현	https://github.com/KimHeeH
