@@ -336,7 +336,7 @@ const RecipeAddpage = () => {
               요리 설명
             </label>{" "}
             <span className="text-sm text-gray-500 ml-2">
-              {recipeTitleInputValue.length} / 100
+              {recipeContentValue.length} / 100
             </span>
           </div>
 

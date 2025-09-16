@@ -15,12 +15,33 @@ const MyRecipeComponent = () => {
   const [page, setPage] = useState(0);
   const meta = myRecipe;
 
-  const displayData = meta?.content || [];
+  // const displayData = meta?.content || [];
   const currentPage = meta?.number ?? 0;
 
   const totalPages = meta?.total_pages ?? 0;
+  // 기존
+  // const isAllSelected = myRecipe.length > 0 && selectedIds.length === myRecipe.length;
+  // {myRecipe.length > 0 && ( ...삭제 버튼... )}
+  // {myRecipe.length > 0 && ( ...전체선택/해제 UI... )}
+  // {myRecipe.length === 0 && ( ...빈 상태... )}
+  // toggleAllBox 안의 myRecipe.map(...)
+
+  // 변경
+  const displayData = meta?.content || [];
+
   const isAllSelected =
-    myRecipe.length > 0 && selectedIds.length === myRecipe.length;
+    displayData.length > 0 && selectedIds.length === displayData.length;
+
+  const toggleAllBox = () => {
+    if (selectedIds.length === displayData.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(displayData.map((recipe) => recipe.recipe_id));
+    }
+  };
+
+  // const isAllSelected =
+  //   myRecipe.length > 0 && selectedIds.length === myRecipe.length;
   const handleRecipeDetail = (recipe_id) => {
     navigate(`/recipes/${recipe_id}`);
   };
@@ -43,13 +64,13 @@ const MyRecipeComponent = () => {
     );
   };
 
-  const toggleAllBox = () => {
-    if (selectedIds.length === myRecipe.length) {
-      setSelectedIds([]);
-    } else {
-      setSelectedIds(myRecipe.map((recipe) => recipe.recipe_id));
-    }
-  };
+  // const toggleAllBox = () => {
+  //   if (selectedIds.length === myRecipe.length) {
+  //     setSelectedIds([]);
+  //   } else {
+  //     setSelectedIds(myRecipe.map((recipe) => recipe.recipe_id));
+  //   }
+  // };
 
   const deleteRecipe = async () => {
     try {
@@ -87,24 +108,24 @@ const MyRecipeComponent = () => {
       {" "}
       <div className="flex items-start">
         {" "}
-        <div className="flex-1 min-w-0 flex flex-col gap-2 text-lg lg:text-2xl font-semibold">
+        <div className="flex-1 min-w-0 flex flex-col lg:gap-2 text-lg lg:text-2xl font-semibold">
           <div> 나의 레시피 </div>
           <span className="text-sm lg:text-lg text-gray-400 font-medium">
             내가 등록한 레시피를 확인해보세요
           </span>
         </div>
-        {myRecipe.length > 0 && (
+        {displayData.length > 0 && (
           <div className="shrink-0 ml-auto">
             <div
               onClick={deleteRecipe}
-              className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
+              className="flex justify-center items-center border rounded-xl w-[70px] lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-10"
             >
               삭제
             </div>
           </div>
         )}
       </div>
-      {myRecipe.length > 0 && (
+      {displayData.length > 0 && (
         <div className="flex flex-row sm:items-center justify-between mt-6 gap-4 sm:gap-6">
           <div className="flex items-center h-10 gap-2">
             <div className="cursor-pointer" onClick={toggleAllBox}>
@@ -156,18 +177,18 @@ const MyRecipeComponent = () => {
         ))}
       </div>
       {totalPages >= 1 && (
-        <div className="mt-6 flex items-center justify-center gap-2">
+        <div className="mt-6 flex items-center justify-center gap-3 ">
           <button
             onClick={() => goPage(0)}
             disabled={currentPage === 0}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             처음
           </button>
           <button
             onClick={() => goPage(currentPage - 1)}
             disabled={currentPage === 0}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             이전
           </button>
@@ -189,20 +210,20 @@ const MyRecipeComponent = () => {
           <button
             onClick={() => goPage(currentPage + 1)}
             disabled={currentPage + 1 >= totalPages}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             다음
           </button>
           <button
             onClick={() => goPage(totalPages - 1)}
             disabled={currentPage + 1 >= totalPages}
-            className="px-3 h-9 rounded-lg border text-sm disabled:opacity-40"
+            className="px-1 h-9 rounded-lg border text-sm disabled:opacity-40"
           >
             마지막
           </button>
         </div>
       )}
-      {myRecipe.length === 0 && (
+      {displayData.length === 0 && (
         <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[200px] lg:w-full lg:h-[200px] lg:border-1 ">
           아직 등록한 레시피가 없습니다.
           <br />

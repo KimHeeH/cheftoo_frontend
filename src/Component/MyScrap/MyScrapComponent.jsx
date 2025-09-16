@@ -18,7 +18,7 @@ const MyScrapComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editableFolderId, setEditableFolderId] = useState(null);
   const [newFolderName, setNewFolderName] = useState("");
-  const [isReadOnly, setIsReadOnly] = useState(true);
+  const [editingId, setEditingId] = useState(null);
   const [hover, setHover] = useState(false);
   const PAGE_SIZE = 12;
   const [page, setPage] = useState(0);
@@ -141,7 +141,7 @@ const MyScrapComponent = () => {
       });
       await fetchRecipeScrap();
 
-      setIsReadOnly(true);
+      setEditingId(null);
 
       alert("이름 변경 완료");
       setOpenMenuId(null);
@@ -154,16 +154,16 @@ const MyScrapComponent = () => {
     <div className="">
       <div className="flex items-start">
         {" "}
-        <div className="flex-1 min-w-0 flex flex-col gap-2 text-lg lg:text-2xl font-semibold">
+        <div className="flex-1 min-w-0 flex flex-col lg:gap-2 text-lg lg:text-2xl font-semibold">
           <div>나의 스크랩 폴더</div>{" "}
           <span className="text-sm lg:text-lg text-gray-400 font-medium">
-            엑스 버튼과 폴더명 연필버튼을 통해 폴더 삭제와 이름 변경 가능합니다.
+            폴더 삭제와 이름 변경이 가능합니다.
           </span>
         </div>
         <div className="shrink-0 ml-auto">
           <div
             onClick={() => setIsModalOpen(true)}
-            className="flex justify-center items-center border rounded-xl w-20 lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-12"
+            className="flex justify-center items-center border rounded-xl w-[70px] lg:w-28 text-white bg-brand hover:bg-brandDark cursor-pointer text-sm lg:text-base font-medium h-10"
           >
             폴더 추가
           </div>
@@ -204,27 +204,29 @@ const MyScrapComponent = () => {
                 {" "}
                 <input
                   type="text"
-                  readOnly={isReadOnly}
+                  readOnly={editingId !== folder.scrap_id}
                   onChange={(e) =>
                     handleNameChange(folder.scrap_id, e.target.value)
                   }
-                  className={`mt-2 border px-3 py-2 rounded w-[80%] h-full text-xl font-medium ${
-                    isReadOnly ? "bg-[#F8F8F8] text-gray-600" : "bg-white"
+                  className={`lg:mt-2 border px-3 py-2 rounded w-[70%] lg:w-[80%] h-full text-xs lg:text-xl font-medium ${
+                    editingId !== folder.scrap_id
+                      ? "bg-[#F8F8F8] text-gray-600"
+                      : "bg-white"
                   }`}
                   value={folder.scrap_name}
                 />
-                <div
-                  className="  absolute right-2 top-4 cursor-pointer "
-                  onClick={() => setIsReadOnly(false)}
-                >
-                  {isReadOnly ? (
-                    <PencilIcon />
+                <div className="absolute right-2 cursor-pointer">
+                  {editingId !== folder.scrap_id ? (
+                    <div onClick={() => setEditingId(folder.scrap_id)}>
+                      <PencilIcon />
+                    </div>
                   ) : (
                     <div
-                      className="rounded-md  hover:bg-gray-100 w-14 text-base flex justify-center items-center border h-8"
-                      onClick={() =>
-                        updateScrapName(folder.scrap_id, folder.scrap_name)
-                      }
+                      className="rounded-md hover:bg-gray-100 w-8 lg:w-12 text-xs lg:text-base flex justify-center items-center border h-8 lg:h-full"
+                      onClick={() => {
+                        updateScrapName(folder.scrap_id, folder.scrap_name);
+                        setEditingId(null);
+                      }}
                     >
                       저장
                     </div>
@@ -273,7 +275,7 @@ const MyScrapComponent = () => {
         </div>
       )}
       {folders.length === 0 && (
-        <div className="z-99 flex justify-center items-center text-center text-gray-400  h-[200px] lg:w-full lg:h-[200px] lg:border-1 ">
+        <div className="text-sm lg:text-base z-99 flex justify-center items-center text-center text-gray-400  h-[200px] lg:w-full lg:h-[200px] lg:border-1 ">
           아직 스크랩한 레시피가 없습니다.
           <br />
           마음에 드는 레시피를 폴더에 저장해보세요!

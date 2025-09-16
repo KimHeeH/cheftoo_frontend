@@ -47,7 +47,7 @@ const SearchContainer = () => {
   }, [nickname, setNickname]);
   return (
     <div className="lg:mt-8 w-screen border-b-2 border-brand mb-8 lg:mb-0 bg-white">
-      <div className="relative px-10 w-full py-4 lg:py-4  lg:h-[80px]  ">
+      <div className="relative px-4 lg:px-10 w-full py-3 lg:py-4  lg:h-[80px]  ">
         <div className="hidden lg:flex items-center w-full h-full">
           {/* 로고 */}
           <div
@@ -88,7 +88,7 @@ const SearchContainer = () => {
             >
               {nickname ? (
                 <div className="flex gap-2 items-center w-20">
-                  <CommentUserIcon />{" "}
+                  <CommentUserIcon className="w-10 h-10" />{" "}
                 </div>
               ) : (
                 <div className="mr-4 min-w-[140px] whitespace-nowrap font-pretendard border-gray-400 border-2 hover:bg-[#F8F8F8] text-black text-sm lg:text-base px-4 py-2 h-12 rounded-3xl font-black">
@@ -121,17 +121,27 @@ const SearchContainer = () => {
               onClick={goHomePage}
               className="flex items-center cursor-pointer h-12"
             >
-              <img className="w-40 mr-2" src={todaysIcon} alt="Today’s Icon" />
+              <img className="w-40 mr-2" src={todaysIcon} alt="cheftoo" />
             </div>
             {/* 로그인 */}
             <div>
               <Menubar />
             </div>
-            <div className="flex w-auto lg:w-38 items-center cursor-pointer h-12  hover:opacity-80">
+            <div className="flex w-auto lg:w-38 items-center cursor-pointer h-12 gap-3  hover:opacity-80">
+              {isLoggedIn && (
+                <div
+                  onClick={() => goAddRecipe()}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  className="text-[13px] w-24 flex items-center justify-center font-pretendard border-2 border-brand text-brand font-bold cursor-pointer hover:bg-brandDark hover:text-white  rounded-3xl h-10  text-lg"
+                >
+                  레시피 등록
+                </div>
+              )}
               {nickname ? (
                 <div className="flex items-center gap-4">
                   <div onClick={handleLoginPage}>
-                    <CommentUserIcon />
+                    <CommentUserIcon className="w-8 h-8" />
                   </div>
                 </div>
               ) : (
