@@ -6,8 +6,6 @@ const useKakaoLogin = (prevPage, nextPage = null) => {
   useEffect(() => {
     const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
     const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
-    console.log("CLIENT_ID:", process.env.REACT_APP_REST_API_KEY);
-    console.log("REDIRECT_URI:", process.env.REACT_APP_KAKAO_REDIRECT_URI);
 
     const state = encodeURIComponent(
       JSON.stringify({ prevPage: prevPage, nextPage: nextPage })
@@ -15,7 +13,6 @@ const useKakaoLogin = (prevPage, nextPage = null) => {
     if (CLIENT_ID && REDIRECT_URI) {
       const url = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&prompt=login&response_type=code&state=${state}`;
       setKakaoURL(url);
-      console.log("카카오 로그인 URL 생성됨:", url);
     }
   }, [prevPage, nextPage]);
 

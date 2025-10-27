@@ -91,7 +91,6 @@ const MyRecipeComponent = () => {
         params: { page: p, size: PAGE_SIZE },
         withCredentials: true,
       });
-      console.log("myRecipe response:", response.data);
 
       setMyRecipe(response.data);
       setPage(p);

@@ -126,7 +126,6 @@ const RecipeDetailpage = () => {
   };
 
   const uploadComment = async () => {
-    console.log("setCommnet", comment);
     try {
       const response = await axiosInstance.post(
         `/recipe/${recipeId}/comment`,
@@ -179,7 +178,6 @@ const RecipeDetailpage = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
       response.data.scrap ? setBookmark(true) : setBookmark(false);
       setRecipe(response.data);
     } catch (error) {
@@ -207,26 +205,11 @@ const RecipeDetailpage = () => {
         );
       });
       setCommentList(sortedComment);
-      console.log(response.data);
     } catch (error) {
       console.error("레시피 댓글 가져오기 실패", error);
     }
   };
 
-  //   try {
-  //     const response = await axiosInstance.put(
-  //       "/comment",
-  //       {
-  //         commentId: , // ← 이거 필수
-  //         content: "수정된 내용",
-  //       },
-  //       { withCredentials: true }
-  //     );
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.errpr("updateComment 오류", error);
-  //   }
-  // };
   useEffect(() => {
     if (recipeId) fetchComment();
   }, [recipeId]);
@@ -268,40 +251,62 @@ const RecipeDetailpage = () => {
   if (!recipe) return <div>Loading...</div>;
 
   return (
-    <div className="w-full p-3">
-      <SearchContainer />
-      <div className="container mt-4 mb-4 ml-2">
-        {/* ← 뒤로가기 아이콘 */}
-        <div className="cursor-pointer mt-2" onClick={handleBackNavigate}>
-          <BackIcon />
-        </div>
-      </div>
+    <main className="w-full p-3" id="main" role="main">
+      <section aria-label="메뉴바">
+        {" "}
+        <SearchContainer />
+      </section>
 
-      <div className="w-full max-w-full px-2 lg:px-4 lg:max-w-[900px] mx-auto font-pretendard pb-20">
+      <nav className="container mt-4 mb-4 ml-2" aria-label="페이지 이동">
+        {/* ← 뒤로가기 아이콘 */}
+        <button
+          type="button"
+          className="cursor-pointer mt-2"
+          onClick={handleBackNavigate}
+          aria-label="이전 페이지로 이동"
+        >
+          <BackIcon />
+        </button>
+      </nav>
+
+      <article
+        className="w-full max-w-full px-2 lg:px-4 lg:max-w-[900px] mx-auto font-pretendard pb-20"
+        aria-labelledby="recipe"
+      >
         <div>
           {/* 대표 이미지 */}
-          <div className="w-full aspect-[3/2] lg:aspect-[16/9] rounded-xl overflow-hidden border bg-gray-100">
-            <img
-              className="w-full h-full object-cover"
-              src={recipe?.images?.img_path}
-              alt="대표 이미지"
-            />
-          </div>
+          <figure>
+            <div className="w-full aspect-[3/2] lg:aspect-[16/9] rounded-xl overflow-hidden border bg-gray-100">
+              <img
+                className="w-full h-full object-cover"
+                src={recipe?.images?.img_path}
+                alt={
+                  recipe?.recipe_title
+                    ? `${recipe.recipe_title} 대표 이미지`
+                    : "대표 이미지"
+                }
+              />
+            </div>
+          </figure>
 
           {/* 제목 & 북마크 */}
-          <div className="flex justify-between items-start gap-2 mt-3">
+          <header className="flex justify-between items-start gap-2 mt-3">
             <h2 className="text-lg lg:text-3xl font-bold leading-tight text-gray-900 max-w-[80%]">
               {recipe.recipe_title}
             </h2>
             <button
+              type="button"
               className={`w-8 h-8 lg:w-14 lg:h-16 border rounded-lg flex justify-center items-center cursor-pointer
           transition-transform duration-150 active:scale-95 hover:shadow-md
           ${bookmark ? "bg-[#FDFDFD]" : "bg-white border-gray-300"}`}
               onClick={() => handleActiveBookmark(recipe.recipe_id)}
+              aria-pressed={bookmark}
+              aria-label={bookmark ? "스크랩 해제" : "스크랩"}
+              title={bookmark ? "스크랩 해제" : "스크랩"}
             >
               {bookmark ? <SelectedBigBookmarkIcon /> : <BigBookmarkIcon />}
             </button>
-          </div>
+          </header>
 
           {/* 내용 */}
           <p className="text-gray-700 text-sm lg:text-2xl leading-relaxed mt-2">
@@ -309,27 +314,30 @@ const RecipeDetailpage = () => {
           </p>
 
           {/* 댓글/북마크 수 */}
-          <div className="flex gap-4 text-xs lg:text-xl text-subText mt-2">
+          <small
+            className="flex gap-4 text-xs lg:text-xl text-subText mt-2"
+            aria-label="레시피 메타 정보"
+          >
             <span>
               댓글 <span className="text-darkText">{commentList.length}</span>
             </span>
             <span>
               북마크 <span className="text-darkText">{recipe.scrap_count}</span>
             </span>
-          </div>
+          </small>
         </div>
 
         {/* 재료 */}
-        <div className="mt-10">
+        <section className="mt-10" aria-labelledby="ingredients-heading">
           <div className="flex gap-2 mb-4 bg-brand  px-3 py-1.5 rounded-md items-center w-fit">
             <IngredientIcon />
             <span className="text-white text-sm lg:text-xl font-semibold">
               재료
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-2">
+          <ul className="grid grid-cols-1 gap-2">
             {recipe?.ingredients?.map((item, idx) => (
-              <div
+              <li
                 key={idx}
                 className="flex justify-between items-center px-3 py-2 bg-white rounded-xl shadow-sm border border-gray-200"
               >
@@ -339,21 +347,21 @@ const RecipeDetailpage = () => {
                 <span className="text-sm lg:text-lg text-gray-500">
                   {item.ingredients_num}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </section>
         {/* 재료 */}
-        <div className="mt-10">
+        <section className="mt-10" aria-labelledby="sauce-heading">
           <div className="flex gap-2 mb-4 bg-brand px-3 py-1.5 rounded-md items-center w-fit">
             <IngredientIcon />
             <span className="text-white text-sm lg:text-xl font-semibold">
               양념
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-2">
+          <ul className="grid grid-cols-1 gap-2">
             {recipe?.sauce?.map((item, idx) => (
-              <div
+              <li
                 key={idx}
                 className="flex justify-between items-center px-3 py-2 bg-white rounded-xl shadow-sm border border-gray-200"
               >
@@ -363,12 +371,12 @@ const RecipeDetailpage = () => {
                 <span className="text-sm lg:text-lg text-gray-500">
                   {item.quantity}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </section>
         {/* 조리 순서 */}
-        <div className="mt-10">
+        <section className="mt-10" aria-labelledby="steps-heading">
           <div className="flex gap-2 mb-4 bg-brand px-3 py-1.5 rounded-md items-center w-fit">
             <CookingOrderIcon />
             <span className="text-white text-sm lg:text-xl font-semibold">
@@ -379,22 +387,25 @@ const RecipeDetailpage = () => {
           {/* 모바일: 세로 스택 / 데스크탑: 가로 레이아웃 */}
           <div className="flex flex-col lg:flex-row lg:gap-4">
             <div className="w-full lg:w-1/2 lg:h-[500px] overflow-y-auto">
-              {sortedCookingOrder.map((order, i) => (
-                <div
-                  key={i}
-                  className={`cursor-pointer p-3 border-b hover:bg-[#F5F5F5] ${
-                    selectedStepIndex === i ? "bg-[#EAF6F2]" : ""
-                  }`}
-                  onClick={() => setSelectedStepIndex(i)}
-                >
-                  <div className="font-bold text-base lg:text-lg">
-                    Step {order.order}
-                  </div>
-                  <div className="text-sm lg:text-base">{order.content}</div>
-                </div>
-              ))}
+              <ol>
+                {sortedCookingOrder.map((order, i) => (
+                  <li
+                    key={i}
+                    className={`cursor-pointer p-3 border-b hover:bg-[#F5F5F5] ${
+                      selectedStepIndex === i ? "bg-[#EAF6F2]" : ""
+                    }`}
+                    onClick={() => setSelectedStepIndex(i)}
+                    aria-current={selectedStepIndex === i ? "step" : undefined}
+                  >
+                    <div className="font-bold text-base lg:text-lg">
+                      Step {order.order}
+                    </div>
+                    <div className="text-sm lg:text-base">{order.content}</div>
+                  </li>
+                ))}
+              </ol>
             </div>
-            <div className="w-full mt-4 lg:mt-0 h-[250px] lg:h-auto   overflow-hidden     lg:w-1/2 flex justify-center items-center border-1">
+            <figure className="w-full mt-4 lg:mt-0 h-[250px] lg:h-auto   overflow-hidden     lg:w-1/2 flex justify-center items-center border-1">
               {sortedCookingOrder?.[selectedStepIndex]?.img_path ? (
                 <img
                   src={sortedCookingOrder[selectedStepIndex].img_path}
@@ -404,22 +415,29 @@ const RecipeDetailpage = () => {
               ) : (
                 <div className="text-gray-500 text-sm">이미지가 없습니다</div>
               )}
-            </div>
+            </figure>
           </div>
-        </div>
+        </section>
 
         {/* 댓글 영역 */}
-        <div className="mt-10 border-t pt-6">
-          <div className="flex flex-wrap gap-3 items-center text-base lg:text-2xl font-semibold mb-4">
+        <section
+          className="mt-10 border-t pt-6"
+          aria-labelledby="comments-heading"
+        >
+          <header className="flex flex-wrap gap-3 items-center text-base lg:text-2xl font-semibold mb-4">
             <span>요리후기</span>
             <span className="text-brand ">{commentList.length}</span>
             <span className="text-xs lg:text-base font-normal text-subText">
               소중한 레시피에 후기를 남겨주세요
             </span>
-          </div>
+          </header>
 
           {/* 댓글 작성 */}
           <div className="bg-[#EAF6F2] border rounded-xl p-3 shadow-sm">
+            <label className="sr-only" htmlFor="comment-input">
+              댓글 입력
+            </label>
+
             <textarea
               className="w-full rounded-lg text-sm lg:text-lg resize-none p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brandDark"
               placeholder="댓글을 남겨주세요"
@@ -429,6 +447,7 @@ const RecipeDetailpage = () => {
             />
             <div className="flex justify-end mt-2">
               <button
+                type="button"
                 onClick={uploadComment}
                 className="bg-brand hover:bg-brandDark text-white px-4 py-1.5 rounded-lg text-sm lg:text-base font-semibold transition-transform active:scale-95"
               >
@@ -436,32 +455,48 @@ const RecipeDetailpage = () => {
               </button>
             </div>
           </div>
-          <div>
+          <div aria-live="polite">
             {commentList.map((comment) => {
               const myId = me;
               const canDelete = String(myId) === String(comment.member_id);
               return (
-                <div
+                <article
                   key={comment.comment_id}
                   className="flex flex-col bg-white rounded-xl shadow-sm border border-gray-200 px-4 py-3 mb-4 mt-4"
+                  aria-labelledby={`cmt-${comment.comment_id}-author`}
                 >
                   {/* 상단: 프로필, 닉네임, 날짜, 메뉴 버튼 */}
-                  <div className="flex justify-between items-center mb-2">
+                  <header className="flex justify-between items-center mb-2">
                     <div className="flex items-center gap-3">
                       <CommentUserIcon className="w-8 h-8 lg:w-10 lg:h-10" />
                       <span className="text-lg font-semibold text-gray-800">
                         {comment.nick_name}
                       </span>
-                      <span className="text-base text-gray-400">
+                      <time
+                        className="text-base text-gray-400"
+                        dateTime={comment?.data_created || undefined}
+                        aria-label="작성일시"
+                      >
                         {" "}
                         {comment.data_created
                           ? formatTimestamp(comment?.data_created)
                           : "날짜 없음"}
-                      </span>
+                      </time>
                     </div>
                     {canDelete && (
                       <div className="relative">
-                        <button onClick={() => openMenuBar(comment.comment_id)}>
+                        <button
+                          type="button"
+                          aria-haspopup="menu"
+                          aria-expanded={commentIds === comment.comment_id}
+                          aria-controls={`menu-${comment.comment_id}`}
+                          aria-label={
+                            commentIds === comment.comment_id
+                              ? "메뉴 닫기"
+                              : "메뉴 열기"
+                          }
+                          onClick={() => openMenuBar(comment.comment_id)}
+                        >
                           {commentIds === comment.comment_id ? (
                             <XIcon />
                           ) : (
@@ -470,28 +505,30 @@ const RecipeDetailpage = () => {
                         </button>
                         {commentIds === comment.comment_id && (
                           <div className="absolute right-0 top-8 w-28 bg-white border border-gray-300 rounded-lg shadow-md z-10">
-                            <div
+                            <button
+                              type="button"
+                              role="menuitem"
                               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                               onClick={() => deleteComment(comment.comment_id)}
                             >
                               삭제
-                            </div>
+                            </button>
                           </div>
                         )}
                       </div>
                     )}
-                  </div>
+                  </header>
 
                   {/* 본문 */}
                   <div className="text-gray-700 text-lg">
                     {comment.comment_content}
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
-        </div>
-      </div>
+        </section>
+      </article>
       {isNoFolderModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="w-[90%] max-w-[420px] bg-white p-6 rounded-2xl shadow-lg">
@@ -552,7 +589,7 @@ const RecipeDetailpage = () => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 

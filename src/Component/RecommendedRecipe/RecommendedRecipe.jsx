@@ -90,7 +90,6 @@ const RecommendedRecipe = () => {
   useEffect(() => {
     const loadYoutubeVideos = async () => {
       const cached = localStorage.getItem("youtubeVideos");
-      console.log(cached);
 
       // 캐시 없음 → 버전 + 영상 목록 호출 후 저장
       if (!cached) {
@@ -123,13 +122,8 @@ const RecommendedRecipe = () => {
           responseType: "text",
         });
         const version = versionRes.data;
-        console.log(versionRes.data);
         if (version !== cachedVersion) {
           const videosRes = await axiosInstance.get("/youtube/home-videos");
-          console.log(
-            "videosRes.data?.video_id_list",
-            videosRes.data?.video_id_list
-          );
 
           const ids = extractYoutubeIds(videosRes.data);
 

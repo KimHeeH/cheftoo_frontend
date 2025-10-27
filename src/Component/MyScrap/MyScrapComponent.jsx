@@ -64,7 +64,6 @@ const MyScrapComponent = () => {
       );
 
       setFolders(foldersWithCount);
-      console.log("폴더 데이터:", foldersWithCount);
     } catch (error) {
       navigate("/mypage");
     }
@@ -112,7 +111,6 @@ const MyScrapComponent = () => {
       );
 
       const newFolder = response.data;
-      console.log("newFolder", response);
       await fetchRecipeScrap();
 
       if (!newFolder.scrap_id) {
@@ -120,7 +118,6 @@ const MyScrapComponent = () => {
         alert("폴더 생성 실패: scrap_id가 없습니다.");
         return;
       }
-      console.log("newFolder", newFolder);
     } catch (error) {
       console.error("addRecipeScrap 실패", error);
     }

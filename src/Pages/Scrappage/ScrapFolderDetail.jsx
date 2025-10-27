@@ -34,8 +34,6 @@ const ScrapFolderDetail = () => {
   const currentPage = meta?.number ?? 0;
 
   const totalPages = meta?.total_pages ?? 0;
-  console.log(scrapId);
-  console.log(scrap_name);
   const isAllSelected =
     recipes?.length > 0 && selectedIds.length === recipes?.length;
 
@@ -56,8 +54,6 @@ const ScrapFolderDetail = () => {
   };
   const deleteRecipe = async (scrap_id, selectedIds) => {
     try {
-      console.log(selectedIds);
-
       const response = await axiosInstance.delete("member/scrap/recipe", {
         data: {
           scrapId: scrap_id,
@@ -68,7 +64,6 @@ const ScrapFolderDetail = () => {
       });
       alert("삭제가 완료되었습니다");
       await fetchScrapRecipe();
-      console.log("삭제 성공:", response.data);
     } catch (error) {
       console.error("삭제 실패:", error);
     }
@@ -80,7 +75,6 @@ const ScrapFolderDetail = () => {
         { params: { page: p, size: PAGE_SIZE }, withCredentials: true }
       );
       setScrapRecipe(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("fetchScrapRecipe 실패", error);
     }

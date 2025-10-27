@@ -26,7 +26,6 @@ function KakaoRedirect() {
         );
 
         const data = res.data;
-        console.log(data);
         // --- 신규 유저: "/terms"
         if (typeof data === "string") {
           const to = data.startsWith("/") ? data : `/${data}`;

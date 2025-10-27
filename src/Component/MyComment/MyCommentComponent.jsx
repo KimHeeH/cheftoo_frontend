@@ -40,7 +40,6 @@ const MyCommentComponent = () => {
         has_next: !!data.has_next,
       };
       setComments(normalized);
-      console.log(comments);
     } catch (e) {
       console.error("fetchComment 오류", e);
     }

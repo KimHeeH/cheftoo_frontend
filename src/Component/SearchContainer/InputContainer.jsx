@@ -3,7 +3,6 @@ import searchIcon from "./icon/searchIcon.svg";
 import { useState } from "react";
 const InputContainer = () => {
   const [keyword, setKeyword] = useState("");
-  console.log(keyword);
   return (
     <div className="w-full  absolute left-1/2 -translate-x-1/2  lg:w-[50%] px-2">
       <div className="relative h-[52px]">

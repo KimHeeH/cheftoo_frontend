@@ -23,7 +23,6 @@ const Mypage = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const kakaoLogin = useKakaoLogin("/mypage", "");
-  console.log("카카오 로그인 훅 결과:", kakaoLogin);
   const handleLogin = async () => {
     try {
       await kakaoLogin();
@@ -114,7 +113,6 @@ const Mypage = () => {
           <div
             className="cursor-pointer"
             onClick={() => {
-              console.log("카카오 로그인 버튼 클릭됨");
               handleLogin();
             }}
           >

@@ -36,14 +36,9 @@ const NicknamePage = () => {
           withCredentials: true,
         }
       );
-      console.log("닉네임 응답", response.data, typeof response.data);
       setNickname(response.data);
-      console.log("setNickname 진행 후 nicknameState 값:", nickname);
       localStorage.setItem("nickname", response.data);
-      console.log("nickname", nickname);
       // dispatch(setNickname(nickname));
-
-      console.log("닉네임 변경 성공");
     } catch (err) {
       console.error("닉네임 변경 실패", err);
     }

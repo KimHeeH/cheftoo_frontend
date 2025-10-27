@@ -23,6 +23,7 @@ const Recipepage = () => {
     total_pages: 0,
     number: 0,
   });
+  const [selected, setSelected] = useState("allRecipe");
   const meta = isSearching ? searchData : recipeData;
 
   const displayData = meta?.content || [];
@@ -47,8 +48,6 @@ const Recipepage = () => {
       );
       setRecipeData(response.data);
       setPage(p);
-
-      console.log(response.data);
     } catch (error) {
       console.error("레시피 조회 오류");
     }
@@ -70,7 +69,6 @@ const Recipepage = () => {
           params: { keyword: keyword, page: p, size: PAGE_SIZE },
         }
       );
-      console.log(response.data);
       setIsSearching(true);
       setSearchData(response.data);
       setPage(p);
@@ -103,55 +101,112 @@ const Recipepage = () => {
   };
 
   return (
-    <div className="pb-28 lg:pb-0">
+    <div className="pb-28 lg:pb-0 font-pretendard">
       <SearchContainer />
       <Menubar />
       {/* 검색 + 결과 안내 */}
       <div className="font-pretendard">
-        <div className="max-w-[1100px]  px-8 lg:p-20 mx-auto  mb-5 lg:h-[70px]">
-          <div className="flex gap-2 lg:gap-4 mt-4 w-full lg:mt-0  h-[48px] lg:h-[70px] mb-8 ">
-            {" "}
-            <input
-              className=" text-sm lg:text-xl  w-full rounded-l-[10rem] h-[48px] lg:h-full rounded-md bg-white pl-8 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
-              placeholder="궁금한 레시피를 찾아보세요"
-              onChange={(e) => setKeyword(e.target.value)}
-              value={keyword}
-              onKeyDown={(e) => e.key === "Enter" && searchKeyword(keyword, 0)}
-            />
+        <div className=" border-b-2 pb-8">
+          {" "}
+          <div className="w-[1200px] mx-auto flex justify-center items-center h-[60px] mt-12 font-semibold">
             <div
-              onClick={() => searchKeyword(keyword, 0)}
-              className="transition-all duration-300 text-xs lg:text-xl cursor-pointer flex pl-4 lg:pl-8 gap-2 lg:gap-4 items-center relative rounded-r-[10rem] rounded-l-none w-[100px] lg:w-[150px] bg-brand text-white hover:scale-[1.05] "
+              className={`w-1/2 flex text-xl rounded-l-2xl justify-center items-center border-gray-100 border-3 border-r-none cursor-pointer transition-colors duration-300 h-full  ${
+                selected === "allRecipe"
+                  ? "bg-brand text-white"
+                  : "bg-white text-black"
+              }`}
+              onClick={() => setSelected("allRecipe")}
             >
-              {" "}
-              검색
-              <SearchIcon className=" absolute right-[10px] lg:right-4 top-1/2 -translate-y-1/2 cursor-pointer hover:scale-110 transition" />
+              전체 레시피
+            </div>
+            <div
+              className={` w-1/2 text-xl h-full flex items-center rounded-r-2xl border-gray-100 border-3 justify-center border-l-none cursor-pointer transition-colors duration-300 ${
+                selected === "fridgeRecipes"
+                  ? "bg-brand text-white"
+                  : "bg-white text-gray-500"
+              }`}
+              onClick={() => setSelected("fridgeRecipes")}
+            >
+              냉장고 털이 레시피
             </div>
           </div>
-
-          {keyword && (
-            <div className="  mt-4 text-lg flex justify-between items-center mt-3 text-gray-600 text-base  ">
-              <span>
-                <span className=" font-semibold text-orange-600">
-                  "{keyword}"
-                </span>{" "}
-                검색 결과
-              </span>
-              <button
-                className=" text-gray-400 hover:text-gray-600 transition "
-                onClick={async () => {
-                  setKeyword("");
-                  setIsSearching(false);
-                  await getReipceData(0);
-                }}
-              >
-                전체보기
-              </button>
-            </div>
-          )}
         </div>
-        <div>
+
+        {selected === "allRecipe" ? (
+          <div className="max-w-[1100px]  px-8 py-10  mx-auto  mb-5 lg:h-[70px]  ">
+            <div className="flex gap-2 lg:gap-4  w-full lg:mt-0  h-[48px] lg:h-[70px] mb-8 ">
+              {" "}
+              <input
+                className=" text-sm lg:text-xl  w-full rounded-l-[10rem] h-[48px] lg:h-full rounded-md bg-white pl-8 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
+                placeholder="궁금한 레시피를 찾아보세요"
+                onChange={(e) => setKeyword(e.target.value)}
+                value={keyword}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && searchKeyword(keyword, 0)
+                }
+              />
+              <div
+                onClick={() => searchKeyword(keyword, 0)}
+                className="transition-all duration-300 text-xs lg:text-xl cursor-pointer flex pl-4 lg:pl-8 gap-2 lg:gap-4 items-center relative rounded-r-[10rem] rounded-l-none w-[100px] lg:w-[150px] bg-brand text-white hover:scale-[1.05] "
+              >
+                {" "}
+                검색
+                <SearchIcon className=" absolute right-[10px] lg:right-4 top-1/2 -translate-y-1/2 cursor-pointer hover:scale-110 transition" />
+              </div>
+            </div>
+
+            {keyword && (
+              <div className="  mt-4 text-lg flex justify-between items-center mt-3 text-gray-600 text-base  ">
+                <span>
+                  <span className=" font-semibold text-orange-600">
+                    "{keyword}"
+                  </span>{" "}
+                  검색 결과
+                </span>
+                <button
+                  className=" text-gray-400 hover:text-gray-600 transition "
+                  onClick={async () => {
+                    setKeyword("");
+                    setIsSearching(false);
+                    await getReipceData(0);
+                  }}
+                >
+                  전체보기
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="max-w-[1100px] px-8 py-10 mx-auto  mb-5 lg:h-[70px]">
+            <div className="font-pretendard text-subText font-semibold max-w-[1100px] mx-auto w-full text-center text-2xl text-textDark mb-4">
+              재료를 입력해주시면 레시피를 추천드려요 <br></br>최대 5개까지
+              입력하실 수 있습니다!
+            </div>
+            <div className="flex gap-2 justify-center lg:gap-4  w-full lg:mt-0  h-[48px] lg:h-[70px] mb-8 ">
+              {" "}
+              <input
+                className=" text-sm lg:text-xl  w-1/2 rounded-l-xl h-[48px] lg:h-full rounded-md bg-white pl-8 pr-12 text-base  border focus:ring-2 focus:ring-brand outline-none transition"
+                placeholder="궁금한 레시피를 찾아보세요"
+                onChange={(e) => setKeyword(e.target.value)}
+                value={keyword}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && searchKeyword(keyword, 0)
+                }
+              />
+              <div
+                onClick={() => searchKeyword(keyword, 0)}
+                className=" transition-all duration-300 text-xs lg:text-xl cursor-pointer flex pl-4 lg:pl-8 gap-2 lg:gap-4 items-center relative rounded-r-xl rounded-l-none w-[100px] lg:w-[100px] bg-brand text-white hover:scale-[1.05] "
+              >
+                {" "}
+                추가
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-20">
           <div className="mx-auto max-w-[1700px] flex lg:pt-16 flex-col  justify-center w-full px-8 ">
-            {!keyword && (
+            {!keyword && selected === "allRecipe" && (
               <div className="w-full flex justify-center  lg:text-2xl text-subText font-bold pb-4">
                 찾으시는 레시피가 있으신가요?
               </div>
